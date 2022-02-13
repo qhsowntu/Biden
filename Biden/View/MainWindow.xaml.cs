@@ -22,9 +22,21 @@ namespace Biden.View
     /// Install-Package FontAwesome.WPF
     public partial class MainWindow : BaseWindow
     {
+        private static MainWindow instance = null;
         public MainWindow()
         {
             InitializeComponent();
+        }
+        public static MainWindow getInstance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new MainWindow();
+                }
+                return instance;
+            }
         }
 
     }

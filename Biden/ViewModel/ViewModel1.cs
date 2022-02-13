@@ -58,8 +58,12 @@ namespace Biden.ViewModel
             {
                 tempWindow = FuncWindow1.getInstance;
             }
+            MainWindow.getInstance.Hide();
             tempWindow.ShowDialog();
+            MainWindow.getInstance.Show();
         }
+
+
         private void Execute_FuncBtn02(object obj)
         {
             //do Something
