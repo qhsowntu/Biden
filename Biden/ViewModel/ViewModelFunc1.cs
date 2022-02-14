@@ -8,10 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Biden.ViewModel
 {
-    class ViewModelFunc1 : INotifyPropertyChanged
+    class ViewModelFunc1 : ViewModelCommon
     {
 
         public Command CmdFuncBtn01 { get; set; }
@@ -19,33 +21,31 @@ namespace Biden.ViewModel
         public Command CmdFuncBtn03 { get; set; }
         public Command CmdFuncBtn04 { get; set; }
         public Command CmdFuncBtn01_Add { get; set; }
-        public Command CmdFuncBtn01_AddOK { get; set; }
-        public Command CmdFuncBtn01_AddCancel { get; set; }
+        public Command CmdEditBtn { get; set; }
+        public Command CmdDeleteBtn { get; set; }
+        public Command TestBtn01 { get; set; }
         private bool spinner;
         private int count;
         private Thread myThread;
         private FuncWindow1_Add tempWindow;
-        private RuleClass rule;
-        private List<RuleClass> ruleList;
-        private ObservableCollection<string> fileObjectCollection;
+        protected static List<RuleClass> ruleList;
+        private ObservableCollection<MacroInfo> fileObjectCollection;
 
         public ViewModelFunc1()
         {
             CmdFuncBtn01 = new Command(Execute_FuncBtn01, CanExecute_Btn01);
             CmdFuncBtn01_Add = new Command(Execute_FuncBtn01_Add, CanExecute_Btn01);
-            CmdFuncBtn01_AddOK = new Command(Execute_FuncBtn01_AddOK, CanExecute_Btn01);
-            CmdFuncBtn01_AddCancel = new Command(Execute_FuncBtn01_AddCancel, CanExecute_Btn01);
-            rule = new RuleClass();
-            RuleList = new List<RuleClass>();
-            fileObjectCollection = new ObservableCollection<string>();
+            CmdEditBtn = new Command(Execute_CmdEditBtn01, CanExecute_Btn01);
+            CmdDeleteBtn = new Command(Execute_CmdDeleteBtn01, CanExecute_Btn01);
+            TestBtn01 = new Command(Execute_TestBtn01, CanExecute_Btn01);
+            ruleList = new List<RuleClass>();
+            fileObjectCollection = new ObservableCollection<MacroInfo>();
             spinner = false;
             count = 0;
-
             //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
         }
-        internal List<RuleClass> RuleList { get => ruleList; set => ruleList = value; }
 
-        private bool CanExecute_Btn01(object obj) { return true; }
+        
 
         private void Execute_FuncBtn01(object obj)
         {
@@ -75,26 +75,36 @@ namespace Biden.ViewModel
             tempWindow.ShowDialog();
             FuncWindow1.getInstance.Show();
             MainWindow.getInstance.Show();
+            MacroInfo tempInfo = new MacroInfo();
+            {
+                tempInfo.No = "" + ruleList.Count;
+                tempInfo.Name = "" + ruleList[ruleList.Count - 1].NameStr;
+            }
+            FileObjectCollection.Add(new MacroInfo() { No = "" + ruleList.Count, Name = "" + ruleList[ruleList.Count - 1].NameStr});
         }
 
-
-        private void Execute_FuncBtn01_AddOK(object obj)
+        private void Execute_CmdEditBtn01(object obj)
         {
-            //FuncWindow1.getInstance.RuleList.Add(rule);
-            this.RuleList.Add(rule);
-            fileObjectCollection.Add("hi");
-            OnPropertyChanged("FileObjectCollection");
-            rule = null;
-            FuncWindow1_Add.getInstance.Hide();
+            MessageBox.Show("Edit");
         }
-        private void Execute_FuncBtn01_AddCancel(object obj)
+        private void Execute_CmdDeleteBtn01(object obj)
         {
-            rule = null;
-            FuncWindow1_Add.getInstance.Hide();
+            MessageBox.Show(obj+"");
         }
 
 
-        public ObservableCollection<string> FileObjectCollection
+
+
+
+
+
+
+
+
+
+
+
+        public ObservableCollection<MacroInfo> FileObjectCollection
         {
             get { return fileObjectCollection; }
             set
@@ -104,8 +114,21 @@ namespace Biden.ViewModel
                 OnPropertyChanged("FileObjectCollection");
             }
         }
+        public ObservableCollection<MacroInfo> SelectedFileObject
+        {
+            get { return fileObjectCollection; }
+            set
+            {
+                if (value != this.fileObjectCollection)
+                    fileObjectCollection = value;
+                OnPropertyChanged("SelectedFileObject");
+            }
+        }
 
-
+        private void Execute_TestBtn01(object obj)
+        {
+            //FileObjectCollection.Add("hi2");
+        }
 
         private void DoCounting()
         {
@@ -156,75 +179,19 @@ namespace Biden.ViewModel
         }
 
 
-        public string fromStr
+
+        internal List<RuleClass> RuleList { get => ruleList; set => ruleList = value; }
+
+
+        public class MacroInfo
         {
-            get
-            {
-                return rule.FromStr;
-            }
-            set
-            {
-                rule.FromStr = value;
-                OnPropertyChanged("fromStr");
-            }
-        }
-        public string toStr
-        {
-            get
-            {
-                return rule.ToStr;
-            }
-            set
-            {
-                rule.ToStr = value;
-                OnPropertyChanged("toStr");
-            }
-        }
-        public string prefixStr
-        {
-            get
-            {
-                return rule.PrefixStr;
-            }
-            set
-            {
-                rule.PrefixStr = value;
-                OnPropertyChanged("prefixStr");
-            }
-        }
-        public string postfixStr
-        {
-            get
-            {
-                return rule.PostfixStr;
-            }
-            set
-            {
-                rule.PostfixStr = value;
-                OnPropertyChanged("postfixStr");
-            }
-        }
-        public string nameStr
-        {
-            get
-            {
-                return rule.NameStr;
-            }
-            set
-            {
-                rule.NameStr = value;
-                OnPropertyChanged("nameStr");
-            }
+            public string No { get; set; }
+            public string Name { get; set; }
+            public override string ToString() => Name;
+            //public string Edit;
+            //public string Delete;
+
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
     }
 }

@@ -22,7 +22,6 @@ namespace Biden.View
     {
         private static FuncWindow1 instance = null;
 
-
         private FuncWindow1()
         {
             InitializeComponent();

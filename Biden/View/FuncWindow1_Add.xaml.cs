@@ -24,12 +24,10 @@ namespace Biden.View
     {
         private static FuncWindow1_Add instance = null;
 
-
         private FuncWindow1_Add()
         {
             InitializeComponent();
         }
-
         public static FuncWindow1_Add getInstance
         {
             get
@@ -41,9 +39,5 @@ namespace Biden.View
                 return instance;
             }
         }
-
-        
-
-
     }
 }

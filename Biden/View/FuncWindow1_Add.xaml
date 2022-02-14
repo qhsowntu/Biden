@@ -10,7 +10,7 @@
         Title="FuncWindow1_Add" Width="430" Height="500" ResizeMode="NoResize" Background="Transparent"
                    WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True" Topmost="True">
     <Window.DataContext>
-        <ViewModel:ViewModelFunc1/>
+        <ViewModel:ViewModelFunc1_Add/>
     </Window.DataContext>
     <Border Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight}">
         <Border.OpacityMask>

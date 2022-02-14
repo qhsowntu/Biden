@@ -177,13 +177,6 @@ namespace Biden.ViewModel
         }
 
 
-
-
-
-
-
-
-
     }
 
 

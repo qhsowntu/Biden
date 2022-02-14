@@ -8,6 +8,7 @@ namespace Biden.Func
 {
     class RuleClass
     {
+        private string no;
         private string nameStr;
         private string fromStr;
         private string toStr;
@@ -24,5 +25,6 @@ namespace Biden.Func
         public string ToStr { get => toStr; set => toStr = value; }
         public string PrefixStr { get => prefixStr; set => prefixStr = value; }
         public string PostfixStr { get => postfixStr; set => postfixStr = value; }
+        public string No { get => no; set => no = value; }
     }
 }

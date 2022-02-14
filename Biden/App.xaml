@@ -4,6 +4,44 @@
              xmlns:local="clr-namespace:Biden"
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- https://frozenpond.tistory.com/56 -->
+        <LinearGradientBrush x:Key="SubtleBlue" EndPoint="0.476,0.00" StartPoint="0.476,1.363">
+            <GradientStop Color="#FF052864" Offset="0.013"/>
+            <GradientStop Color="#FF2D26AA" Offset="1"/>
+            <GradientStop Color="#FF242FA0" Offset="0.54"/>
+            <GradientStop Color="#FF001A8F" Offset="0.46"/>
+        </LinearGradientBrush>
+
+        <Style x:Key="BlueBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#FF6FD465"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+
+        <Style x:Key="HeaderTextBlock" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="{StaticResource SubtleBlue}"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+        <DataTemplate x:Key="NameHeaderTemplate">
+            <Grid>
+                <Border Style="{StaticResource BlueBorder}">
+                    <TextBlock Text="No" Style="{StaticResource HeaderTextBlock}" />
+                </Border>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="NameCellTemplate">
+            <Grid Width="100">
+                <TextBlock Foreground="Black"  HorizontalAlignment="Center" Text="{Binding name}"/>
+            </Grid>
+        </DataTemplate>
+
+
+        
+        
     </Application.Resources>
 </Application>

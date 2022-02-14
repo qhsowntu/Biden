@@ -36,7 +36,7 @@
                 BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Top"  Canvas.Right ="33" Canvas.Top ="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FF4A4A4A"/>
                 <Label Content="Title" Height="32" Canvas.Left="14" Canvas.Top="5" Width="80" FontWeight="Bold" FontSize="16"/>
             </Canvas>
-            <Button Content="F" HorizontalAlignment="Left" x:Name="FuncBtn01" VerticalAlignment="Top" Command="{Binding CmdFuncBtn01}" 
+            <Button Content="Copy And Paste" HorizontalAlignment="Left" x:Name="FuncBtn01" VerticalAlignment="Top" Command="{Binding CmdFuncBtn01}" 
                     Height="50" Width="245" BorderBrush="Transparent" Canvas.Left="30" Canvas.Top="48" BorderThickness="0" SnapsToDevicePixels="True" 
                     Panel.ZIndex="10" FontSize="20" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black">
                 <Button.Resources>
@@ -59,7 +59,7 @@
                     <DropShadowBitmapEffect Color="Black" Direction="315" Softness="0.5" ShadowDepth="5" Opacity="0.4" />
                 </Button.BitmapEffect>
             </Button>
-            <Button Content="F" HorizontalAlignment="Left" x:Name="FuncBtn02" VerticalAlignment="Top" Command="{Binding CmdFuncBtn02}" 
+            <Button Content="'" HorizontalAlignment="Left" x:Name="FuncBtn02" VerticalAlignment="Top" Command="{Binding CmdFuncBtn02}" 
                     Height="50" Width="245" BorderBrush="Transparent" Canvas.Left="30" Canvas.Top="118" BorderThickness="0" SnapsToDevicePixels="True" 
                     Panel.ZIndex="10" FontSize="20" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black">
                 <Button.Resources>
@@ -82,7 +82,7 @@
                     <DropShadowBitmapEffect Color="Black" Direction="315" Softness="0.5" ShadowDepth="5" Opacity="0.4" />
                 </Button.BitmapEffect>
             </Button>
-            <Button Content="F" HorizontalAlignment="Left" x:Name="FuncBtn03" VerticalAlignment="Top" Command="{Binding CmdFuncBtn02}" 
+            <Button Content="'" HorizontalAlignment="Left" x:Name="FuncBtn03" VerticalAlignment="Top" Command="{Binding CmdFuncBtn02}" 
                     Height="50" Width="245" BorderBrush="Transparent" Canvas.Left="30" Canvas.Top="188" BorderThickness="0" SnapsToDevicePixels="True" 
                     Panel.ZIndex="10" FontSize="20" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black">
                 <Button.Resources>

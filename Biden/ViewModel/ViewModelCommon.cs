@@ -20,5 +20,7 @@ namespace Biden.ViewModel
             }
         }
 
+        protected bool CanExecute_Btn01(object obj) { return true; }
+
     }
 }
