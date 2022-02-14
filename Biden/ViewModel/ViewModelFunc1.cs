@@ -2,6 +2,7 @@
 using Biden.View;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,8 @@ namespace Biden.ViewModel
         private Thread myThread;
         private FuncWindow1_Add tempWindow;
         private RuleClass rule;
+        private List<RuleClass> ruleList;
+        private ObservableCollection<string> fileObjectCollection;
 
         public ViewModelFunc1()
         {
@@ -33,11 +36,14 @@ namespace Biden.ViewModel
             CmdFuncBtn01_AddOK = new Command(Execute_FuncBtn01_AddOK, CanExecute_Btn01);
             CmdFuncBtn01_AddCancel = new Command(Execute_FuncBtn01_AddCancel, CanExecute_Btn01);
             rule = new RuleClass();
+            RuleList = new List<RuleClass>();
+            fileObjectCollection = new ObservableCollection<string>();
             spinner = false;
             count = 0;
 
             //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
         }
+        internal List<RuleClass> RuleList { get => ruleList; set => ruleList = value; }
 
         private bool CanExecute_Btn01(object obj) { return true; }
 
@@ -74,7 +80,10 @@ namespace Biden.ViewModel
 
         private void Execute_FuncBtn01_AddOK(object obj)
         {
-            FuncWindow1.getInstance.RuleList.Add(rule);
+            //FuncWindow1.getInstance.RuleList.Add(rule);
+            this.RuleList.Add(rule);
+            fileObjectCollection.Add("hi");
+            OnPropertyChanged("FileObjectCollection");
             rule = null;
             FuncWindow1_Add.getInstance.Hide();
         }
@@ -83,6 +92,19 @@ namespace Biden.ViewModel
             rule = null;
             FuncWindow1_Add.getInstance.Hide();
         }
+
+
+        public ObservableCollection<string> FileObjectCollection
+        {
+            get { return fileObjectCollection; }
+            set
+            {
+                if (value != this.fileObjectCollection)
+                    fileObjectCollection = value;
+                OnPropertyChanged("FileObjectCollection");
+            }
+        }
+
 
 
         private void DoCounting()

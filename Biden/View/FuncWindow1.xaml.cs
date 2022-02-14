@@ -22,12 +22,10 @@ namespace Biden.View
     {
         private static FuncWindow1 instance = null;
 
-        private List<RuleClass> ruleList;
 
         private FuncWindow1()
         {
             InitializeComponent();
-            RuleList = new List<RuleClass>();
         }
 
         public static FuncWindow1 getInstance
@@ -42,6 +40,5 @@ namespace Biden.View
             }
         }
 
-        internal List<RuleClass> RuleList { get => ruleList; set => ruleList = value; }
     }
 }

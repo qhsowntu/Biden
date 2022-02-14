@@ -45,18 +45,5 @@ namespace Biden.View
         
 
 
-        private bool CanExecute_Btn01(object obj) { return true; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-
     }
 }

@@ -25,7 +25,7 @@
             </VisualBrush>
         </Border.OpacityMask>
         <Canvas x:Name="mainCanvas" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight}" Background="#FFE6EFF8">
-            <Label Content="Add Rule" Height="32" Canvas.Left="14" Canvas.Top="5" Width="230" FontWeight="Bold" FontSize="16"/>
+            <Label Content="Add Rules" Height="32" Canvas.Left="14" Canvas.Top="5" Width="230" FontWeight="Bold" FontSize="16"/>
             <Button x:Name="closeButton" Content="X" Width="14" Height="14" Click="CloseButton_Click"  FontWeight="Bold" FontFamily="Corbel"
                 BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Top"  Canvas.Right ="5" Canvas.Top ="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FF4A4A4A" />
             <Button x:Name="maxButton" Content="ㅁ" Width="14" Height="14" Click="MaxButton_Click"  FontWeight="Bold" FontFamily="Corbel"

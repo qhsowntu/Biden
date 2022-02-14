@@ -47,7 +47,7 @@
                 </Button.BitmapEffect>
             </Button>
             <Button HorizontalAlignment="Left" x:Name="FuncBtn03_1" VerticalAlignment="Top"
-                    Height="35" Width="75" BorderBrush="White" Canvas.Left="336" Canvas.Top="368" BorderThickness="0" SnapsToDevicePixels="True">
+                    Height="35" Width="75" BorderBrush="White" Canvas.Left="336" Canvas.Top="320" BorderThickness="0" SnapsToDevicePixels="True">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
@@ -103,7 +103,8 @@
                     <DropShadowBitmapEffect Color="Black" Direction="315" Softness="0.5" ShadowDepth="5" Opacity="0.4" />
                 </Button.BitmapEffect>
             </Button>
-            <ListBox Height="431" Canvas.Left="22" Canvas.Top="78" Width="290" Background="#FFF4F8FF" BorderBrush="#FFF4F8FF"/>
+            <ListBox ItemsSource="{Binding FileObjectCollection}" SelectedItem="{Binding SelectedFileObject}" Height="431" Canvas.Left="22" Canvas.Top="78" Width="290" Background="#FFF4F8FF" BorderBrush="#FFF4F8FF">
+            </ListBox>
             <Button Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding CmdFuncBtn01}" Canvas.Left="336" Canvas.Top="146"
                 BorderThickness="0" SnapsToDevicePixels="True" BorderBrush="Transparent"
                 Panel.ZIndex="10" FontSize="20" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black">

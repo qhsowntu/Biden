@@ -14,7 +14,7 @@ using System.Windows.Media;
 
 namespace Biden.ViewModel
 {
-    class ViewModel1 : INotifyPropertyChanged
+    class ViewModel1 : ViewModelCommon
     {
 
 
@@ -155,21 +155,6 @@ namespace Biden.ViewModel
                 OnPropertyChanged("Text01");
             }
         }
-
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-
 
         private ICommand m_ButtonCommand;
 
