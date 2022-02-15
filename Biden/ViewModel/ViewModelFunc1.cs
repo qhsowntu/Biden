@@ -30,6 +30,7 @@ namespace Biden.ViewModel
         private FuncWindow1_Add tempWindow;
         protected static List<RuleClass> ruleList;
         private ObservableCollection<MacroInfo> fileObjectCollection;
+        private int ruleCounter;
 
         public ViewModelFunc1()
         {
@@ -42,6 +43,7 @@ namespace Biden.ViewModel
             fileObjectCollection = new ObservableCollection<MacroInfo>();
             spinner = false;
             count = 0;
+            ruleCounter = 1;
             //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
         }
 
@@ -75,24 +77,39 @@ namespace Biden.ViewModel
             tempWindow.ShowDialog();
             FuncWindow1.getInstance.Show();
             MainWindow.getInstance.Show();
-            MacroInfo tempInfo = new MacroInfo();
+            
+            if (FileObjectCollection.Count < ruleList.Count)
             {
-                tempInfo.No = "" + ruleList.Count;
-                tempInfo.Name = "" + ruleList[ruleList.Count - 1].NameStr;
+                MacroInfo tempInfo = new MacroInfo();
+                {
+                    tempInfo.No = "" + ruleList.Count;
+                    tempInfo.Name = "" + ruleList[ruleList.Count - 1].NameStr;
+                }
+                FileObjectCollection.Add(new MacroInfo() { No = "" + ruleCounter++, Name = "" + ruleList[ruleList.Count - 1].NameStr });
             }
-            FileObjectCollection.Add(new MacroInfo() { No = "" + ruleList.Count, Name = "" + ruleList[ruleList.Count - 1].NameStr});
         }
 
         private void Execute_CmdEditBtn01(object obj)
         {
-            MessageBox.Show("Edit");
+            if (obj != null)
+            {
+                MessageBox.Show(obj.ToString());
+            }
         }
         private void Execute_CmdDeleteBtn01(object obj)
         {
-            MessageBox.Show(obj+"");
+            for (int i = 0; i < ruleList.Count; i++)
+            {
+                if (ruleList[i].NameStr == obj + "")
+                {
+                    ruleList.RemoveAt(i);
+                    FileObjectCollection.RemoveAt(i);
+                }
+            }
+            MessageBox.Show(obj.ToString());
         }
 
-
+        
 
 
 

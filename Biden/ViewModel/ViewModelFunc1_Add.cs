@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Biden.ViewModel
 {
@@ -25,7 +26,23 @@ namespace Biden.ViewModel
         private void Execute_FuncBtn01_AddOK(object obj)
         {
             //FuncWindow1.getInstance.RuleList.Add(rule);
-            ruleList.Add(rule);
+            for (int i = 0; i < ruleList.Count; i++)
+            {
+                if(ruleList[i].NameStr == rule.NameStr) 
+                {
+                    MessageBox.Show("name already exists");
+                    return;
+                }
+            }
+            ruleList.Add(new RuleClass() {
+                No = ruleList.Count+"",
+                NameStr = nameStr,
+                FromStr = fromStr,
+                ToStr = toStr,
+                PrefixStr = prefixStr,
+                PostfixStr = postfixStr
+            });
+            removeStr();
             FuncWindow1_Add.getInstance.Hide();
         }
         private void Execute_FuncBtn01_AddCancel(object obj)
@@ -104,7 +121,6 @@ namespace Biden.ViewModel
             prefixStr = "";
             postfixStr = "";
         }
-
 
     }
 }
