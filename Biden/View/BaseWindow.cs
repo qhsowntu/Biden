@@ -92,7 +92,7 @@ namespace Biden.View
 			this.WindowState = System.Windows.WindowState.Minimized;
 		}
 
-		private void deleteAllWindow()
+		protected void deleteAllWindow()
 		{
 			for (int i = 0; i < baseWindowList.Count; i++)
 			{

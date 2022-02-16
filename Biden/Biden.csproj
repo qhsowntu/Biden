@@ -62,16 +62,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Func\CopyPasteMacro.cs" />
+    <Compile Include="Func\Macro_Backup.cs" />
     <Compile Include="Func\Macro.cs" />
-    <Compile Include="Func\RuleClass.cs" />
+    <Compile Include="Model\RuleClass.cs" />
     <Compile Include="Model\TempClass.cs" />
     <Compile Include="ViewModel\Command.cs" />
     <Compile Include="ViewModel\Converter.cs" />
     <Compile Include="ViewModel\ViewModel1.cs" />
     <Compile Include="ViewModel\ViewModelCommon.cs" />
     <Compile Include="ViewModel\ViewModelFunc1.cs" />
+    <Compile Include="ViewModel\ViewModelFunc1_Edit.cs" />
     <Compile Include="ViewModel\ViewModelFunc1_Add.cs" />
     <Compile Include="View\BaseWindow.cs" />
+    <Compile Include="View\FuncWindow1_Edit.xaml.cs">
+      <DependentUpon>FuncWindow1_Edit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FuncWindow1_Add.xaml.cs">
       <DependentUpon>FuncWindow1_Add.xaml</DependentUpon>
     </Compile>
@@ -84,6 +89,10 @@
     <Compile Include="View\UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\FuncWindow1_Edit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\FuncWindow1_Add.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

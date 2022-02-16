@@ -23,14 +23,24 @@ namespace Biden.ViewModel
         public Command CmdFuncBtn01_Add { get; set; }
         public Command CmdEditBtn { get; set; }
         public Command CmdDeleteBtn { get; set; }
+        public Command CmdOnOffBtn { get; set; }
         public Command TestBtn01 { get; set; }
+
+        private bool _isChecked = false;
+
         private bool spinner;
         private int count;
         private Thread myThread;
-        private FuncWindow1_Add tempWindow;
+        private FuncWindow1_Add tempAddWindow;
+        private FuncWindow1_Edit tempEditWindow;
+        protected static bool initRuleFlag = false;
         protected static List<RuleClass> ruleList;
-        private ObservableCollection<MacroInfo> fileObjectCollection;
-        private int ruleCounter;
+        protected static RuleClass rule;
+        protected static int ruleCounter;
+        private static ObservableCollection<MacroInfo> fileObjectCollection;
+        protected static int editedIndex;
+
+        private static Macro macro;
 
         public ViewModelFunc1()
         {
@@ -38,43 +48,46 @@ namespace Biden.ViewModel
             CmdFuncBtn01_Add = new Command(Execute_FuncBtn01_Add, CanExecute_Btn01);
             CmdEditBtn = new Command(Execute_CmdEditBtn01, CanExecute_Btn01);
             CmdDeleteBtn = new Command(Execute_CmdDeleteBtn01, CanExecute_Btn01);
+            CmdOnOffBtn = new Command(Execute_CmdOnOffBtn, CanExecute_Btn01);
             TestBtn01 = new Command(Execute_TestBtn01, CanExecute_Btn01);
-            ruleList = new List<RuleClass>();
-            fileObjectCollection = new ObservableCollection<MacroInfo>();
             spinner = false;
             count = 0;
-            ruleCounter = 1;
-            //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
+            initRule();
         }
 
-        
+
+        private void initRule()
+        {
+            if (initRuleFlag == false)
+            {
+                initRuleFlag = true;
+                ruleList = new List<RuleClass>();
+                rule = new RuleClass();
+                ruleCounter = 1;
+                fileObjectCollection = new ObservableCollection<MacroInfo>();
+                macro = new Macro();
+                //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
+            }
+        }
 
         private void Execute_FuncBtn01(object obj)
         {
             //do Something
             DoSpin();
-
-            if(myThread == null || myThread.IsAlive == false)
-            {
-                myThread = new Thread(DoCounting);
-                myThread.Start();
-            }
-            else
-            {
-                myThread.Abort();
-            }
+            DoCount();
+            
         }
 
         private void Execute_FuncBtn01_Add(object obj)
         {
             //do Something
-            if (tempWindow == null)
+            if (tempAddWindow == null)
             {
-                tempWindow = FuncWindow1_Add.getInstance;
+                tempAddWindow = FuncWindow1_Add.getInstance;
             }
             FuncWindow1.getInstance.Hide();
             MainWindow.getInstance.Hide();
-            tempWindow.ShowDialog();
+            tempAddWindow.ShowDialog();
             FuncWindow1.getInstance.Show();
             MainWindow.getInstance.Show();
             
@@ -93,7 +106,29 @@ namespace Biden.ViewModel
         {
             if (obj != null)
             {
-                MessageBox.Show(obj.ToString());
+                //MessageBox.Show(obj.ToString());
+                if (tempEditWindow == null)
+                {
+                    tempEditWindow = FuncWindow1_Edit.getInstance;
+                }
+                for (int i = 0; i < ruleList.Count; i++)
+                {
+                    if (ruleList[i].NameStr == obj + "")
+                    {
+                        editedIndex = i;
+                        nameStr = ruleList[i].NameStr;
+                        fromStr = ruleList[i].FromStr;
+                        toStr = ruleList[i].ToStr;
+                        postfixStr = ruleList[i].PostfixStr;
+                        prefixStr = ruleList[i].PrefixStr;
+                    }
+                }
+                FuncWindow1.getInstance.Hide();
+                MainWindow.getInstance.Hide();
+                tempEditWindow.show();
+                FuncWindow1.getInstance.Show();
+                MainWindow.getInstance.Show();
+                FileObjectCollection[editedIndex] = (new MacroInfo() { No = "" + (editedIndex+1), Name = "" + ruleList[editedIndex].NameStr });
             }
         }
         private void Execute_CmdDeleteBtn01(object obj)
@@ -106,18 +141,43 @@ namespace Biden.ViewModel
                     FileObjectCollection.RemoveAt(i);
                 }
             }
-            MessageBox.Show(obj.ToString());
+            //MessageBox.Show(obj.ToString());
         }
 
-        
+        private void Execute_CmdOnOffBtn(object obj)
+        {
+            //MessageBox.Show(obj + "");
 
+            if (obj + "" == "True")
+            {
+                if (Macro.IsInit == false)
+                {
+                    Macro.IsInit = true;
+                    Macro.create();
+                    macro.start();
+                }
+                Macro.PasteModeOn = true;
+            }
+            else
+            {
+                Macro.PasteModeOn = false;
+            }
+            DoSpin();
+            DoCount();
+        }
 
-
-
-
-
-
-
+        public bool IsChecked
+        {
+            get
+            {
+                return _isChecked;
+            }
+            set
+            {
+                _isChecked = value;
+                OnPropertyChanged("IsChecked");
+            }
+        }
 
 
 
@@ -126,7 +186,7 @@ namespace Biden.ViewModel
             get { return fileObjectCollection; }
             set
             {
-                if (value != this.fileObjectCollection)
+                if (value != fileObjectCollection)
                     fileObjectCollection = value;
                 OnPropertyChanged("FileObjectCollection");
             }
@@ -136,7 +196,7 @@ namespace Biden.ViewModel
             get { return fileObjectCollection; }
             set
             {
-                if (value != this.fileObjectCollection)
+                if (value != fileObjectCollection)
                     fileObjectCollection = value;
                 OnPropertyChanged("SelectedFileObject");
             }
@@ -168,7 +228,20 @@ namespace Biden.ViewModel
             }
             OnPropertyChanged("CmdFuncSpin01");
         }
+        private void DoCount()
+        {
+            if (myThread == null || myThread.IsAlive == false)
+            {
+                myThread = new Thread(DoCounting);
+                myThread.IsBackground = true;
+                myThread.Start();
+            }
+            else
+            {
+                myThread.Abort();
+            }
 
+        }
         public bool CmdFuncSpin01
         {
             get
@@ -207,7 +280,77 @@ namespace Biden.ViewModel
             public override string ToString() => Name;
             //public string Edit;
             //public string Delete;
+        }
 
+        public string nameStr
+        {
+            get
+            {
+                return rule.NameStr;
+            }
+            set
+            {
+                rule.NameStr = value;
+                OnPropertyChanged("nameStr");
+            }
+        }
+        public string fromStr
+        {
+            get
+            {
+                return rule.FromStr;
+            }
+            set
+            {
+                rule.FromStr = value;
+                OnPropertyChanged("fromStr");
+            }
+        }
+        public string toStr
+        {
+            get
+            {
+                return rule.ToStr;
+            }
+            set
+            {
+                rule.ToStr = value;
+                OnPropertyChanged("toStr");
+            }
+        }
+        public string prefixStr
+        {
+            get
+            {
+                return rule.PrefixStr;
+            }
+            set
+            {
+                rule.PrefixStr = value;
+                OnPropertyChanged("prefixStr");
+            }
+        }
+        public string postfixStr
+        {
+            get
+            {
+                return rule.PostfixStr;
+            }
+            set
+            {
+                rule.PostfixStr = value;
+                OnPropertyChanged("postfixStr");
+            }
+        }
+        
+
+        public void removeStr()
+        {
+            nameStr = "";
+            fromStr = "";
+            toStr = "";
+            prefixStr = "";
+            postfixStr = "";
         }
 
     }

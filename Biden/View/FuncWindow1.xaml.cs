@@ -1,4 +1,5 @@
 ﻿using Biden.Func;
+using Biden.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,12 @@ namespace Biden.View
     public partial class FuncWindow1 : BaseWindow
     {
         private static FuncWindow1 instance = null;
-
+        private ViewModelFunc1 _viewModel;
         private FuncWindow1()
         {
             InitializeComponent();
+            _viewModel = new ViewModelFunc1();
+            this.DataContext = _viewModel;
         }
 
         public static FuncWindow1 getInstance
@@ -36,6 +39,24 @@ namespace Biden.View
                     instance = new FuncWindow1();
                 }
                 return instance;
+            }
+        }
+
+        public override void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show(this+"@");
+            Macro.PasteModeOn = false;
+            Macro.destroy();
+            string windowName = this + "";
+            if (windowName.Contains("MainWindow"))
+            {
+                deleteAllWindow();
+                //this.Close();
+                return;
+            }
+            else
+            {
+                this.Hide();
             }
         }
 

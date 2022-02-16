@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace Biden.Func
 {
-    class Macro
+    class Macro_Backup
     {
 
         private static bool flag1 = false;
@@ -25,9 +25,8 @@ namespace Biden.Func
         private static bool flag6 = false;
 
         private static bool isRunning = false;
-        private static bool isInit = false;
 
-        private static bool pasteModeOn = false;
+        public static bool pasteModeOn = false;
 
         public bool removeBlankFlag = false;
 
@@ -43,7 +42,7 @@ namespace Biden.Func
 
         public static Color color;
 
-        public Macro()
+        public Macro_Backup()
         {
             list = new List<String>();
             parameterList = new List<String>();
@@ -245,9 +244,6 @@ namespace Biden.Func
         private static HookDel hd;
         private static KeyHandler kh;
 
-        public static bool PasteModeOn { get => pasteModeOn; set => pasteModeOn = value; }
-        public static bool IsInit { get => isInit; set => isInit = value; }
-
         //Creation of the hook
         public static void CreateHook(KeyHandler _kh)
         {
@@ -284,8 +280,6 @@ namespace Biden.Func
                 (iwParam == 0x100 ||
                 iwParam == 0x104)) //0x100 = WM_KEYDOWN, 0x104 = WM_SYSKEYDOWN
                 kh(wParam, lParam);
-
-            
             return API.CallNextHookEx(hhk, nCode, wParam, lParam);
         }
 
@@ -640,17 +634,16 @@ namespace Biden.Func
 
         }
 
-        public void sendKeyInput(CancellationTokenSource ct)
+        public void sendKeyInput()
         {
             //form.textBox1.Text = key1;
             //form.textBox2.Text = key2;
 
             //form.textBox6.Text = (Int32.Parse(form.textBox6.Text) + 1) + "";
 
-
             if (key1 == "" && key2 == "" && (Control.ModifierKeys + "").Contains("None"))
             {
-                if (flag1 && PasteModeOn == true && isRunning == false)
+                if (flag1 && pasteModeOn == true && isRunning == false)
                 {
                     isRunning = true;
                     removeBlankFlag = false; // 차트 형식 내 변환 확인. flag가 false상태로 유지 될 경우 빈칸을 "_"으로 변환함.
@@ -738,7 +731,6 @@ namespace Biden.Func
                         threadEx = ex;
                     }
                 });
-            staThread.IsBackground = true;
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start();
             staThread.Join();
@@ -760,7 +752,6 @@ namespace Biden.Func
                         threadEx = ex;
                     }
                 });
-            staThread.IsBackground = true;
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start();
             staThread.Join();
@@ -779,7 +770,7 @@ namespace Biden.Func
         public String getModifiedText(String str)
         {
             String res = "";
-            res = str + "@";
+
             return res;
         }
 
@@ -846,15 +837,15 @@ namespace Biden.Func
             {
                 // Were we already canceled?
                 ct.ThrowIfCancellationRequested();
-                
+
                 bool moreToDo = true;
                 while (moreToDo)
                 {
 
-                    sendKeyInput(tokenSource2);
+                    sendKeyInput();
                     //getMousePosAndColor();
                     Task.Delay(5);
-                    
+
                     if (ct.IsCancellationRequested)
                     {
                         // Clean up here, then...

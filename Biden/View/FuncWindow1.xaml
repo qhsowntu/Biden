@@ -85,9 +85,9 @@
                 BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Top"  Canvas.Right ="19" Canvas.Top ="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FF4A4A4A"/>
             <Button x:Name="minButton" Content="―" Width="14" Height="14" Click="MinButton_Click"  FontWeight="Bold" FontFamily="Corbel"
                 BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Top"  Canvas.Right ="33" Canvas.Top ="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FF4A4A4A"/>
-            <fa:ImageAwesome Icon="Refresh" Spin="{Binding CmdFuncSpin01, UpdateSourceTrigger=PropertyChanged}" Height="18" Width="15" HorizontalAlignment="Left" VerticalAlignment="Bottom" Canvas.Left="324" Canvas.Bottom="10" Canvas.Top="403" />
-            <Label x:Name="Counter" Content ="{Binding Counter1, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Canvas.Left="344" Canvas.Bottom="7" Canvas.Top="401"/>
-            <Button Content="Copy" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding TestBtn01}" Canvas.Left="324" Canvas.Top="286"
+            <fa:ImageAwesome Icon="Refresh" Spin="{Binding CmdFuncSpin01, UpdateSourceTrigger=PropertyChanged}" Height="18" Width="15" HorizontalAlignment="Left" VerticalAlignment="Bottom" Canvas.Left="325" Canvas.Bottom="10" Canvas.Top="404" />
+            <Label x:Name="Counter" Content ="{Binding Counter1, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Canvas.Left="345" Canvas.Bottom="7" Canvas.Top="402"/>
+            <Button Content="Copy" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding TestBtn01}" Canvas.Left="324" Canvas.Top="259"
                     BorderThickness="0" SnapsToDevicePixels="True" BorderBrush="Transparent"
                     Panel.ZIndex="10" FontSize="16" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black">
                 <Button.Resources>
@@ -100,7 +100,7 @@
                 </Button.BitmapEffect>
             </Button>
             <Button HorizontalAlignment="Left" x:Name="FuncBtn03_1" VerticalAlignment="Top"
-                    Height="35" Width="75" BorderBrush="White" Canvas.Left="324" Canvas.Top="286" BorderThickness="0" SnapsToDevicePixels="True">
+                    Height="35" Width="75" BorderBrush="White" Canvas.Left="324" Canvas.Top="259" BorderThickness="0" SnapsToDevicePixels="True">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
@@ -110,7 +110,7 @@
                     <DropShadowBitmapEffect Color="Black" Direction="315" Softness="0.5" ShadowDepth="5" Opacity="0.4" />
                 </Button.BitmapEffect>
             </Button>
-            <Button Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding CmdFuncBtn01_Add}" Canvas.Left="324" Canvas.Top="84"
+            <Button Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding CmdFuncBtn01_Add}" Canvas.Left="324" Canvas.Top="126"
                 BorderThickness="0" SnapsToDevicePixels="True" BorderBrush="Transparent"
                 Panel.ZIndex="10" FontSize="16" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black" >
                 <Button.Resources>
@@ -123,7 +123,7 @@
                 </Button.BitmapEffect>
             </Button>
             <Button HorizontalAlignment="Left" x:Name="FuncBtn03_1_Copy1" VerticalAlignment="Top"
-                Height="35" Width="75" BorderBrush="White" Canvas.Left="324" Canvas.Top="84" BorderThickness="0" SnapsToDevicePixels="True">
+                Height="35" Width="75" BorderBrush="White" Canvas.Left="324" Canvas.Top="126" BorderThickness="0" SnapsToDevicePixels="True">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="10"/>
@@ -134,7 +134,7 @@
                 </Button.BitmapEffect>
             </Button>
             <ListView ItemsSource="{Binding FileObjectCollection}" SelectedItem="{Binding SelectedFileObject}" IsSynchronizedWithCurrentItem="True"
-                     Height="351" Canvas.Left="22" Canvas.Top="78" Width="290" Background="#FFF4F8FF" BorderBrush="#FFF4F8FF">
+                     Height="351" Canvas.Left="18" Canvas.Top="78" Width="290" Background="#FFF4F8FF" BorderBrush="#FFF4F8FF">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="30" Header="No" DisplayMemberBinding="{Binding No}"/>
@@ -161,7 +161,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding CmdFuncBtn01}" Canvas.Left="324" Canvas.Top="136"
+            <Button Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding CmdFuncBtn01}" Canvas.Left="324" Canvas.Top="170"
                 BorderThickness="0" SnapsToDevicePixels="True" BorderBrush="Transparent"
                 Panel.ZIndex="10" FontSize="16" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black">
                 <Button.Resources>
@@ -174,7 +174,7 @@
                 </Button.BitmapEffect>
             </Button>
             <Button HorizontalAlignment="Left" x:Name="FuncBtn03_1_Copy2" VerticalAlignment="Top"
-                Height="35" Width="75" BorderBrush="White" Canvas.Left="324" Canvas.Top="136" BorderThickness="0" SnapsToDevicePixels="True">
+                Height="35" Width="75" BorderBrush="White" Canvas.Left="324" Canvas.Top="170" BorderThickness="0" SnapsToDevicePixels="True">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="10"/>
@@ -185,7 +185,7 @@
                 </Button.BitmapEffect>
             </Button>
             <Button Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding CmdEditBtn}" CommandParameter="{Binding Name}"
-                    Canvas.Left="324" Canvas.Top="186"
+                    Canvas.Left="324" Canvas.Top="215"
                 BorderThickness="0" SnapsToDevicePixels="True" BorderBrush="Transparent"
                 Panel.ZIndex="10" FontSize="16" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black" >
                 <Button.Resources>
@@ -198,7 +198,7 @@
                 </Button.BitmapEffect>
             </Button>
             <Button HorizontalAlignment="Left" x:Name="FuncBtn03_1_Copy3" VerticalAlignment="Top"
-                Height="35" Width="75" BorderBrush="White" Canvas.Left="324" Canvas.Top="186" BorderThickness="0" SnapsToDevicePixels="True">
+                Height="35" Width="75" BorderBrush="White" Canvas.Left="324" Canvas.Top="215" BorderThickness="0" SnapsToDevicePixels="True">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="10"/>
@@ -208,7 +208,7 @@
                     <DropShadowBitmapEffect Color="Black" Direction="315" Softness="0.5" ShadowDepth="5" Opacity="0.4" />
                 </Button.BitmapEffect>
             </Button>
-            <Button Content="▲" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="33" Command="{Binding CmdFuncBtn01}" Canvas.Left="324" Canvas.Top="236"
+            <Button Content="▲" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="33" Command="{Binding CmdFuncBtn01}" Canvas.Left="324" Canvas.Top="303"
                 BorderThickness="0" SnapsToDevicePixels="True" BorderBrush="Transparent"
                 Panel.ZIndex="10" FontSize="20" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black">
                 <Button.Resources>
@@ -221,7 +221,7 @@
                 </Button.BitmapEffect>
             </Button>
             <Button HorizontalAlignment="Left" x:Name="FuncBtn03_1_Copy4" VerticalAlignment="Top"
-                Height="35" Width="33" BorderBrush="White" Canvas.Left="324" Canvas.Top="236" BorderThickness="0" SnapsToDevicePixels="True">
+                Height="35" Width="33" BorderBrush="White" Canvas.Left="324" Canvas.Top="303" BorderThickness="0" SnapsToDevicePixels="True">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="10"/>
@@ -231,7 +231,7 @@
                     <DropShadowBitmapEffect Color="Black" Direction="315" Softness="0.5" ShadowDepth="5" Opacity="0.4" />
                 </Button.BitmapEffect>
             </Button>
-            <Button Content="▼" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="33" Command="{Binding CmdFuncBtn01}" Canvas.Left="366" Canvas.Top="236"
+            <Button Content="▼" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="33" Command="{Binding CmdFuncBtn01}" Canvas.Left="366" Canvas.Top="303"
                 BorderThickness="0" SnapsToDevicePixels="True" BorderBrush="Transparent"
                 Panel.ZIndex="10" FontSize="20" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black">
                 <Button.Resources>
@@ -244,7 +244,7 @@
                 </Button.BitmapEffect>
             </Button>
             <Button HorizontalAlignment="Left" x:Name="FuncBtn03_1_Copy5" VerticalAlignment="Top"
-                Height="35" Width="33" BorderBrush="White" Canvas.Left="366" Canvas.Top="236" BorderThickness="0" SnapsToDevicePixels="True">
+                Height="35" Width="33" BorderBrush="White" Canvas.Left="366" Canvas.Top="303" BorderThickness="0" SnapsToDevicePixels="True">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="10"/>
@@ -276,8 +276,9 @@
                     <Separator/>
                 </MenuItem>
             </Menu>
-            <CheckBox Canvas.Left="324" Canvas.Top="42" Style="{DynamicResource BlueSwitchStyle}"/>
-            <Button Content="Test" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding TestBtn01}" Canvas.Left="324" Canvas.Top="334"
+            <CheckBox Canvas.Left="324" Canvas.Top="82" Style="{DynamicResource BlueSwitchStyle}" Command="{Binding CmdOnOffBtn}" IsChecked="{Binding IsChecked}" CommandParameter="{Binding IsChecked}">
+            </CheckBox>
+            <Button Content="Test" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding TestBtn01}" Canvas.Left="324" Canvas.Top="350"
                 BorderThickness="0" SnapsToDevicePixels="True" BorderBrush="Transparent"
                 Panel.ZIndex="10" FontSize="16" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black">
                 <Button.Resources>
@@ -290,7 +291,18 @@
                 </Button.BitmapEffect>
             </Button>
             <Button HorizontalAlignment="Left" x:Name="FuncBtn03_1_Copy" VerticalAlignment="Top"
-                Height="35" Width="75" BorderBrush="White" Canvas.Left="324" Canvas.Top="334" BorderThickness="0" SnapsToDevicePixels="True">
+                Height="35" Width="75" BorderBrush="White" Canvas.Left="325" Canvas.Top="350" BorderThickness="0" SnapsToDevicePixels="True">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+                <Button.BitmapEffect>
+                    <DropShadowBitmapEffect Color="Black" Direction="315" Softness="0.5" ShadowDepth="5" Opacity="0.4" />
+                </Button.BitmapEffect>
+            </Button>
+            <Button HorizontalAlignment="Left" x:Name="FuncBtn03_1_Copy6" VerticalAlignment="Top" Panel.ZIndex="10"
+                Height="35" Width="76" BorderBrush="White" Canvas.Left="324" Canvas.Top="82" BorderThickness="0" SnapsToDevicePixels="True">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="10"/>
