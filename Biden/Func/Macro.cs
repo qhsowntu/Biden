@@ -38,6 +38,8 @@ namespace Biden.Func
         private static List<String> list;
         private static List<String> parameterList;
 
+        private List<RuleClass> ruleList;
+
         //public static Bitmap screenPixel = new Bitmap(500, 200, PixelFormat.Format32bppArgb);
         public static Bitmap screenPixel = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -47,6 +49,7 @@ namespace Biden.Func
         {
             list = new List<String>();
             parameterList = new List<String>();
+            RuleList = new List<RuleClass>();
         }
 
         private static class API
@@ -247,6 +250,7 @@ namespace Biden.Func
 
         public static bool PasteModeOn { get => pasteModeOn; set => pasteModeOn = value; }
         public static bool IsInit { get => isInit; set => isInit = value; }
+        internal List<RuleClass> RuleList { get => ruleList; set => ruleList = value; }
 
         //Creation of the hook
         public static void CreateHook(KeyHandler _kh)
@@ -776,13 +780,6 @@ namespace Biden.Func
             return str.Split(new string[] { "\r\n\r\n" }, StringSplitOptions.None);
         }
 
-        public String getModifiedText(String str)
-        {
-            String res = "";
-            res = str + "@";
-            return res;
-        }
-
        
         public static int NthIndexOf(string input, String charToFind, int n)
         {
@@ -915,5 +912,18 @@ namespace Biden.Func
             var c = GetColorAt2(cursor);
             //form.BackColor = c;
         }
+
+
+        public String getModifiedText(String str)
+        {
+            String res = str;
+            for (int i = 0; i < ruleList.Count; i++)
+            {
+                res = ruleList[i].PrefixStr + res + ruleList[i].PostfixStr;
+            }
+            res = res + "@";
+            return res;
+        }
+
     }
 }

@@ -154,6 +154,7 @@ namespace Biden.ViewModel
                 {
                     Macro.IsInit = true;
                     Macro.create();
+                    macro.RuleList = ruleList;
                     macro.start();
                 }
                 Macro.PasteModeOn = true;

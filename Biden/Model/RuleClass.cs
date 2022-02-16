@@ -14,7 +14,17 @@ namespace Biden.Func
         private string toStr;
         private string prefixStr;
         private string postfixStr;
+        private string findStr;
 
+        /*
+            name
+            from->to 변환
+            delete 삭제
+            pre 추가
+            post 추가
+            find 탐색 시 경고  
+            
+        */
         public RuleClass()
         {
 
