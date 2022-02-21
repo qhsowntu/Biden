@@ -1,4 +1,5 @@
-﻿using Biden.Model;
+﻿using Biden.Func;
+using Biden.Model;
 using Biden.View;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ using System.Windows.Media;
 
 namespace Biden.ViewModel
 {
-    class ViewModel1 : ViewModelCommon
+    class ViewModelMain : ViewModelCommon
     {
 
 
@@ -23,20 +24,29 @@ namespace Biden.ViewModel
         public Command CmdFuncBtn02 { get; set; }
         public Command CmdFuncBtn03 { get; set; }
         public Command CmdFuncBtn04 { get; set; }
+        public Command CmdOnOffBtn01 { get; set; }
+        public Command CmdOnOffBtn02 { get; set; }
+        public Command CmdOnOffBtn03 { get; set; }
         private TempClass tempClass;
         private FuncWindow1 tempWindow;
+        private static Macro macro;
 
-        public ViewModel1()
+        private Func1Class func1Class;
+
+        public ViewModelMain()
         {
             CmdBtn01 = new Command(Execute_Btn01, CanExecute_Btn01);
             CmdFuncBtn01 = new Command(Execute_FuncBtn01, CanExecute_Btn01);
             CmdFuncBtn02 = new Command(Execute_FuncBtn02, CanExecute_Btn01);
             CmdFuncBtn03 = new Command(Execute_FuncBtn03, CanExecute_Btn01);
-            CmdFuncBtn04 = new Command(Execute_FuncBtn04, CanExecute_Btn01);
+            CmdOnOffBtn01 = new Command(Execute_CmdOnOffBtn01, CanExecute_Btn01);
+            CmdOnOffBtn02 = new Command(Execute_CmdOnOffBtn02, CanExecute_Btn01);
+            CmdOnOffBtn03 = new Command(Execute_CmdOnOffBtn03, CanExecute_Btn01);
             tempClass = new TempClass();
             tempClass.Num = 1;
             tempClass.Num2 = 7;
-
+            macro = Macro.getInstance;
+            func1Class = Func1Class.getInstance;
             //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
         }
 
@@ -59,7 +69,7 @@ namespace Biden.ViewModel
                 tempWindow = FuncWindow1.getInstance;
             }
             MainWindow.getInstance.Hide();
-            tempWindow.ShowDialog();
+            tempWindow.Show();
             MainWindow.getInstance.Show();
         }
 
@@ -72,11 +82,34 @@ namespace Biden.ViewModel
         {
             //do Something
         }
-        private void Execute_FuncBtn04(object obj)
+
+        private void Execute_CmdOnOffBtn01(object obj)
+        {
+            //do Something
+            //MessageBox.Show(obj + "");
+            if (obj.GetType() + "" == "True")
+            {
+                if (Macro.IsInit == false)
+                {
+                    Macro.IsInit = true;
+                    Macro.create();
+                    macro.start();
+                }
+                Macro.PasteModeOn = true;
+            }
+            else
+            {
+                Macro.PasteModeOn = false;
+            }
+        }
+        private void Execute_CmdOnOffBtn02(object obj)
         {
             //do Something
         }
-
+        private void Execute_CmdOnOffBtn03(object obj)
+        {
+            //do Something
+        }
 
         private bool CanExecute_Btn01(object obj) { return true; }
 

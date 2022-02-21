@@ -62,13 +62,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Func\CopyPasteMacro.cs" />
+    <Compile Include="Func\CorrectString.cs" />
     <Compile Include="Func\Macro_Backup.cs" />
     <Compile Include="Func\Macro.cs" />
+    <Compile Include="Func\ObservableClass\ObservableQueue.cs" />
+    <Compile Include="Func\ObservableClass\ObservableStack.cs" />
+    <Compile Include="Model\Func1Class.cs" />
     <Compile Include="Model\RuleClass.cs" />
     <Compile Include="Model\TempClass.cs" />
     <Compile Include="ViewModel\Command.cs" />
     <Compile Include="ViewModel\Converter.cs" />
-    <Compile Include="ViewModel\ViewModel1.cs" />
+    <Compile Include="ViewModel\ViewModelMain.cs" />
     <Compile Include="ViewModel\ViewModelCommon.cs" />
     <Compile Include="ViewModel\ViewModelFunc1.cs" />
     <Compile Include="ViewModel\ViewModelFunc1_Edit.cs" />

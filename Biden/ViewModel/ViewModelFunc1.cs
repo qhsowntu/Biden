@@ -1,13 +1,16 @@
 ﻿using Biden.Func;
+using Biden.Model;
 using Biden.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -61,13 +64,31 @@ namespace Biden.ViewModel
             if (initRuleFlag == false)
             {
                 initRuleFlag = true;
-                ruleList = new List<RuleClass>();
+                ruleList = Func1Class.getInstance.RuleList;
                 rule = new RuleClass();
                 ruleCounter = 1;
                 fileObjectCollection = new ObservableCollection<MacroInfo>();
-                macro = new Macro();
+                macro = Macro.getInstance;
+                AddSampleRules();
                 //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
             }
+        }
+
+        private void AddSampleRules()
+        {
+            //nameStr = "SampleRules1";
+            //fromStr = "1";
+            //toStr = "2";
+            //prefixStr = "Pre";
+            //postfixStr = "Post";
+            RuleClass tempRules = new RuleClass();
+            tempRules.NameStr = "SampleRules1";
+            tempRules.FromStr = "1";
+            tempRules.ToStr = "2";
+            tempRules.PrefixStr = "Pre";
+            tempRules.PostfixStr = "Post";
+            ruleList.Add(tempRules);
+            FileObjectAndSync();
         }
 
         private void Execute_FuncBtn01(object obj)
@@ -78,6 +99,24 @@ namespace Biden.ViewModel
             
         }
 
+        private void FileObjectAndSync()
+        {
+
+            ObservableCollection<MacroInfo> tempCollection = new ObservableCollection<MacroInfo>();
+            for (int i = 0; i < ruleList.Count; i++)
+            {
+                MacroInfo tempInfo = new MacroInfo();
+                {
+                    tempInfo.No = "" + (i + 1);
+                    tempInfo.Name = "" + ruleList[i].NameStr;
+                }
+                tempCollection.Add(tempInfo);
+            }
+
+            FileObjectCollection = tempCollection;
+        }
+
+
         private void Execute_FuncBtn01_Add(object obj)
         {
             //do Something
@@ -86,20 +125,10 @@ namespace Biden.ViewModel
                 tempAddWindow = FuncWindow1_Add.getInstance;
             }
             FuncWindow1.getInstance.Hide();
-            MainWindow.getInstance.Hide();
             tempAddWindow.ShowDialog();
             FuncWindow1.getInstance.Show();
-            MainWindow.getInstance.Show();
-            
-            if (FileObjectCollection.Count < ruleList.Count)
-            {
-                MacroInfo tempInfo = new MacroInfo();
-                {
-                    tempInfo.No = "" + ruleList.Count;
-                    tempInfo.Name = "" + ruleList[ruleList.Count - 1].NameStr;
-                }
-                FileObjectCollection.Add(new MacroInfo() { No = "" + ruleCounter++, Name = "" + ruleList[ruleList.Count - 1].NameStr });
-            }
+
+            FileObjectAndSync();
         }
 
         private void Execute_CmdEditBtn01(object obj)
@@ -124,11 +153,9 @@ namespace Biden.ViewModel
                     }
                 }
                 FuncWindow1.getInstance.Hide();
-                MainWindow.getInstance.Hide();
                 tempEditWindow.show();
                 FuncWindow1.getInstance.Show();
-                MainWindow.getInstance.Show();
-                FileObjectCollection[editedIndex] = (new MacroInfo() { No = "" + (editedIndex+1), Name = "" + ruleList[editedIndex].NameStr });
+                FileObjectAndSync();
             }
         }
         private void Execute_CmdDeleteBtn01(object obj)
@@ -138,13 +165,13 @@ namespace Biden.ViewModel
                 if (ruleList[i].NameStr == obj + "")
                 {
                     ruleList.RemoveAt(i);
-                    FileObjectCollection.RemoveAt(i);
                 }
             }
-            //MessageBox.Show(obj.ToString());
+            removeStr();
+            FileObjectAndSync();
         }
 
-        private void Execute_CmdOnOffBtn(object obj)
+        public void Execute_CmdOnOffBtn(object obj)
         {
             //MessageBox.Show(obj + "");
 
@@ -154,7 +181,6 @@ namespace Biden.ViewModel
                 {
                     Macro.IsInit = true;
                     Macro.create();
-                    macro.RuleList = ruleList;
                     macro.start();
                 }
                 Macro.PasteModeOn = true;
@@ -181,7 +207,6 @@ namespace Biden.ViewModel
         }
 
 
-
         public ObservableCollection<MacroInfo> FileObjectCollection
         {
             get { return fileObjectCollection; }
@@ -202,6 +227,7 @@ namespace Biden.ViewModel
                 OnPropertyChanged("SelectedFileObject");
             }
         }
+
 
         private void Execute_TestBtn01(object obj)
         {
@@ -268,10 +294,6 @@ namespace Biden.ViewModel
                 OnPropertyChanged("Counter1");
             }
         }
-
-
-
-        internal List<RuleClass> RuleList { get => ruleList; set => ruleList = value; }
 
 
         public class MacroInfo
@@ -343,7 +365,8 @@ namespace Biden.ViewModel
                 OnPropertyChanged("postfixStr");
             }
         }
-        
+
+        internal static ObservableCollection<MacroInfo> FileObjectQueue { get => fileObjectCollection; set => fileObjectCollection = value; }
 
         public void removeStr()
         {
@@ -353,6 +376,13 @@ namespace Biden.ViewModel
             prefixStr = "";
             postfixStr = "";
         }
+
+
+
+
+
+
+
 
     }
 }

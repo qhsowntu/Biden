@@ -31,14 +31,14 @@ namespace Biden.ViewModel
                     return;
                 }
             }
-            ruleList.Add(new RuleClass() {
-                No = ruleList.Count+"",
-                NameStr = nameStr,
-                FromStr = fromStr,
-                ToStr = toStr,
-                PrefixStr = prefixStr,
-                PostfixStr = postfixStr
-            });
+            RuleClass tempRules = new RuleClass();
+            tempRules.No = ruleList.Count+"";
+            tempRules.NameStr = nameStr;
+            tempRules.FromStr = fromStr;
+            tempRules.ToStr = toStr;
+            tempRules.PrefixStr = prefixStr;
+            tempRules.PostfixStr = postfixStr;
+            ruleList.Add(tempRules);
             removeStr();
             FuncWindow1_Add.getInstance.Hide();
         }

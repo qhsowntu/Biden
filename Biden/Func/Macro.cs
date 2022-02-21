@@ -38,18 +38,33 @@ namespace Biden.Func
         private static List<String> list;
         private static List<String> parameterList;
 
-        private List<RuleClass> ruleList;
+        private CorrectString correctString;
+
 
         //public static Bitmap screenPixel = new Bitmap(500, 200, PixelFormat.Format32bppArgb);
         public static Bitmap screenPixel = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
         public static Color color;
 
-        public Macro()
+        private static Macro instance = null;
+
+        private Macro()
         {
             list = new List<String>();
             parameterList = new List<String>();
-            RuleList = new List<RuleClass>();
+            correctString = new CorrectString();
+        }
+
+        public static Macro getInstance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Macro();
+                }
+                return instance;
+            }
         }
 
         private static class API
@@ -250,7 +265,6 @@ namespace Biden.Func
 
         public static bool PasteModeOn { get => pasteModeOn; set => pasteModeOn = value; }
         public static bool IsInit { get => isInit; set => isInit = value; }
-        internal List<RuleClass> RuleList { get => ruleList; set => ruleList = value; }
 
         //Creation of the hook
         public static void CreateHook(KeyHandler _kh)
@@ -636,7 +650,6 @@ namespace Biden.Func
                 if (tempKey.ToString().ToUpper() == "D4") { flag4 = true; }
                 if (tempKey.ToString().ToUpper() == "D5") { flag5 = true; }
                 if (tempKey.ToString().ToUpper() == "D6") { flag6 = true; }
-
             }
 
             key1 = "";
@@ -664,15 +677,7 @@ namespace Biden.Func
                     String[] split = SplitStrByDoubleEnter(clipboardText);
                     try
                     {
-                        for (int i = 0; i < split.Length; i++)
-                        {
-                            //MessageBox.Show(split[i]);
-                            if (i > 0)
-                            {
-                                modifiedText += "\r\n\r\n";
-                            }
-                            modifiedText += getModifiedText(split[i]);
-                        }
+                        modifiedText = correctString.getModifiedText(clipboardText);
                         if (clipboardText != "")
                         {
                             setClipBoardText(modifiedText);
@@ -914,16 +919,6 @@ namespace Biden.Func
         }
 
 
-        public String getModifiedText(String str)
-        {
-            String res = str;
-            for (int i = 0; i < ruleList.Count; i++)
-            {
-                res = ruleList[i].PrefixStr + res + ruleList[i].PostfixStr;
-            }
-            res = res + "@";
-            return res;
-        }
 
     }
 }
