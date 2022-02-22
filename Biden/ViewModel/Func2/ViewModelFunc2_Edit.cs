@@ -9,13 +9,13 @@ using System.Windows.Forms;
 
 namespace Biden.ViewModel
 {
-    class ViewModelFunc1_Edit : ViewModelFunc1
+    class ViewModelFunc2_Edit : ViewModelFunc2
     {
         public Command CmdFuncBtn01_EditOK { get; set; }
         public Command CmdFuncBtn01_EditCancel { get; set; }
 
 
-        public ViewModelFunc1_Edit()
+        public ViewModelFunc2_Edit()
         {
             CmdFuncBtn01_EditOK = new Command(Execute_FuncBtn01_EditOK, CanExecute_Btn01);
             CmdFuncBtn01_EditCancel = new Command(Execute_FuncBtn01_EditCancel, CanExecute_Btn01);
@@ -32,7 +32,7 @@ namespace Biden.ViewModel
                     return;
                 }
             }
-            ruleList[editedIndex] = (new RuleClass() {
+            ruleList[editedIndex] = (new Func2RuleClass() {
                 //No = editedIndex + "",
                 NameStr = nameStr,
                 FromStr = fromStr,
@@ -41,11 +41,11 @@ namespace Biden.ViewModel
                 PostfixStr = postfixStr
             });
             removeStr();
-            FuncWindow1_Edit.getInstance.Hide();
+            FuncWindow2_Edit.getInstance.Hide();
         }
         private void Execute_FuncBtn01_EditCancel(object obj)
         {
-            FuncWindow1_Edit.getInstance.Hide();
+            FuncWindow2_Edit.getInstance.Hide();
         }
 
         public void setInfo()

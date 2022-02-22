@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -27,11 +28,16 @@ namespace Biden.ViewModel
         public Command CmdOnOffBtn01 { get; set; }
         public Command CmdOnOffBtn02 { get; set; }
         public Command CmdOnOffBtn03 { get; set; }
+
+        private bool _isChecked02 = false;
+        private bool _isChecked03 = false;
         private TempClass tempClass;
-        private FuncWindow1 tempWindow;
+        private FuncWindow1 tempWindow1;
+        private FuncWindow2 tempWindow2;
+        //private FuncWindow3 tempWindow3;
         private static Macro macro;
 
-        private Func1Class func1Class;
+        private ModelFunc1 func1Class;
 
         public ViewModelMain()
         {
@@ -46,7 +52,8 @@ namespace Biden.ViewModel
             tempClass.Num = 1;
             tempClass.Num2 = 7;
             macro = Macro.getInstance;
-            func1Class = Func1Class.getInstance;
+            func1Class = ModelFunc1.getInstance;
+            IsChecked01 = ModelFunc1.getInstance.IsChecked01;
             //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
         }
 
@@ -64,30 +71,34 @@ namespace Biden.ViewModel
         private void Execute_FuncBtn01(object obj)
         {
             //do Something
-            if (tempWindow == null)
+            if (tempWindow1 == null)
             {
-                tempWindow = FuncWindow1.getInstance;
+                tempWindow1 = FuncWindow1.getInstance;
             }
-            MainWindow.getInstance.Hide();
-            tempWindow.Show();
-            MainWindow.getInstance.Show();
+            tempWindow1.Show();
         }
 
 
         private void Execute_FuncBtn02(object obj)
         {
             //do Something
+            if (tempWindow2 == null)
+            {
+                tempWindow2 = FuncWindow2.getInstance;
+            }
+            tempWindow2.Show();
         }
         private void Execute_FuncBtn03(object obj)
         {
             //do Something
+            //구분자, 스택, 큐 -> 클립보드 저장
         }
 
         private void Execute_CmdOnOffBtn01(object obj)
         {
             //do Something
-            //MessageBox.Show(obj + "");
-            if (obj.GetType() + "" == "True")
+            if (obj + "" == "True")
+
             {
                 if (Macro.IsInit == false)
                 {
@@ -95,12 +106,15 @@ namespace Biden.ViewModel
                     Macro.create();
                     macro.start();
                 }
+                IsChecked01 = true;
                 Macro.PasteModeOn = true;
             }
             else
             {
+                IsChecked01 = false;
                 Macro.PasteModeOn = false;
             }
+            FuncWindow1.getInstance.SetCheckBox01();
         }
         private void Execute_CmdOnOffBtn02(object obj)
         {
@@ -141,6 +155,42 @@ namespace Biden.ViewModel
             }
         }
 
+        public bool IsChecked01
+        {
+            get
+            {
+                return ModelFunc1.getInstance.IsChecked01;
+            }
+            set
+            {
+                ModelFunc1.getInstance.IsChecked01 = value;
+                OnPropertyChanged("IsChecked01");
+            }
+        }
+        public bool IsChecked02
+        {
+            get
+            {
+                return _isChecked02;
+            }
+            set
+            {
+                _isChecked02 = value;
+                OnPropertyChanged("IsChecked02");
+            }
+        }
+        public bool IsChecked03
+        {
+            get
+            {
+                return _isChecked03;
+            }
+            set
+            {
+                _isChecked03 = value;
+                OnPropertyChanged("IsChecked03");
+            }
+        }
         /*
         public Brush ColorBtn01
         {
@@ -158,7 +208,7 @@ namespace Biden.ViewModel
         }*/
 
 
-        
+
         private SolidColorBrush _selectedColor = new SolidColorBrush(Colors.White);
         public SolidColorBrush ColorBtn01
         {

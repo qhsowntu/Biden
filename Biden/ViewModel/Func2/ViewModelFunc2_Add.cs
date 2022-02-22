@@ -9,12 +9,12 @@ using System.Windows.Forms;
 
 namespace Biden.ViewModel
 {
-    class ViewModelFunc1_Add : ViewModelFunc1
+    class ViewModelFunc2_Add : ViewModelFunc2
     {
         public Command CmdFuncBtn01_AddOK { get; set; }
         public Command CmdFuncBtn01_AddCancel { get; set; }
 
-        public ViewModelFunc1_Add()
+        public ViewModelFunc2_Add()
         {
             CmdFuncBtn01_AddOK = new Command(Execute_FuncBtn01_AddOK, CanExecute_Btn01);
             CmdFuncBtn01_AddCancel = new Command(Execute_FuncBtn01_AddCancel, CanExecute_Btn01);
@@ -31,7 +31,7 @@ namespace Biden.ViewModel
                     return;
                 }
             }
-            RuleClass tempRules = new RuleClass();
+            Func2RuleClass tempRules = new Func2RuleClass();
             tempRules.No = ruleList.Count+"";
             tempRules.NameStr = nameStr;
             tempRules.FromStr = fromStr;
@@ -40,11 +40,11 @@ namespace Biden.ViewModel
             tempRules.PostfixStr = postfixStr;
             ruleList.Add(tempRules);
             removeStr();
-            FuncWindow1_Add.getInstance.Hide();
+            FuncWindow2_Add.getInstance.Hide();
         }
         private void Execute_FuncBtn01_AddCancel(object obj)
         {
-            FuncWindow1_Add.getInstance.Hide();
+            FuncWindow2_Add.getInstance.Hide();
         }
 
 

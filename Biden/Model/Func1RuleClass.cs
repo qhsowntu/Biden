@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Biden.Func
 {
-    class RuleClass
+    class Func1RuleClass
     {
         private string no;
         private string nameStr;
@@ -25,7 +25,7 @@ namespace Biden.Func
             find 탐색 시 경고  
             
         */
-        public RuleClass()
+        public Func1RuleClass()
         {
 
         }

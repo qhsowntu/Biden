@@ -78,7 +78,7 @@
             </VisualBrush>
         </Border.OpacityMask>
         <Canvas x:Name="mainCanvas" MouseLeftButtonDown="OnMouseLeftDown" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight}" Background="#FFE6EFF8">
-            <Label Content="Copy And Paste Macro" Height="32" Canvas.Left="14" Canvas.Top="5" Width="230" FontWeight="Bold" FontSize="16"/>
+            <Label Content="Copy &amp; Paste Correction" Height="32" Canvas.Left="14" Canvas.Top="5" Width="230" FontWeight="Bold" FontSize="16"/>
             <Button x:Name="closeButton" Content="X" Width="14" Height="14" Click="CloseButton_Click"  FontWeight="Bold" FontFamily="Corbel"
                 BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Top"  Canvas.Right ="5" Canvas.Top ="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FF4A4A4A" />
             <Button x:Name="maxButton" Content="ㅁ" Width="14" Height="14" Click="MaxButton_Click"  FontWeight="Bold" FontFamily="Corbel"
@@ -263,21 +263,18 @@
                     <MenuItem Header="Save"/>
                     <MenuItem Header="SaveAs"/>
                     <Separator/>
-                    <MenuItem Header="Exit"/>
+                    <MenuItem Header="Exit" Click="CloseButton_Click"/>
                 </MenuItem>
                 <MenuItem Header="Option">
-                    <MenuItem Header="new"/>
-                    <MenuItem Header="Open"/>
+                    <MenuItem Header="Option1"/>
+                    <MenuItem Header="Option2"/>
+                    <MenuItem Header="Option3"/>
                     <Separator/>
-                    <MenuItem Header="Add"/>
-                    <MenuItem Header="Close"/>
-                    <Separator/>
-                    <MenuItem Header="Save"/>
-                    <MenuItem Header="SaveAs"/>
+                    <MenuItem Header="Setting"/>
                     <Separator/>
                 </MenuItem>
             </Menu>
-            <CheckBox Canvas.Left="324" Canvas.Top="82" Style="{DynamicResource BlueSwitchStyle}" Command="{Binding CmdOnOffBtn}" IsChecked="{Binding IsChecked}" CommandParameter="{Binding IsChecked}">
+            <CheckBox Canvas.Left="324" Canvas.Top="82" Style="{DynamicResource BlueSwitchStyle}" Command="{Binding CmdOnOffBtn}" IsChecked="{Binding IsChecked01}" CommandParameter="{Binding IsChecked01}">
             </CheckBox>
             <Button Content="Test" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding TestBtn01}" Canvas.Left="324" Canvas.Top="350"
                 BorderThickness="0" SnapsToDevicePixels="True" BorderBrush="Transparent"

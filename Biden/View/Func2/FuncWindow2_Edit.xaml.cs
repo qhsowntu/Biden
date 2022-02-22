@@ -1,7 +1,8 @@
-﻿using Biden.Model;
+﻿using Biden.Func;
 using Biden.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,43 +13,42 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Biden.View
 {
     /// <summary>
-    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// FuncWindow1.xaml에 대한 상호 작용 논리
     /// </summary>
-    /// 아래 패키지 설치
-    /// Install-Package FontAwesome.WPF
-    public partial class MainWindow : BaseWindow
+    public partial class FuncWindow2_Edit : BaseWindow
     {
-        private static MainWindow instance = null;
-        private ViewModelMain _viewModel;
-        public MainWindow()
+        private static FuncWindow2_Edit instance = null;
+        private readonly ViewModelFunc2_Edit _viewModel;
+
+        private FuncWindow2_Edit()
         {
             InitializeComponent();
-            _viewModel = new ViewModelMain();
-            this.DataContext = _viewModel;
+            _viewModel = new ViewModelFunc2_Edit();
+            DataContext = _viewModel;
         }
-        public static MainWindow getInstance
+        public static FuncWindow2_Edit getInstance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new MainWindow();
+                    instance = new FuncWindow2_Edit();
                 }
                 return instance;
             }
         }
 
-        public void SetCheckBox01()
+        public void show()
         {
-            this.DataContext = _viewModel;
-            _viewModel.IsChecked01 = ModelFunc1.getInstance.IsChecked01;
+            _viewModel.setInfo();
+            base.ShowDialog();
         }
+
 
     }
 }

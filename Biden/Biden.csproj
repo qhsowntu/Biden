@@ -67,25 +67,41 @@
     <Compile Include="Func\Macro.cs" />
     <Compile Include="Func\ObservableClass\ObservableQueue.cs" />
     <Compile Include="Func\ObservableClass\ObservableStack.cs" />
-    <Compile Include="Model\Func1Class.cs" />
-    <Compile Include="Model\RuleClass.cs" />
+    <Compile Include="Model\Func3RuleClass.cs" />
+    <Compile Include="Model\Func2RuleClass.cs" />
+    <Compile Include="Model\ModelFunc3.cs" />
+    <Compile Include="Model\ModelFunc2.cs" />
+    <Compile Include="Model\ModelFunc1.cs" />
+    <Compile Include="Model\Func1RuleClass.cs" />
     <Compile Include="Model\TempClass.cs" />
     <Compile Include="ViewModel\Command.cs" />
     <Compile Include="ViewModel\Converter.cs" />
+    <Compile Include="ViewModel\Func2\ViewModelFunc2.cs" />
+    <Compile Include="ViewModel\Func2\ViewModelFunc2_Add.cs" />
+    <Compile Include="ViewModel\Func2\ViewModelFunc2_Edit.cs" />
     <Compile Include="ViewModel\ViewModelMain.cs" />
     <Compile Include="ViewModel\ViewModelCommon.cs" />
-    <Compile Include="ViewModel\ViewModelFunc1.cs" />
-    <Compile Include="ViewModel\ViewModelFunc1_Edit.cs" />
-    <Compile Include="ViewModel\ViewModelFunc1_Add.cs" />
+    <Compile Include="ViewModel\Func1\ViewModelFunc1.cs" />
+    <Compile Include="ViewModel\Func1\ViewModelFunc1_Edit.cs" />
+    <Compile Include="ViewModel\Func1\ViewModelFunc1_Add.cs" />
     <Compile Include="View\BaseWindow.cs" />
-    <Compile Include="View\FuncWindow1_Edit.xaml.cs">
+    <Compile Include="View\Func1\FuncWindow1_Edit.xaml.cs">
       <DependentUpon>FuncWindow1_Edit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FuncWindow1_Add.xaml.cs">
+    <Compile Include="View\Func1\FuncWindow1_Add.xaml.cs">
       <DependentUpon>FuncWindow1_Add.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FuncWindow1.xaml.cs">
+    <Compile Include="View\Func1\FuncWindow1.xaml.cs">
       <DependentUpon>FuncWindow1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Func2\FuncWindow2.xaml.cs">
+      <DependentUpon>FuncWindow2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Func2\FuncWindow2_Add.xaml.cs">
+      <DependentUpon>FuncWindow2_Add.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Func2\FuncWindow2_Edit.xaml.cs">
+      <DependentUpon>FuncWindow2_Edit.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Page1.xaml.cs">
       <DependentUpon>Page1.xaml</DependentUpon>
@@ -93,11 +109,23 @@
     <Compile Include="View\UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\FuncWindow1_Edit.xaml">
+    <Page Include="View\Func1\FuncWindow1_Edit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\FuncWindow1_Add.xaml">
+    <Page Include="View\Func1\FuncWindow1_Add.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Func2\FuncWindow2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Func2\FuncWindow2_Add.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Func2\FuncWindow2_Edit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -113,7 +141,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\FuncWindow1.xaml">
+    <Page Include="View\Func1\FuncWindow1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -152,6 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\Func3\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

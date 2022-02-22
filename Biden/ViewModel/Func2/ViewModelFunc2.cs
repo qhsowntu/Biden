@@ -16,7 +16,7 @@ using System.Windows.Input;
 
 namespace Biden.ViewModel
 {
-    class ViewModelFunc1 : ViewModelCommon
+    class ViewModelFunc2 : ViewModelCommon
     {
 
         public Command CmdFuncBtn01 { get; set; }
@@ -29,23 +29,22 @@ namespace Biden.ViewModel
         public Command CmdOnOffBtn { get; set; }
         public Command TestBtn01 { get; set; }
 
-        private bool _isChecked = false;
 
         private bool spinner;
         private int count;
         private Thread myThread;
-        private FuncWindow1_Add tempAddWindow;
-        private FuncWindow1_Edit tempEditWindow;
+        private FuncWindow2_Add tempAddWindow;
+        private FuncWindow2_Edit tempEditWindow;
         protected static bool initRuleFlag = false;
-        protected static List<RuleClass> ruleList;
-        protected static RuleClass rule;
+        protected static List<Func2RuleClass> ruleList;
+        protected static Func2RuleClass rule;
         protected static int ruleCounter;
         private static ObservableCollection<MacroInfo> fileObjectCollection;
         protected static int editedIndex;
-
+        public ModelFunc2 func2Class;
         private static Macro macro;
 
-        public ViewModelFunc1()
+        public ViewModelFunc2()
         {
             CmdFuncBtn01 = new Command(Execute_FuncBtn01, CanExecute_Btn01);
             CmdFuncBtn01_Add = new Command(Execute_FuncBtn01_Add, CanExecute_Btn01);
@@ -64,11 +63,12 @@ namespace Biden.ViewModel
             if (initRuleFlag == false)
             {
                 initRuleFlag = true;
-                ruleList = Func1Class.getInstance.RuleList;
-                rule = new RuleClass();
+                ruleList = ModelFunc2.getInstance.RuleList;
+                rule = new Func2RuleClass();
                 ruleCounter = 1;
                 fileObjectCollection = new ObservableCollection<MacroInfo>();
                 macro = Macro.getInstance;
+                func2Class = ModelFunc2.getInstance;
                 AddSampleRules();
                 //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
             }
@@ -81,7 +81,7 @@ namespace Biden.ViewModel
             //toStr = "2";
             //prefixStr = "Pre";
             //postfixStr = "Post";
-            RuleClass tempRules = new RuleClass();
+            Func2RuleClass tempRules = new Func2RuleClass();
             tempRules.NameStr = "SampleRules1";
             tempRules.FromStr = "1";
             tempRules.ToStr = "2";
@@ -122,11 +122,11 @@ namespace Biden.ViewModel
             //do Something
             if (tempAddWindow == null)
             {
-                tempAddWindow = FuncWindow1_Add.getInstance;
+                tempAddWindow = FuncWindow2_Add.getInstance;
             }
-            FuncWindow1.getInstance.Hide();
+            FuncWindow2.getInstance.Hide();
             tempAddWindow.ShowDialog();
-            FuncWindow1.getInstance.Show();
+            FuncWindow2.getInstance.Show();
 
             FileObjectAndSync();
         }
@@ -138,7 +138,7 @@ namespace Biden.ViewModel
                 //MessageBox.Show(obj.ToString());
                 if (tempEditWindow == null)
                 {
-                    tempEditWindow = FuncWindow1_Edit.getInstance;
+                    tempEditWindow = FuncWindow2_Edit.getInstance;
                 }
                 for (int i = 0; i < ruleList.Count; i++)
                 {
@@ -152,9 +152,9 @@ namespace Biden.ViewModel
                         prefixStr = ruleList[i].PrefixStr;
                     }
                 }
-                FuncWindow1.getInstance.Hide();
+                FuncWindow2.getInstance.Hide();
                 tempEditWindow.show();
-                FuncWindow1.getInstance.Show();
+                FuncWindow2.getInstance.Show();
                 FileObjectAndSync();
             }
         }
@@ -184,25 +184,28 @@ namespace Biden.ViewModel
                     macro.start();
                 }
                 Macro.PasteModeOn = true;
+                IsChecked02 = true;
             }
             else
             {
+                IsChecked02 = false;
                 Macro.PasteModeOn = false;
             }
+            MainWindow.getInstance.SetCheckBox01();
             DoSpin();
             DoCount();
         }
 
-        public bool IsChecked
+        public bool IsChecked02
         {
             get
             {
-                return _isChecked;
+                return ModelFunc2.getInstance.IsChecked02;
             }
             set
             {
-                _isChecked = value;
-                OnPropertyChanged("IsChecked");
+                ModelFunc2.getInstance.IsChecked02 = value;
+                OnPropertyChanged("IsChecked01");
             }
         }
 

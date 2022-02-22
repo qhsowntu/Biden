@@ -1,4 +1,5 @@
 ﻿using Biden.Func;
+using Biden.Model;
 using Biden.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,12 @@ namespace Biden.View
             {
                 this.Hide();
             }
+        }
+
+        public void SetCheckBox01()
+        {
+            this.DataContext = _viewModel;
+            _viewModel.IsChecked01 = ModelFunc1.getInstance.IsChecked01;
         }
 
     }

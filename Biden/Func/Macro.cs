@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Biden.Model;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -674,17 +675,21 @@ namespace Biden.Func
                     string clipboardText = "";
                     clipboardText = "" + getClipBoardText();
                     String modifiedText = "";
-                    String[] split = SplitStrByDoubleEnter(clipboardText);
                     try
                     {
-                        modifiedText = correctString.getModifiedText(clipboardText);
+                        if (ModelFunc1.getInstance.IsChecked01 == true)
+                        {
+                            modifiedText = correctString.getModifiedText(clipboardText);
+                        }
+                        string ss = "";
                         if (clipboardText != "")
                         {
                             setClipBoardText(modifiedText);
                         }
                     }
-                    catch
+                    catch(Exception e)
                     {
+                        //MessageBox.Show(e+"");
                     }
                     finally
                     {
