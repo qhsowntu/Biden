@@ -41,7 +41,7 @@ namespace Biden.ViewModel
         protected static int ruleCounter;
         private static ObservableCollection<MacroInfo> fileObjectCollection;
         protected static int editedIndex;
-        public ModelFunc1 func1Class;
+        public ModelFunc1 func1Class;//
         private static Macro macro;
 
         public ViewModelFunc1()

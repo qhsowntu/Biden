@@ -63,6 +63,7 @@
     </ApplicationDefinition>
     <Compile Include="Func\CopyPasteMacro.cs" />
     <Compile Include="Func\CorrectString.cs" />
+    <Compile Include="Func\FindAndAlert.cs" />
     <Compile Include="Func\Macro_Backup.cs" />
     <Compile Include="Func\Macro.cs" />
     <Compile Include="Func\ObservableClass\ObservableQueue.cs" />

@@ -119,6 +119,24 @@ namespace Biden.ViewModel
         private void Execute_CmdOnOffBtn02(object obj)
         {
             //do Something
+            //do Something
+            if (obj + "" == "True")
+            {
+                if (Macro.IsInit == false)
+                {
+                    Macro.IsInit = true;
+                    Macro.create();
+                    macro.start();
+                }
+                IsChecked02 = true;
+                Macro.PasteModeOn = true;
+            }
+            else
+            {
+                IsChecked02 = false;
+                Macro.PasteModeOn = false;
+            }
+            FuncWindow2.getInstance.SetCheckBox02();
         }
         private void Execute_CmdOnOffBtn03(object obj)
         {

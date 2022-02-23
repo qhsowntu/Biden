@@ -12,6 +12,28 @@
     <Window.DataContext>
         <ViewModel:ViewModelFunc2_Edit/>
     </Window.DataContext>
+    <Window.Resources>
+        <local:BaseWindow x:Key="vm"/>
+
+        <DataTemplate x:Key="NameColumnTemplate">
+            <ContentPresenter x:Name="ButtonPresenter"
+                        Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"  
+                        ContentTemplate="{StaticResource NextRowTemplate1}"/>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Add}" Value="True">
+                    <Setter TargetName="ButtonPresenter"  
+                  Property="ContentTemplate"            
+                  Value="{StaticResource FirstRowTemplate1}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Add}" Value="False">
+                    <Setter TargetName="ButtonPresenter"
+                  Property="ContentTemplate"         
+                  Value="{StaticResource NextRowTemplate1}"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </Window.Resources>
+    
     <Border Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight}">
         <Border.OpacityMask>
             <VisualBrush>
@@ -78,19 +100,62 @@
                     <DropShadowBitmapEffect Color="White" Direction="135" Softness="0.3" ShadowDepth="5" Opacity="0.6" />
                 </Button.BitmapEffect>
             </Button>
-            <Separator Height="31" Canvas.Left="25" Margin="0" Canvas.Top="106" Width="386"/>
-            <TextBox Height="31" Canvas.Left="24" TextWrapping="Wrap" Text="{Binding nameStr, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="77" Width="387" BorderBrush="White"/>
+            <Label Content="Find (all string is bound by '&amp;')" Canvas.Left="25" Canvas.Top="117" Width="372"/>
+            <Separator Height="31" Canvas.Left="25" Margin="0" Canvas.Top="95" Width="386"/>
+            <TextBox Height="20" Canvas.Left="24" TextWrapping="Wrap" Text="{Binding nameStr, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="77" Width="387" BorderBrush="White"/>
             <Label Content="Name" Canvas.Left="25" Canvas.Top="48"/>
-            <Label Content="Find (all string is bound by '&amp;')" Canvas.Left="25" Canvas.Top="123" Width="372"/>
-            <TextBox Height="31" Canvas.Left="24" TextWrapping="Wrap" Text="{Binding nameStr, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="77" Width="387" BorderBrush="White"/>
-            <TextBox Height="30" Canvas.Left="24" TextWrapping="Wrap" Text="{Binding findStr, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="152" Width="387" BorderBrush="White"/>
-            <TextBox Height="30" Canvas.Left="24" TextWrapping="Wrap" Text="{Binding findStr, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="192" Width="387" BorderBrush="White"/>
-            <TextBox Height="30" Canvas.Left="24" TextWrapping="Wrap" Text="{Binding findStr, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="232" Width="387" BorderBrush="White"/>
-            <TextBox Height="30" Canvas.Left="24" TextWrapping="Wrap" Text="{Binding findStr, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="272" Width="387" BorderBrush="White"/>
-            <TextBox Height="30" Canvas.Left="24" TextWrapping="Wrap" Text="{Binding findStr, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="312" Width="387" BorderBrush="White"/>
+            <TextBox Height="194" Canvas.Left="265" TextWrapping="Wrap" Text="{Binding addStr, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="148" Width="145" BorderBrush="White"/>
             <Label Content="Alert Message" Canvas.Left="24" Canvas.Top="365" Width="372"/>
             <Separator Height="31" Canvas.Left="24" Margin="0" Canvas.Top="347" Width="386"/>
-            <TextBox Height="30" Canvas.Left="23" TextWrapping="Wrap" Text="{Binding findStr, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="391" Width="387" BorderBrush="White"/>
+            <TextBox Height="30" Canvas.Left="23" TextWrapping="Wrap" Text="{Binding alertStr, UpdateSourceTrigger=PropertyChanged}" Canvas.Top="391" Width="387" BorderBrush="White"/>
+
+            <ListView ItemsSource="{Binding StrObjectCollection}"  IsSynchronizedWithCurrentItem="True"
+                     Height="194" Canvas.Left="25" Canvas.Top="148" Width="168" Background="#FFF4F8FF" BorderBrush="#FFF4F8FF" BorderThickness="0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="30" Header="No" DisplayMemberBinding="{Binding No}"/>
+                        <GridViewColumn Width="90" Header="String" DisplayMemberBinding="{Binding Str}"  CellTemplate="{StaticResource NameColumnTemplate}"/>
+                        <!--<GridViewColumn Width="80" Header="Edit / Delete" CellTemplate="{StaticResource AddDelItemTemplate}"/> -->
+
+                        <GridViewColumn Header="Del" Width="36">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="-" Grid.Column="1" Margin="4,0,0,0" Width="19"
+                                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                      AncestorType={x:Type ItemsControl}},
+                                                                      Path=DataContext.CmdDeleteStrBtn}" CommandParameter="{Binding Str}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button HorizontalAlignment="Left" x:Name="FuncBtn03_1_Copy1" VerticalAlignment="Bottom"
+                Height="32" Width="54" BorderBrush="White" Canvas.Left="202" Canvas.Bottom="20" BorderThickness="0" SnapsToDevicePixels="True" Canvas.Top="148">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+                <Button.BitmapEffect>
+                    <DropShadowBitmapEffect Color="Black" Direction="315" Softness="0.5" ShadowDepth="5" Opacity="0.4" />
+                </Button.BitmapEffect>
+            </Button>
+            <Button Content="〈Add" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="32" Width="54" Command="{Binding CmdFuncBtn01_EditStr}"
+                BorderThickness="0" SnapsToDevicePixels="True" BorderBrush="Transparent"
+                Panel.ZIndex="10" FontSize="16" FontWeight="Bold" Background="#FFE6EFF8" Foreground="Black" Canvas.Left="202" Canvas.Bottom="20" Canvas.Top="148">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+                <Button.BitmapEffect>
+                    <DropShadowBitmapEffect Color="White" Direction="135" Softness="0.3" ShadowDepth="5" Opacity="0.6" />
+                </Button.BitmapEffect>
+            </Button>
         </Canvas>
     </Border>
 </local:BaseWindow>

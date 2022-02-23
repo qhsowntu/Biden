@@ -10,7 +10,7 @@
         Title="FuncWindow2" Width="415" Height="450" ResizeMode="NoResize" Background="Transparent"
                    WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True" Topmost="True">
     <Window.DataContext>
-        <ViewModel:ViewModelFunc1/>
+        <ViewModel:ViewModelFunc2/>
     </Window.DataContext>
 
     <Window.Resources>
@@ -274,7 +274,7 @@
                     <Separator/>
                 </MenuItem>
             </Menu>
-            <CheckBox Canvas.Left="324" Canvas.Top="82" Style="{DynamicResource BlueSwitchStyle}" Command="{Binding CmdOnOffBtn}" IsChecked="{Binding IsChecked01}" CommandParameter="{Binding IsChecked01}">
+            <CheckBox Canvas.Left="324" Canvas.Top="82" Style="{DynamicResource BlueSwitchStyle}" Command="{Binding CmdOnOffBtn}" IsChecked="{Binding IsChecked02}" CommandParameter="{Binding IsChecked02}">
             </CheckBox>
             <Button Content="Test" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="75" Command="{Binding TestBtn01}" Canvas.Left="324" Canvas.Top="350"
                 BorderThickness="0" SnapsToDevicePixels="True" BorderBrush="Transparent"

@@ -2,6 +2,7 @@
 using Biden.View;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +14,13 @@ namespace Biden.ViewModel
     {
         public Command CmdFuncBtn01_AddOK { get; set; }
         public Command CmdFuncBtn01_AddCancel { get; set; }
+        public Command CmdFuncBtn01_AddStr { get; set; }
 
         public ViewModelFunc2_Add()
         {
             CmdFuncBtn01_AddOK = new Command(Execute_FuncBtn01_AddOK, CanExecute_Btn01);
             CmdFuncBtn01_AddCancel = new Command(Execute_FuncBtn01_AddCancel, CanExecute_Btn01);
+            CmdFuncBtn01_AddStr = new Command(Execute_FuncBtn01_AddStr, CanExecute_Btn01);
         }
 
         private void Execute_FuncBtn01_AddOK(object obj)
@@ -25,19 +28,23 @@ namespace Biden.ViewModel
             //FuncWindow1.getInstance.RuleList.Add(rule);
             for (int i = 0; i < ruleList.Count; i++)
             {
-                if(ruleList[i].NameStr == rule.NameStr) 
+                if(ruleList[i].Name == rule.Name) 
                 {
                     MessageBox.Show("name already exists");
                     return;
                 }
             }
+            List<string> tempStr = new List<string>();
+            for (int i = 0; i < StrObjectCollection.Count; i++)
+            {
+                tempStr.Add(StrObjectCollection[i].Str + "");
+            }
             Func2RuleClass tempRules = new Func2RuleClass();
             tempRules.No = ruleList.Count+"";
-            tempRules.NameStr = nameStr;
-            tempRules.FromStr = fromStr;
-            tempRules.ToStr = toStr;
-            tempRules.PrefixStr = prefixStr;
-            tempRules.PostfixStr = postfixStr;
+            tempRules.Name = nameStr;
+            tempRules.StrList = tempStr;
+            tempRules.AddStr = addStr;
+            tempRules.AlertMsg = alertStr;
             ruleList.Add(tempRules);
             removeStr();
             FuncWindow2_Add.getInstance.Hide();
@@ -46,8 +53,31 @@ namespace Biden.ViewModel
         {
             FuncWindow2_Add.getInstance.Hide();
         }
+        private void Execute_FuncBtn01_AddStr(object obj)
+        {
+            //화면 리스트를 tempStr에 저장
+            List<string> tempStr = new List<string>();
+            for (int i = 0; i < StrObjectCollection.Count; i++)
+            {
+                tempStr.Add(StrObjectCollection[i].Str + "");
+            }
+            //추가 Str을 tempStr에 저장
+            tempStr.Add(addStr);
+            //tempStr을 컬렉션에 저장하여 화면출력
+            ObservableCollection<MacroInfo2> tempCollection = new ObservableCollection<MacroInfo2>();
+            for (int i = 0; i < tempStr.Count; i++)
+            {
+                MacroInfo2 tempInfo = new MacroInfo2();
+                {
+                    tempInfo.No = "" + (i + 1);
+                    tempInfo.Str = "" + tempStr[i];
+                }
+                tempCollection.Add(tempInfo);
+            }
+            StrObjectCollection = tempCollection;
+        }
 
-
+        
 
 
     }

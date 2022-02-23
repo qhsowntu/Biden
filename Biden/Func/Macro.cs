@@ -40,6 +40,7 @@ namespace Biden.Func
         private static List<String> parameterList;
 
         private CorrectString correctString;
+        private FindAndAlert findAndAlert;
 
 
         //public static Bitmap screenPixel = new Bitmap(500, 200, PixelFormat.Format32bppArgb);
@@ -54,6 +55,7 @@ namespace Biden.Func
             list = new List<String>();
             parameterList = new List<String>();
             correctString = new CorrectString();
+            findAndAlert = new FindAndAlert();
         }
 
         public static Macro getInstance
@@ -303,8 +305,6 @@ namespace Biden.Func
                 (iwParam == 0x100 ||
                 iwParam == 0x104)) //0x100 = WM_KEYDOWN, 0x104 = WM_SYSKEYDOWN
                 kh(wParam, lParam);
-
-            
             return API.CallNextHookEx(hhk, nCode, wParam, lParam);
         }
 
@@ -665,7 +665,6 @@ namespace Biden.Func
 
             //form.textBox6.Text = (Int32.Parse(form.textBox6.Text) + 1) + "";
 
-
             if (key1 == "" && key2 == "" && (Control.ModifierKeys + "").Contains("None"))
             {
                 if (flag1 && PasteModeOn == true && isRunning == false)
@@ -680,6 +679,14 @@ namespace Biden.Func
                         if (ModelFunc1.getInstance.IsChecked01 == true)
                         {
                             modifiedText = correctString.getModifiedText(clipboardText);
+                        }
+                        if (ModelFunc2.getInstance.IsChecked02 == true)
+                        {
+                            findAndAlert.FindStringAndAlert(clipboardText);
+                        }
+                        if (ModelFunc3.getInstance.IsChecked03 == true)
+                        {
+                            //modifiedText = correctString.getModifiedText(clipboardText);
                         }
                         string ss = "";
                         if (clipboardText != "")

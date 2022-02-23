@@ -26,6 +26,7 @@ namespace Biden.ViewModel
         public Command CmdFuncBtn01_Add { get; set; }
         public Command CmdEditBtn { get; set; }
         public Command CmdDeleteBtn { get; set; }
+        public Command CmdDeleteStrBtn { get; set; }
         public Command CmdOnOffBtn { get; set; }
         public Command TestBtn01 { get; set; }
 
@@ -35,14 +36,17 @@ namespace Biden.ViewModel
         private Thread myThread;
         private FuncWindow2_Add tempAddWindow;
         private FuncWindow2_Edit tempEditWindow;
+
         protected static bool initRuleFlag = false;
         protected static List<Func2RuleClass> ruleList;
         protected static Func2RuleClass rule;
         protected static int ruleCounter;
         private static ObservableCollection<MacroInfo> fileObjectCollection;
+        private static ObservableCollection<MacroInfo2> strObjectCollection;
         protected static int editedIndex;
         public ModelFunc2 func2Class;
         private static Macro macro;
+        protected static List<string> strList;
 
         public ViewModelFunc2()
         {
@@ -50,6 +54,7 @@ namespace Biden.ViewModel
             CmdFuncBtn01_Add = new Command(Execute_FuncBtn01_Add, CanExecute_Btn01);
             CmdEditBtn = new Command(Execute_CmdEditBtn01, CanExecute_Btn01);
             CmdDeleteBtn = new Command(Execute_CmdDeleteBtn01, CanExecute_Btn01);
+            CmdDeleteStrBtn = new Command(Execute_CmdDeleteStrBtn01, CanExecute_Btn01);
             CmdOnOffBtn = new Command(Execute_CmdOnOffBtn, CanExecute_Btn01);
             TestBtn01 = new Command(Execute_TestBtn01, CanExecute_Btn01);
             spinner = false;
@@ -67,8 +72,10 @@ namespace Biden.ViewModel
                 rule = new Func2RuleClass();
                 ruleCounter = 1;
                 fileObjectCollection = new ObservableCollection<MacroInfo>();
+                strObjectCollection = new ObservableCollection<MacroInfo2>();
                 macro = Macro.getInstance;
                 func2Class = ModelFunc2.getInstance;
+                strList = new List<string>();
                 AddSampleRules();
                 //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
             }
@@ -82,12 +89,17 @@ namespace Biden.ViewModel
             //prefixStr = "Pre";
             //postfixStr = "Post";
             Func2RuleClass tempRules = new Func2RuleClass();
-            tempRules.NameStr = "SampleRules1";
-            tempRules.FromStr = "1";
-            tempRules.ToStr = "2";
-            tempRules.PrefixStr = "Pre";
-            tempRules.PostfixStr = "Post";
+            tempRules.Name = "SampleFindRules1";
+            tempRules.StrList = new List<string>{"a","b"};
+            tempRules.AddStr = "?";
+            tempRules.AlertMsg = "Find a or b";
+            Func2RuleClass tempRules2 = new Func2RuleClass();
+            tempRules2.Name = "SampleFindRules2";
+            tempRules2.StrList = new List<string> { "1", "3", "5" };
+            tempRules2.AddStr = "?";
+            tempRules2.AlertMsg = "Find 1,3,5";
             ruleList.Add(tempRules);
+            ruleList.Add(tempRules2);
             FileObjectAndSync();
         }
 
@@ -108,14 +120,29 @@ namespace Biden.ViewModel
                 MacroInfo tempInfo = new MacroInfo();
                 {
                     tempInfo.No = "" + (i + 1);
-                    tempInfo.Name = "" + ruleList[i].NameStr;
+                    tempInfo.Name = "" + ruleList[i].Name;
                 }
                 tempCollection.Add(tempInfo);
             }
-
             FileObjectCollection = tempCollection;
         }
 
+
+        private ObservableCollection<MacroInfo2> StrObjectAndSync(int i)
+        {
+
+            ObservableCollection<MacroInfo2> tempCollection = new ObservableCollection<MacroInfo2>();
+            for (int j = 0; j < ruleList[i].StrList.Count; j++)
+            {
+                MacroInfo2 tempInfo = new MacroInfo2();
+                {
+                    tempInfo.No = "" + (j + 1);
+                    tempInfo.Str = "" + ruleList[i].StrList[j];
+                }
+                tempCollection.Add(tempInfo);
+            }
+            return tempCollection;
+        }
 
         private void Execute_FuncBtn01_Add(object obj)
         {
@@ -142,14 +169,14 @@ namespace Biden.ViewModel
                 }
                 for (int i = 0; i < ruleList.Count; i++)
                 {
-                    if (ruleList[i].NameStr == obj + "")
+                    if (ruleList[i].Name == obj + "")
                     {
                         editedIndex = i;
-                        nameStr = ruleList[i].NameStr;
-                        fromStr = ruleList[i].FromStr;
-                        toStr = ruleList[i].ToStr;
-                        postfixStr = ruleList[i].PostfixStr;
-                        prefixStr = ruleList[i].PrefixStr;
+                        nameStr = ruleList[i].Name;
+                        StrObjectCollection = StrObjectAndSync(i);
+                        addStr = ruleList[i].AddStr;
+                        alertStr = ruleList[i].AlertMsg;
+                        break;
                     }
                 }
                 FuncWindow2.getInstance.Hide();
@@ -162,13 +189,24 @@ namespace Biden.ViewModel
         {
             for (int i = 0; i < ruleList.Count; i++)
             {
-                if (ruleList[i].NameStr == obj + "")
+                if (ruleList[i].Name == obj + "")
                 {
                     ruleList.RemoveAt(i);
                 }
             }
             removeStr();
             FileObjectAndSync();
+        }
+
+        private void Execute_CmdDeleteStrBtn01(object obj)
+        {
+            for (int i = 0; i < StrObjectCollection.Count; i++)
+            {
+                if (StrObjectCollection[i].Str == obj)
+                {
+                    StrObjectCollection.RemoveAt(i);
+                }
+            }
         }
 
         public void Execute_CmdOnOffBtn(object obj)
@@ -205,7 +243,7 @@ namespace Biden.ViewModel
             set
             {
                 ModelFunc2.getInstance.IsChecked02 = value;
-                OnPropertyChanged("IsChecked01");
+                OnPropertyChanged("IsChecked02");
             }
         }
 
@@ -231,6 +269,26 @@ namespace Biden.ViewModel
             }
         }
 
+        public ObservableCollection<MacroInfo2> StrObjectCollection
+        {
+            get { return strObjectCollection; }
+            set
+            {
+                if (value != strObjectCollection)
+                    strObjectCollection = value;
+                OnPropertyChanged("StrObjectCollection");
+            }
+        }
+        public ObservableCollection<MacroInfo2> SelectedStrObject
+        {
+            get { return strObjectCollection; }
+            set
+            {
+                if (value != strObjectCollection)
+                    strObjectCollection = value;
+                OnPropertyChanged("SelectedStrObject");
+            }
+        }
 
         private void Execute_TestBtn01(object obj)
         {
@@ -307,77 +365,61 @@ namespace Biden.ViewModel
             //public string Edit;
             //public string Delete;
         }
-
+        public class MacroInfo2
+        {
+            public string No { get; set; }
+            public string Str { get; set; }
+            public override string ToString() => Str;
+            //public string Edit;
+            //public string Delete;
+        }
         public string nameStr
         {
             get
             {
-                return rule.NameStr;
+                return rule.Name;
             }
             set
             {
-                rule.NameStr = value;
+                rule.Name = value;
                 OnPropertyChanged("nameStr");
             }
         }
-        public string fromStr
+        public string addStr
         {
             get
             {
-                return rule.FromStr;
+                return rule.AddStr;
             }
             set
             {
-                rule.FromStr = value;
-                OnPropertyChanged("fromStr");
+                rule.AddStr = value;
+                OnPropertyChanged("addStr");
             }
         }
-        public string toStr
+        public string alertStr
         {
             get
             {
-                return rule.ToStr;
+                return rule.AlertMsg;
             }
             set
             {
-                rule.ToStr = value;
-                OnPropertyChanged("toStr");
+                rule.AlertMsg = value;
+                OnPropertyChanged("alertStr");
             }
         }
-        public string prefixStr
-        {
-            get
-            {
-                return rule.PrefixStr;
-            }
-            set
-            {
-                rule.PrefixStr = value;
-                OnPropertyChanged("prefixStr");
-            }
-        }
-        public string postfixStr
-        {
-            get
-            {
-                return rule.PostfixStr;
-            }
-            set
-            {
-                rule.PostfixStr = value;
-                OnPropertyChanged("postfixStr");
-            }
-        }
+        
 
         internal static ObservableCollection<MacroInfo> FileObjectQueue { get => fileObjectCollection; set => fileObjectCollection = value; }
 
         public void removeStr()
         {
             nameStr = "";
-            fromStr = "";
-            toStr = "";
-            prefixStr = "";
-            postfixStr = "";
+            StrObjectCollection = new ObservableCollection<MacroInfo2>();
+            strList = new List<string>();
+            addStr = "";
+            alertStr = "";
         }
 
 
