@@ -191,7 +191,7 @@ namespace Biden.ViewModel
                 IsChecked01 = false;
                 Macro.PasteModeOn = false;
             }
-            MainWindow.getInstance.SetCheckBox01();
+            MainWindow.getInstance.SetSyncCheckBox();
             DoSpin();
             DoCount();
         }
