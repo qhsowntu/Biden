@@ -66,6 +66,7 @@
     <Compile Include="Func\FindAndAlert.cs" />
     <Compile Include="Func\Macro_Backup.cs" />
     <Compile Include="Func\Macro.cs" />
+    <Compile Include="Func\MultiClipboard.cs" />
     <Compile Include="Func\ObservableClass\ObservableQueue.cs" />
     <Compile Include="Func\ObservableClass\ObservableStack.cs" />
     <Compile Include="Model\Func3RuleClass.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Model\TempClass.cs" />
     <Compile Include="ViewModel\Command.cs" />
     <Compile Include="ViewModel\Converter.cs" />
+    <Compile Include="ViewModel\Func3\ViewModelFunc3.cs" />
     <Compile Include="ViewModel\Func2\ViewModelFunc2.cs" />
     <Compile Include="ViewModel\Func2\ViewModelFunc2_Add.cs" />
     <Compile Include="ViewModel\Func2\ViewModelFunc2_Edit.cs" />
@@ -94,6 +96,9 @@
     </Compile>
     <Compile Include="View\Func1\FuncWindow1.xaml.cs">
       <DependentUpon>FuncWindow1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Func2 - 복사본\FuncWindow3.xaml.cs">
+      <DependentUpon>FuncWindow3.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Func2\FuncWindow2.xaml.cs">
       <DependentUpon>FuncWindow2.xaml</DependentUpon>
@@ -115,6 +120,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Func1\FuncWindow1_Add.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Func2 - 복사본\FuncWindow3.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -182,8 +191,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\Func3\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

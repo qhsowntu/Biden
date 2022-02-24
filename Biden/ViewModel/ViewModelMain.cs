@@ -29,11 +29,10 @@ namespace Biden.ViewModel
         public Command CmdOnOffBtn02 { get; set; }
         public Command CmdOnOffBtn03 { get; set; }
 
-        private bool _isChecked02 = false;
-        private bool _isChecked03 = false;
         private TempClass tempClass;
         private FuncWindow1 tempWindow1;
         private FuncWindow2 tempWindow2;
+        private FuncWindow3 tempWindow3;
         //private FuncWindow3 tempWindow3;
         private static Macro macro;
 
@@ -91,7 +90,11 @@ namespace Biden.ViewModel
         private void Execute_FuncBtn03(object obj)
         {
             //do Something
-            //구분자, 스택, 큐 -> 클립보드 저장
+            if (tempWindow3 == null)
+            {
+                tempWindow3 = FuncWindow3.getInstance;
+            }
+            tempWindow3.Show();
         }
 
         private void Execute_CmdOnOffBtn01(object obj)
@@ -119,7 +122,6 @@ namespace Biden.ViewModel
         private void Execute_CmdOnOffBtn02(object obj)
         {
             //do Something
-            //do Something
             if (obj + "" == "True")
             {
                 if (Macro.IsInit == false)
@@ -141,6 +143,23 @@ namespace Biden.ViewModel
         private void Execute_CmdOnOffBtn03(object obj)
         {
             //do Something
+            if (obj + "" == "True")
+            {
+                if (Macro.IsInit == false)
+                {
+                    Macro.IsInit = true;
+                    Macro.create();
+                    macro.start();
+                }
+                IsChecked03 = true;
+                Macro.PasteModeOn = true;
+            }
+            else
+            {
+                IsChecked03 = false;
+                Macro.PasteModeOn = false;
+            }
+            FuncWindow3.getInstance.SetCheckBox03();
         }
 
         private bool CanExecute_Btn01(object obj) { return true; }
@@ -189,11 +208,11 @@ namespace Biden.ViewModel
         {
             get
             {
-                return _isChecked02;
+                return ModelFunc2.getInstance.IsChecked02;
             }
             set
             {
-                _isChecked02 = value;
+                ModelFunc2.getInstance.IsChecked02 = value;
                 OnPropertyChanged("IsChecked02");
             }
         }
@@ -201,11 +220,11 @@ namespace Biden.ViewModel
         {
             get
             {
-                return _isChecked03;
+                return ModelFunc3.getInstance.IsChecked03;
             }
             set
             {
-                _isChecked03 = value;
+                ModelFunc3.getInstance.IsChecked03 = value;
                 OnPropertyChanged("IsChecked03");
             }
         }

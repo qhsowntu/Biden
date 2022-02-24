@@ -90,9 +90,9 @@ namespace Biden.ViewModel
             //postfixStr = "Post";
             Func2RuleClass tempRules = new Func2RuleClass();
             tempRules.Name = "SampleFindRules1";
-            tempRules.StrList = new List<string>{"a","b"};
+            tempRules.StrList = new List<string>{"a"};
             tempRules.AddStr = "?";
-            tempRules.AlertMsg = "Find a or b";
+            tempRules.AlertMsg = "Find a";
             Func2RuleClass tempRules2 = new Func2RuleClass();
             tempRules2.Name = "SampleFindRules2";
             tempRules2.StrList = new List<string> { "1", "3", "5" };
@@ -100,6 +100,7 @@ namespace Biden.ViewModel
             tempRules2.AlertMsg = "Find 1,3,5";
             ruleList.Add(tempRules);
             ruleList.Add(tempRules2);
+            removeStr();
             FileObjectAndSync();
         }
 
@@ -176,6 +177,8 @@ namespace Biden.ViewModel
                         StrObjectCollection = StrObjectAndSync(i);
                         addStr = ruleList[i].AddStr;
                         alertStr = ruleList[i].AlertMsg;
+                        isCheckedOpt01 = ruleList[i].IsCheckedOpt01;
+                        isCheckedOpt02 = ruleList[i].IsCheckedOpt02; 
                         break;
                     }
                 }
@@ -247,6 +250,7 @@ namespace Biden.ViewModel
             }
         }
 
+        
 
         public ObservableCollection<MacroInfo> FileObjectCollection
         {
@@ -409,7 +413,30 @@ namespace Biden.ViewModel
                 OnPropertyChanged("alertStr");
             }
         }
-        
+        public bool isCheckedOpt01
+        {
+            get
+            {
+                return rule.IsCheckedOpt01;
+            }
+            set
+            {
+                rule.IsCheckedOpt01 = value;
+                OnPropertyChanged("IsCheckedOpt01");
+            }
+        }
+        public bool isCheckedOpt02
+        {
+            get
+            {
+                return rule.IsCheckedOpt02;
+            }
+            set
+            {
+                rule.IsCheckedOpt02 = value;
+                OnPropertyChanged("IsCheckedOpt02");
+            }
+        }
 
         internal static ObservableCollection<MacroInfo> FileObjectQueue { get => fileObjectCollection; set => fileObjectCollection = value; }
 
@@ -420,6 +447,8 @@ namespace Biden.ViewModel
             strList = new List<string>();
             addStr = "";
             alertStr = "";
+            isCheckedOpt01 = false;
+            isCheckedOpt02 = false;
         }
 
 

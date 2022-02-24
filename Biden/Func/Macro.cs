@@ -41,6 +41,7 @@ namespace Biden.Func
 
         private CorrectString correctString;
         private FindAndAlert findAndAlert;
+        private MultiClipboard multiClipboard;
 
 
         //public static Bitmap screenPixel = new Bitmap(500, 200, PixelFormat.Format32bppArgb);
@@ -56,6 +57,7 @@ namespace Biden.Func
             parameterList = new List<String>();
             correctString = new CorrectString();
             findAndAlert = new FindAndAlert();
+            multiClipboard = new MultiClipboard();
         }
 
         public static Macro getInstance
@@ -658,79 +660,6 @@ namespace Biden.Func
 
         }
 
-        public void sendKeyInput(CancellationTokenSource ct)
-        {
-            //form.textBox1.Text = key1;
-            //form.textBox2.Text = key2;
-
-            //form.textBox6.Text = (Int32.Parse(form.textBox6.Text) + 1) + "";
-
-            if (key1 == "" && key2 == "" && (Control.ModifierKeys + "").Contains("None"))
-            {
-                if (flag1 && PasteModeOn == true && isRunning == false)
-                {
-                    isRunning = true;
-                    removeBlankFlag = false; // 차트 형식 내 변환 확인. flag가 false상태로 유지 될 경우 빈칸을 "_"으로 변환함.
-                    string clipboardText = "";
-                    clipboardText = "" + getClipBoardText();
-                    String modifiedText = "";
-                    try
-                    {
-                        if (ModelFunc1.getInstance.IsChecked01 == true)
-                        {
-                            modifiedText = correctString.getModifiedText(clipboardText);
-                        }
-                        if (ModelFunc2.getInstance.IsChecked02 == true)
-                        {
-                            findAndAlert.FindStringAndAlert(clipboardText);
-                        }
-                        if (ModelFunc3.getInstance.IsChecked03 == true)
-                        {
-                            //modifiedText = correctString.getModifiedText(clipboardText);
-                        }
-                        string ss = "";
-                        if (clipboardText != "")
-                        {
-                            setClipBoardText(modifiedText);
-                        }
-                    }
-                    catch(Exception e)
-                    {
-                        //MessageBox.Show(e+"");
-                    }
-                    finally
-                    {
-                        //form.textBox1.Text = clipboardText;
-                        //form.textBox2.Text = modifiedText;
-                        //SendKeys.SendWait(form.textBox1.Text);
-                        isRunning = false;
-                        flag1 = false;
-                    }
-                }
-                else if (flag2)
-                {
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        Thread.Sleep(8);
-                        SendKeys.SendWait(list[i]);
-                    }
-                    flag2 = false;
-                }
-                else if (flag3)
-                {
-                    flag3 = false;
-                }
-                else if (flag4)
-                {
-                    flag4 = false;
-                }
-                else if (flag5)
-                {
-                    flag5 = false;
-                }
-            }
-        }
-
 
         public String getClipBoardText()
         {
@@ -930,6 +859,80 @@ namespace Biden.Func
             //form.BackColor = c;
         }
 
+
+
+        public void sendKeyInput(CancellationTokenSource ct)
+        {
+            //form.textBox1.Text = key1;
+            //form.textBox2.Text = key2;
+
+            //form.textBox6.Text = (Int32.Parse(form.textBox6.Text) + 1) + "";
+
+            if (key1 == "" && key2 == "" && (Control.ModifierKeys + "").Contains("None"))
+            {
+                if (flag1 && PasteModeOn == true && isRunning == false)
+                {
+                    isRunning = true;
+                    removeBlankFlag = false; // 차트 형식 내 변환 확인. flag가 false상태로 유지 될 경우 빈칸을 "_"으로 변환함.
+                    string clipboardText = "";
+                    clipboardText = "" + getClipBoardText();
+                    String modifiedText = "";
+                    try
+                    {
+                        if (ModelFunc1.getInstance.IsChecked01 == true)
+                        {
+                            modifiedText = correctString.getModifiedText(clipboardText);
+                        }
+                        if (ModelFunc2.getInstance.IsChecked02 == true)
+                        {
+                            findAndAlert.FindStringAndAlert(clipboardText);
+                        }
+                        if (ModelFunc3.getInstance.IsChecked03 == true)
+                        {
+                            modifiedText = multiClipboard.GetSetItem(clipboardText);
+                        }
+                        string ss = "";
+                        if (clipboardText != "")
+                        {
+                            setClipBoardText(modifiedText);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        //MessageBox.Show(e+"");
+                    }
+                    finally
+                    {
+                        //form.textBox1.Text = clipboardText;
+                        //form.textBox2.Text = modifiedText;
+                        //SendKeys.SendWait(form.textBox1.Text);
+                        isRunning = false;
+                        flag1 = false;
+                    }
+                }
+                else if (flag2)
+                {
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        Thread.Sleep(8);
+                        SendKeys.SendWait(list[i]);
+                    }
+                    flag2 = false;
+                }
+                else if (flag3)
+                {
+                    flag3 = false;
+                }
+                else if (flag4)
+                {
+                    flag4 = false;
+                }
+                else if (flag5)
+                {
+                    flag5 = false;
+                }
+            }
+        }
 
 
     }

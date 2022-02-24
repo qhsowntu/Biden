@@ -12,15 +12,9 @@ namespace Biden.ViewModel
 {
     class ViewModelFunc2_Add : ViewModelFunc2
     {
-        public Command CmdFuncBtn01_AddOK { get; set; }
-        public Command CmdFuncBtn01_AddCancel { get; set; }
-        public Command CmdFuncBtn01_AddStr { get; set; }
 
         public ViewModelFunc2_Add()
         {
-            CmdFuncBtn01_AddOK = new Command(Execute_FuncBtn01_AddOK, CanExecute_Btn01);
-            CmdFuncBtn01_AddCancel = new Command(Execute_FuncBtn01_AddCancel, CanExecute_Btn01);
-            CmdFuncBtn01_AddStr = new Command(Execute_FuncBtn01_AddStr, CanExecute_Btn01);
         }
 
         private void Execute_FuncBtn01_AddOK(object obj)
@@ -45,6 +39,8 @@ namespace Biden.ViewModel
             tempRules.StrList = tempStr;
             tempRules.AddStr = addStr;
             tempRules.AlertMsg = alertStr;
+            tempRules.IsCheckedOpt01 = isCheckedOpt01;
+            tempRules.IsCheckedOpt02 = isCheckedOpt02;
             ruleList.Add(tempRules);
             removeStr();
             FuncWindow2_Add.getInstance.Hide();

@@ -10,6 +10,7 @@ namespace Biden.Model
     class ModelFunc3
     {
         private List<Func3RuleClass> ruleList;
+        private List<string> strList;
 
         private static ModelFunc3 instance = null;
         private bool _isChecked03 = false;
@@ -34,5 +35,6 @@ namespace Biden.Model
 
         internal List<Func3RuleClass> RuleList { get => ruleList; set => ruleList = value; }
         public bool IsChecked03 { get => _isChecked03; set => _isChecked03 = value; }
+        public List<string> StrList { get => strList; set => strList = value; }
     }
 }

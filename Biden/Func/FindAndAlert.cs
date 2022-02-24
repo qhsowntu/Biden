@@ -22,15 +22,59 @@ namespace Biden.Func
             for (int i = 0; i < ruleList.Count; i++)
             {
                 bool isFlag = true;
-                for(int j = 0; i<ruleList[i].StrList.Count; j++)
+                if (ruleList[i].IsCheckedOpt01 == true && ruleList[i].IsCheckedOpt02 == true)
                 {
-                    if (str.Contains(ruleList[i].StrList[j]))
+                    for (int j = 0; j < ruleList[i].StrList.Count; j++)
                     {
+                        if ((str.ToUpper().Replace(" ","")).Contains((ruleList[i].StrList[j]).ToUpper().Replace(" ", "")))
+                        {
+                        }
+                        else
+                        {
+                            isFlag = false;
+                            break;
+                        }
                     }
-                    else
+                }else if (ruleList[i].IsCheckedOpt01 == true && ruleList[i].IsCheckedOpt02 == false)
+                {
+                    for (int j = 0; j < ruleList[i].StrList.Count; j++)
                     {
-                        isFlag = false;
-                        break;
+                        if ((str.ToUpper()).Contains((ruleList[i].StrList[j]).ToUpper()))
+                        {
+                        }
+                        else
+                        {
+                            isFlag = false;
+                            break;
+                        }
+                    }
+                }
+                else if (ruleList[i].IsCheckedOpt01 == false && ruleList[i].IsCheckedOpt02 == true)
+                {
+                    for (int j = 0; j < ruleList[i].StrList.Count; j++)
+                    {
+                        if ((str.Replace(" ", "")).Contains((ruleList[i].StrList[j]).Replace(" ", "")))
+                        {
+                        }
+                        else
+                        {
+                            isFlag = false;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int j = 0; j < ruleList[i].StrList.Count; j++)
+                    {
+                        if (str.Contains(ruleList[i].StrList[j]))
+                        {
+                        }
+                        else
+                        {
+                            isFlag = false;
+                            break;
+                        }
                     }
                 }
                 if (isFlag)
@@ -40,7 +84,8 @@ namespace Biden.Func
             }
             if(msg != "")
             {
-                MessageBox.Show(msg + "");
+                MessageBox.Show(msg, "Find Alert", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                //MessageBox.Show(msg, "Find", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
             }
             return "";
         }

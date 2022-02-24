@@ -13,6 +13,8 @@ namespace Biden.Func
         private List<string> strList;
         private string addStr;
         private string alertMsg;
+        private bool isCheckedOpt01;
+        private bool isCheckedOpt02;
 
         public Func2RuleClass()
         {
@@ -24,5 +26,7 @@ namespace Biden.Func
         public List<string> StrList { get => strList; set => strList = value; }
         public string AddStr { get => addStr; set => addStr = value; }
         public string AlertMsg { get => alertMsg; set => alertMsg = value; }
+        public bool IsCheckedOpt01 { get => isCheckedOpt01; set => isCheckedOpt01 = value; }
+        public bool IsCheckedOpt02 { get => isCheckedOpt02; set => isCheckedOpt02 = value; }
     }
 }

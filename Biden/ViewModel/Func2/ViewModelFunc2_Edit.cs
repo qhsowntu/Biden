@@ -46,6 +46,8 @@ namespace Biden.ViewModel
                 Name = nameStr,
                 StrList = tempStr,
                 AlertMsg = alertStr,
+                IsCheckedOpt01 = isCheckedOpt01,
+                IsCheckedOpt02 = isCheckedOpt02
             });
             removeStr();
             FuncWindow2_Edit.getInstance.Hide();
@@ -85,6 +87,9 @@ namespace Biden.ViewModel
             nameStr = nameStr;
             StrObjectCollection = StrObjectCollection;
             alertStr = alertStr;
+            isCheckedOpt01 = isCheckedOpt01;
+            isCheckedOpt02 = isCheckedOpt02;
+
         }
         
 
