@@ -33,7 +33,6 @@ namespace Biden.ViewModel
         private FuncWindow1 tempWindow1;
         private FuncWindow2 tempWindow2;
         private FuncWindow3 tempWindow3;
-        //private FuncWindow3 tempWindow3;
         private static Macro macro;
 
         private ModelFunc1 func1Class;
@@ -159,8 +158,9 @@ namespace Biden.ViewModel
                 IsChecked03 = false;
                 Macro.PasteModeOn = false;
             }
-            FuncWindow3.getInstance.SetCheckBox03();
+            //FuncWindow3.getInstance.SetCheckBox03();
         }
+
 
         private bool CanExecute_Btn01(object obj) { return true; }
 

@@ -63,7 +63,6 @@ namespace Biden.View
 
         public void SetCheckBox01()
         {
-            this.DataContext = _viewModel;
             _viewModel.IsChecked01 = ModelFunc1.getInstance.IsChecked01;
         }
 

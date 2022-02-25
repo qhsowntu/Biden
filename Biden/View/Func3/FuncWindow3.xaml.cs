@@ -61,10 +61,12 @@ namespace Biden.View
             }
         }
 
-        public void SetCheckBox03()
+
+        public void SetListView()
         {
             this.DataContext = _viewModel;
-            _viewModel.IsChecked03 = ModelFunc3.getInstance.IsChecked03;
+            _viewModel.StrObjectAndSync();
+            //_viewModel.StrObjectAndSync = ModelFunc3.getInstance.StrList;
         }
 
     }

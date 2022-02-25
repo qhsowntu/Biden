@@ -63,6 +63,7 @@
     </ApplicationDefinition>
     <Compile Include="Func\CopyPasteMacro.cs" />
     <Compile Include="Func\CorrectString.cs" />
+    <Compile Include="Func\DispatcherService.cs" />
     <Compile Include="Func\FindAndAlert.cs" />
     <Compile Include="Func\Macro_Backup.cs" />
     <Compile Include="Func\Macro.cs" />
@@ -97,7 +98,7 @@
     <Compile Include="View\Func1\FuncWindow1.xaml.cs">
       <DependentUpon>FuncWindow1.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Func2 - 복사본\FuncWindow3.xaml.cs">
+    <Compile Include="View\Func3\FuncWindow3.xaml.cs">
       <DependentUpon>FuncWindow3.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Func2\FuncWindow2.xaml.cs">
@@ -123,7 +124,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Func2 - 복사본\FuncWindow3.xaml">
+    <Page Include="View\Func3\FuncWindow3.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

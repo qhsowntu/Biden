@@ -18,6 +18,7 @@ namespace Biden.Model
         private ModelFunc3()
         {
             RuleList = new List<Func3RuleClass>();
+            strList = new List<string>();
         }
 
         public static ModelFunc3 getInstance

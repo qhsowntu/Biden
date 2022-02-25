@@ -39,11 +39,10 @@ namespace Biden.ViewModel
         protected static List<Func3RuleClass> ruleList;
         protected static Func3RuleClass rule;
         protected static int ruleCounter;
-        private static ObservableCollection<string> optionObjectCollection;
+        public static ObservableCollection<MacroInfo2> optionObjectCollection;
         protected static int editedIndex;
         public ModelFunc3 func3Class;
         private static Macro macro;
-        protected static List<string> strList;
 
         public ViewModelFunc3()
         {
@@ -68,10 +67,9 @@ namespace Biden.ViewModel
                 ruleList = ModelFunc3.getInstance.RuleList;
                 rule = new Func3RuleClass();
                 ruleCounter = 1;
-                optionObjectCollection = new ObservableCollection<string>();
+                optionObjectCollection = new ObservableCollection<MacroInfo2>();
                 macro = Macro.getInstance;
                 func3Class = ModelFunc3.getInstance;
-                strList = new List<string>();
                 AddSampleRules();
                 //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
             }
@@ -109,7 +107,15 @@ namespace Biden.ViewModel
         }
         private void Execute_CmdDeleteBtn01(object obj)
         {
-            
+            //
+            for (int i = 0; i < ModelFunc3.getInstance.StrList.Count; i++)
+            {
+                if (ModelFunc3.getInstance.StrList[i] == obj + "")
+                {
+                    ModelFunc3.getInstance.StrList.RemoveAt(i);
+                }
+            }
+            StrObjectAndSync();
         }
 
         private void Execute_CmdDeleteStrBtn01(object obj)
@@ -155,19 +161,35 @@ namespace Biden.ViewModel
             }
         }
 
-        
+        public void StrObjectAndSync()
+        {
 
-        public ObservableCollection<string> OptionObjectCollection
+            ObservableCollection<MacroInfo2> tempCollection = new ObservableCollection<MacroInfo2>();
+            for (int i = 0; i < ModelFunc3.getInstance.StrList.Count; i++)
+            {
+                MacroInfo2 tempInfo = new MacroInfo2();
+                {
+                    tempInfo.No = "" + (i + 1);
+                    tempInfo.Str = "" + ModelFunc3.getInstance.StrList[i];
+                }
+                tempCollection.Add(tempInfo);
+            }
+            OptionObjectCollection = tempCollection;
+        }
+
+
+        public ObservableCollection<MacroInfo2> OptionObjectCollection
         {
             get { return optionObjectCollection; }
             set
             {
                 if (value != optionObjectCollection)
+                    //StrObjectAndSync();
                     optionObjectCollection = value;
                 OnPropertyChanged("OptionObjectCollection");
             }
         }
-        public ObservableCollection<string> SelectedOptionObject
+        public ObservableCollection<MacroInfo2> SelectedOptionObject
         {
             get { return optionObjectCollection; }
             set
@@ -245,6 +267,7 @@ namespace Biden.ViewModel
             }
         }
 
+
         //selectedItem
 
         public class MacroInfo
@@ -264,7 +287,6 @@ namespace Biden.ViewModel
             //public string Delete;
         }
         
-        internal static ObservableCollection<MacroInfo> FileObjectQueue { get => fileObjectCollection; set => fileObjectCollection = value; }
 
         public void removeStr()
         {

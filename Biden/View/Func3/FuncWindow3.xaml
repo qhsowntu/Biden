@@ -86,12 +86,12 @@
             <Button x:Name="minButton" Content="―" Width="14" Height="14" Click="MinButton_Click"  FontWeight="Bold" FontFamily="Corbel"
                 BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Top"  Canvas.Right ="33" Canvas.Top ="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FF4A4A4A"/>
             <!-- SelectedItem="{Binding SelectedFileObject}"-->
-            <ListView ItemsSource="{Binding FileObjectCollection}"  IsSynchronizedWithCurrentItem="True"
+            <ListView ItemsSource="{Binding OptionObjectCollection}"  IsSynchronizedWithCurrentItem="True"
                      Height="320" Canvas.Left="18" Canvas.Top="78" Width="378" Background="#FFF4F8FF" BorderBrush="#FFF4F8FF" BorderThickness="0">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="30" Header="No" DisplayMemberBinding="{Binding No}"/>
-                        <GridViewColumn Width="290" Header="Name" DisplayMemberBinding="{Binding Name}"  CellTemplate="{StaticResource NameColumnTemplate}"/>
+                        <GridViewColumn Width="290" Header="Contents" DisplayMemberBinding="{Binding Str}"  CellTemplate="{StaticResource NameColumnTemplate}"/>
                         <!--<GridViewColumn Width="80" Header="Edit / Delete" CellTemplate="{StaticResource AddDelItemTemplate}"/> -->
 
                         <GridViewColumn Header="Del" Width="52">
@@ -101,7 +101,7 @@
                                         <Button Content="-" Grid.Column="1" Margin="11,0,0,0" Width="19"
                                                 Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                                       AncestorType={x:Type ItemsControl}},
-                                                                      Path=DataContext.CmdDeleteBtn}" CommandParameter="{Binding Name}"/>
+                                                                      Path=DataContext.CmdDeleteBtn}" CommandParameter="{Binding Str}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

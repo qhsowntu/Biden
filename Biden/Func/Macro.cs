@@ -1,4 +1,5 @@
 ﻿using Biden.Model;
+using Biden.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -809,8 +810,8 @@ namespace Biden.Func
             tokenSource2.Cancel();
 
             tokenSource2.Dispose();
-
         }
+
 
         public void reset()
         {
