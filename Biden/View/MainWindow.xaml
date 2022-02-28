@@ -184,7 +184,7 @@
                     <DropShadowBitmapEffect Color="Black" Direction="315" Softness="0.5" ShadowDepth="5" Opacity="0.4" />
                 </Button.BitmapEffect>
             </Button>
-            <CheckBox Canvas.Left="205" Canvas.Top="222" Style="{DynamicResource BlueSwitchStyle}" Command="{Binding CmdOnOffBtn03}" IsChecked="{Binding IsChecked03}" CommandParameter="{Binding IsChecked03}"/>
+            <CheckBox Canvas.Left="205" Canvas.Top="222" Style="{DynamicResource BlueSwitchStyle}" Command="{Binding CmdOnOffBtn04}" IsChecked="{Binding IsChecked04}" CommandParameter="{Binding IsChecked04}"/>
             <Button HorizontalAlignment="Left" x:Name="FuncBtn03_1_Copy3" VerticalAlignment="Top" Panel.ZIndex="10"
                 Height="35" Width="76" BorderBrush="White" Canvas.Left="205" Canvas.Top="222" BorderThickness="0" SnapsToDevicePixels="True">
                 <Button.Resources>

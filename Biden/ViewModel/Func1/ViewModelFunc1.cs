@@ -177,19 +177,19 @@ namespace Biden.ViewModel
 
             if (obj + "" == "True")
             {
-                if (Macro.IsInit == false)
+                if (Macro.getInstance.IsInit == false)
                 {
-                    Macro.IsInit = true;
+                    Macro.getInstance.IsInit = true;
                     Macro.create();
                     macro.start();
                 }
-                Macro.PasteModeOn = true;
+                Macro.getInstance.PasteModeOn = true;
                 IsChecked01 = true;
             }
             else
             {
                 IsChecked01 = false;
-                Macro.PasteModeOn = false;
+                Macro.getInstance.PasteModeOn = false;
             }
             MainWindow.getInstance.SetSyncCheckBox();
             DoSpin();

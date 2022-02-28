@@ -43,11 +43,12 @@ namespace Biden.View
             }
         }
 
+        /*
         public override void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             //MessageBox.Show(this+"@");
-            Macro.PasteModeOn = false;
-            Macro.destroy();
+            //Macro.getInstance.PasteModeOn = false;
+            //Macro.destroy();
             string windowName = this + "";
             if (windowName.Contains("MainWindow"))
             {
@@ -59,7 +60,7 @@ namespace Biden.View
             {
                 this.Hide();
             }
-        }
+        }*/
 
 
         public void SetListView()

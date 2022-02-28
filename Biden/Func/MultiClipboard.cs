@@ -17,7 +17,7 @@ namespace Biden.Func
 
         }
 
-        public string GetSetItem(string str)
+        public void SetItem(string str)
         {
             if(str == "")
             {

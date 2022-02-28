@@ -27,9 +27,9 @@ namespace Biden.Func
         private static bool flag6 = false;
 
         private static bool isRunning = false;
-        private static bool isInit = false;
+        private bool isInit = false;
 
-        private static bool pasteModeOn = false;
+        private bool pasteModeOn = false;
 
         public bool removeBlankFlag = false;
 
@@ -72,6 +72,9 @@ namespace Biden.Func
                 return instance;
             }
         }
+
+        public bool IsInit { get => isInit; set => isInit = value; }
+        public bool PasteModeOn { get => pasteModeOn; set => pasteModeOn = value; }
 
         private static class API
         {
@@ -269,8 +272,6 @@ namespace Biden.Func
         private static HookDel hd;
         private static KeyHandler kh;
 
-        public static bool PasteModeOn { get => pasteModeOn; set => pasteModeOn = value; }
-        public static bool IsInit { get => isInit; set => isInit = value; }
 
         //Creation of the hook
         public static void CreateHook(KeyHandler _kh)
@@ -890,7 +891,7 @@ namespace Biden.Func
                         }
                         if (ModelFunc3.getInstance.IsChecked03 == true)
                         {
-                            modifiedText = multiClipboard.GetSetItem(clipboardText);
+                            multiClipboard.SetItem(clipboardText);
                         }
                         string ss = "";
                         if (clipboardText != "")
