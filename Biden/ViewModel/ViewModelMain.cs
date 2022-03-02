@@ -109,12 +109,12 @@ namespace Biden.ViewModel
                     macro.start();
                 }
                 IsChecked01 = true;
-                Macro.getInstance.PasteModeOn = true;
+                Macro.getInstance.ModeOn = true;
             }
             else
             {
                 IsChecked01 = false;
-                Macro.getInstance.PasteModeOn = false;
+                Macro.getInstance.ModeOn = false;
             }
             FuncWindow1.getInstance.SetCheckBox01();
         }
@@ -130,12 +130,12 @@ namespace Biden.ViewModel
                     macro.start();
                 }
                 IsChecked02 = true;
-                Macro.getInstance.PasteModeOn = true;
+                Macro.getInstance.ModeOn = true;
             }
             else
             {
                 IsChecked02 = false;
-                Macro.getInstance.PasteModeOn = false;
+                Macro.getInstance.ModeOn = false;
             }
             FuncWindow2.getInstance.SetCheckBox02();
         }
@@ -151,12 +151,12 @@ namespace Biden.ViewModel
                     macro.start();
                 }
                 IsChecked03 = true;
-                Macro.getInstance.PasteModeOn = true;
+                Macro.getInstance.ModeOn = true;
             }
             else
             {
                 IsChecked03 = false;
-                Macro.getInstance.PasteModeOn = false;
+                Macro.getInstance.ModeOn = false;
             }
             //FuncWindow3.getInstance.SetCheckBox03();
         }

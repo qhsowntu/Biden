@@ -29,7 +29,7 @@ namespace Biden.Func
         private static bool isRunning = false;
         private bool isInit = false;
 
-        private bool pasteModeOn = false;
+        private bool modeOn = false;
 
         public bool removeBlankFlag = false;
 
@@ -74,7 +74,7 @@ namespace Biden.Func
         }
 
         public bool IsInit { get => isInit; set => isInit = value; }
-        public bool PasteModeOn { get => pasteModeOn; set => pasteModeOn = value; }
+        public bool ModeOn { get => modeOn; set => modeOn = value; }
 
         private static class API
         {
@@ -645,12 +645,13 @@ namespace Biden.Func
         private static void send(Keys tempKey)//Keys tempKey, IntPtr wParam, IntPtr lParam
         {
             //MessageBox.Show(Control.ModifierKeys + "");
+            //MessageBox.Show(tempKey.ToString().ToUpper() + "");
 
             if ((Control.ModifierKeys + "").Contains("Control"))
             {
                 //form.textBox17.Text = tempKey.ToString().ToUpper();
                 if (tempKey.ToString().ToUpper() == "C") { flag1 = true; }
-                if (tempKey.ToString().ToUpper() == "D2") { flag2 = true; }
+                if (tempKey.ToString().ToUpper() == "V") { flag2 = true; GetItemList(); }
                 if (tempKey.ToString().ToUpper() == "D3") { flag3 = true; }
                 if (tempKey.ToString().ToUpper() == "D4") { flag4 = true; }
                 if (tempKey.ToString().ToUpper() == "D5") { flag5 = true; }
@@ -697,7 +698,7 @@ namespace Biden.Func
             return res;
         }
 
-        public void setClipBoardText(String str)
+        public static void setClipBoardText(String str)
         {
             Exception threadEx = null;
             Thread staThread = new Thread(
@@ -872,7 +873,7 @@ namespace Biden.Func
 
             if (key1 == "" && key2 == "" && (Control.ModifierKeys + "").Contains("None"))
             {
-                if (flag1 && PasteModeOn == true && isRunning == false)
+                if (flag1 && modeOn == true && isRunning == false)
                 {
                     isRunning = true;
                     removeBlankFlag = false; // 차트 형식 내 변환 확인. flag가 false상태로 유지 될 경우 빈칸을 "_"으로 변환함.
@@ -884,6 +885,7 @@ namespace Biden.Func
                         if (ModelFunc1.getInstance.IsChecked01 == true)
                         {
                             modifiedText = correctString.getModifiedText(clipboardText);
+                            clipboardText = correctString.getModifiedText(clipboardText);
                         }
                         if (ModelFunc2.getInstance.IsChecked02 == true)
                         {
@@ -912,17 +914,44 @@ namespace Biden.Func
                         flag1 = false;
                     }
                 }
-                else if (flag2)
+                else if (flag3 && modeOn == true && isRunning == false)
+                {
+                    isRunning = true;
+                    string clipboardText = "";
+                    clipboardText = "" + getClipBoardText();
+                    String modifiedText = "";
+                    try
+                    {
+                        if (ModelFunc3.getInstance.IsChecked03 == true)
+                        {
+                            clipboardText = MultiClipboard.GetItem();
+                        }
+                        string ss = "";
+                        if (clipboardText != "")
+                        {
+                            setClipBoardText(modifiedText);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        //MessageBox.Show(e+"");
+                    }
+                    finally
+                    {
+                        //form.textBox1.Text = clipboardText;
+                        //form.textBox2.Text = modifiedText;
+                        //SendKeys.SendWait(form.textBox1.Text);
+                        isRunning = false;
+                        flag2 = false;
+                    }
+                }
+                else if (flag3)
                 {
                     for (int i = 0; i < list.Count; i++)
                     {
                         Thread.Sleep(8);
                         SendKeys.SendWait(list[i]);
                     }
-                    flag2 = false;
-                }
-                else if (flag3)
-                {
                     flag3 = false;
                 }
                 else if (flag4)
@@ -936,6 +965,28 @@ namespace Biden.Func
             }
         }
 
+        private static void GetItemList()
+        {
+            String text = "";
+            try
+            {
+                if (ModelFunc3.getInstance.IsChecked03 == true)
+                {
+                    text = MultiClipboard.GetItem();
+                }
+                if (text != "")
+                {
+                    setClipBoardText(text);
+                }
+            }
+            catch (Exception e)
+            {
+                //MessageBox.Show(e+"");
+            }
+            finally
+            {
+            }
+        }
 
     }
 }

@@ -70,6 +70,7 @@
     <Compile Include="Func\MultiClipboard.cs" />
     <Compile Include="Func\ObservableClass\ObservableQueue.cs" />
     <Compile Include="Func\ObservableClass\ObservableStack.cs" />
+    <Compile Include="Func\WindowPos.cs" />
     <Compile Include="Model\Func3RuleClass.cs" />
     <Compile Include="Model\Func2RuleClass.cs" />
     <Compile Include="Model\ModelFunc3.cs" />
@@ -98,6 +99,9 @@
     <Compile Include="View\Func1\FuncWindow1.xaml.cs">
       <DependentUpon>FuncWindow1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Func3\FuncWindow3_ClipList.xaml.cs">
+      <DependentUpon>FuncWindow3_ClipList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Func3\FuncWindow3.xaml.cs">
       <DependentUpon>FuncWindow3.xaml</DependentUpon>
     </Compile>
@@ -121,6 +125,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Func1\FuncWindow1_Add.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Func3\FuncWindow3_ClipList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -192,6 +200,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Func\NewFolder1\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

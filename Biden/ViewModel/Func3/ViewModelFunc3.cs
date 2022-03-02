@@ -55,6 +55,8 @@ namespace Biden.ViewModel
             TestBtn01 = new Command(Execute_TestBtn01, CanExecute_Btn01);
             spinner = false;
             count = 0;
+
+
             initRule();
         }
 
@@ -135,13 +137,13 @@ namespace Biden.ViewModel
                     Macro.create();
                     macro.start();
                 }
-                Macro.getInstance.PasteModeOn = true;
+                Macro.getInstance.ModeOn = true;
                 IsChecked03 = true;
             }
             else
             {
                 IsChecked03 = false;
-                Macro.getInstance.PasteModeOn = false;
+                Macro.getInstance.ModeOn = false;
             }
             MainWindow.getInstance.SetSyncCheckBox();
             DoSpin();
@@ -269,6 +271,37 @@ namespace Biden.ViewModel
 
 
         //selectedItem
+        public string SelectedString
+        {
+            get
+            {
+                return ModelFunc3.getInstance.SelectedString;
+            }
+            set
+            {
+                ModelFunc3.getInstance.SelectedString = value;
+                WindowPos.SendWpfWindowBack(FuncWindow3_ClipList.getInstance);
+                WindowPos.SendWpfWindowBack(FuncWindow3.getInstance);
+                OnPropertyChanged("SelectedString");
+            }
+        }
+
+        public string SelectedItem
+        {
+            get
+            {
+                return ModelFunc3.getInstance.TheSelectedItem;
+            }
+            set
+            {
+                ModelFunc3.getInstance.TheSelectedItem = value;
+                OnPropertyChanged("SelectedItem");
+            }
+        }
+        public List<string> Source
+        {
+            get { return ModelFunc3.getInstance.Source; }
+        }
 
         public class MacroInfo
         {
