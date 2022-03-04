@@ -163,7 +163,7 @@
                     <Separator/>
                 </MenuItem>
             </Menu>
-            <Button Content="Clipboard Macro" HorizontalAlignment="Left" x:Name="FuncBtn03_Copy" VerticalAlignment="Top" Command="{Binding CmdFuncBtn03}" 
+            <Button Content="Clipboard Macro" HorizontalAlignment="Left" x:Name="FuncBtn03_Copy" VerticalAlignment="Top" Command="{Binding CmdFuncBtn04}" 
                 Height="40" Width="170" BorderBrush="Transparent" Canvas.Left="18" Canvas.Top="220" BorderThickness="0" SnapsToDevicePixels="True" 
                 Panel.ZIndex="10" FontSize="16" FontWeight="Bold" Background="#FFE6EFF8" Foreground="#FF29387C">
                 <Button.Resources>

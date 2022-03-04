@@ -1,4 +1,5 @@
 ﻿using Biden.Func;
+using Biden.Func.SpellCheck;
 using Biden.Model;
 using Biden.View;
 using System;
@@ -28,6 +29,7 @@ namespace Biden.ViewModel
         public Command CmdOnOffBtn01 { get; set; }
         public Command CmdOnOffBtn02 { get; set; }
         public Command CmdOnOffBtn03 { get; set; }
+        public Command CmdOnOffBtn04 { get; set; }
 
         private TempClass tempClass;
         private FuncWindow1 tempWindow1;
@@ -43,9 +45,11 @@ namespace Biden.ViewModel
             CmdFuncBtn01 = new Command(Execute_FuncBtn01, CanExecute_Btn01);
             CmdFuncBtn02 = new Command(Execute_FuncBtn02, CanExecute_Btn01);
             CmdFuncBtn03 = new Command(Execute_FuncBtn03, CanExecute_Btn01);
+            CmdFuncBtn04 = new Command(Execute_FuncBtn04, CanExecute_Btn01);
             CmdOnOffBtn01 = new Command(Execute_CmdOnOffBtn01, CanExecute_Btn01);
             CmdOnOffBtn02 = new Command(Execute_CmdOnOffBtn02, CanExecute_Btn01);
             CmdOnOffBtn03 = new Command(Execute_CmdOnOffBtn03, CanExecute_Btn01);
+            CmdOnOffBtn04 = new Command(Execute_CmdOnOffBtn04, CanExecute_Btn01);
             tempClass = new TempClass();
             tempClass.Num = 1;
             tempClass.Num2 = 7;
@@ -94,6 +98,11 @@ namespace Biden.ViewModel
                 tempWindow3 = FuncWindow3.getInstance;
             }
             tempWindow3.Show();
+        }
+        private void Execute_FuncBtn04(object obj)
+        {
+            //do Something
+            SpellCheck.getInstance.go();
         }
 
         private void Execute_CmdOnOffBtn01(object obj)
@@ -161,6 +170,10 @@ namespace Biden.ViewModel
             //FuncWindow3.getInstance.SetCheckBox03();
         }
 
+        private void Execute_CmdOnOffBtn04(object obj)
+        {
+            //do Something
+        }
 
         private bool CanExecute_Btn01(object obj) { return true; }
 

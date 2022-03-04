@@ -14,20 +14,10 @@ namespace Biden.Func.SpellCheck
     {
         private static SpellCheck instance = null;
 
-        static string host = "https://api.cognitive.microsoft.com";
-
-        static string path = "/bing/v7.0/spellcheck?";
-        static string key = "<ENTER-KEY-HERE>";
-        //text to be spell-checked
-        static string text = "Hollo, wrld!";
-
-        
-        static string params_ = "mkt=en-US&mode=proof";
-
 
         private SpellCheck()
         {
-
+            
         }
 
         public static SpellCheck getInstance
@@ -42,34 +32,78 @@ namespace Biden.Func.SpellCheck
             }
         }
 
-        private async static void SpellCheckStart()
+        private async static Task SpellCheckStart()
         {
             //var task1 = Task.Run(() => get());
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", key);
+            var engine = IronPython.Hosting.Python.CreateEngine();
+            var scope = engine.CreateScope();
+            var paths = engine.GetSearchPaths();
 
+            paths.Add(@"C:\Python27");
+            paths.Add(@"C:\Python27\DLLs");
+            paths.Add(@"C:\Python27\Lib");
+            paths.Add(@"C:\Python27\Lib\site-packages");
 
-            HttpResponseMessage response = null;
-            // add the rest of the code snippets here (except for main())...
+            paths.Add(Application.StartupPath + @"\py-hanspell-master\setup.py");
+            paths.Add(Application.StartupPath + @"\py-hanspell-master\tests.py");
+            paths.Add(Application.StartupPath + @"\py-hanspell-master\hanspell\__init__.py");
+            paths.Add(Application.StartupPath + @"\py-hanspell-master\hanspell\constants.py");
+            paths.Add(Application.StartupPath + @"\py-hanspell-master\hanspell\response.py");
+            paths.Add(Application.StartupPath + @"\py-hanspell-master\hanspell\spell_checker.py");
 
-            var values = new Dictionary<string, string>();
-            values.Add("text", text);
-            var content = new FormUrlEncodedContent(values);
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            engine.SetSearchPaths(paths);
 
-            string uri = host + path + params_;
-            response = await client.PostAsync(uri, new FormUrlEncodedContent(values));
-
-            string client_id;
-            if (response.Headers.TryGetValues("X-MSEdge-ClientID", out IEnumerable<string> header_values))
+            //아래 작업 선행 필요
+            //1.파이썬 2.7 설치 (3.x는 호완안됨)
+            //2.cmd에서 pip install requests
+            //3.cmd에서 pip install pytest
+            try
             {
-                client_id = header_values.First();
-                //Console.WriteLine("Client ID: " + client_id);
-                MessageBox.Show("Client ID: " + client_id);
+                //var source = engine.CreateScriptSourceFromFile(Application.StartupPath + @"\py-hanspell-master\hanspell\tests.py");
+
+
+                //var getPythonFuncResult1 = scope.GetVariable<Func<string, string>>("check");
+                //var getPythonFuncResult1 = scope.GetVariable<Func<string, string>>("test_long_paragraph");
+                //var source = engine.CreateScriptSourceFromFile(Application.StartupPath + @"\test.py");
+                //source.Execute(scope);
+                //var getPythonFuncResult1 = scope.GetVariable<Func<int,int,int>>("sum");
+                //MessageBox.Show(getPythonFuncResult1(1,2)+"");
+
+
+                string sampleStr = "안녕 하세요.저는 한국인 입니다.이문장은 한글로 작성됬습니다.";
+
+
+                //var source = engine.CreateScriptSourceFromFile(Application.StartupPath + @"\py-hanspell-master\hanspell\spell_checker.py");
+                var source0 = engine.CreateScriptSourceFromFile(Application.StartupPath + @"\py-hanspell-master\test_kys.py");
+                source0.Execute(scope);
+                var getPythonFuncResult1 = scope.GetVariable<Func<string, string>>("check");
+                MessageBox.Show(getPythonFuncResult1(sampleStr) + "@@@@@@@@@@@@@@");
+
+
+                //var getPythonFuncResult2 = scope.GetVariable<Func<int,int,int>>("sum");
+                //MessageBox.Show(getPythonFuncResult2(1, 2) + "");
+
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex + "!");
+            }
+            finally
+            {
+
             }
 
+
+
+            
         }
 
+        public void go()
+        {
+            SpellCheckStart().Wait();
+        }
 
     }
 }
