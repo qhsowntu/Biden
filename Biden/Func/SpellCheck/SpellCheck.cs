@@ -80,7 +80,7 @@ namespace Biden.Func.SpellCheck
                 MessageBox.Show(getPythonFuncResult1(sampleStr) + "@@@@@@@@@@@@@@");
 
 
-                //var getPythonFuncResult2 = scope.GetVariable<Func<int,int,int>>("sum");
+                //var getPythonFuncResult2 = scope.GetVariable<Func<int,int,int>>("sum");ㄴㅇ
                 //MessageBox.Show(getPythonFuncResult2(1, 2) + "");
 
 
