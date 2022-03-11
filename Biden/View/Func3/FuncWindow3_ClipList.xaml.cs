@@ -38,11 +38,19 @@ namespace Biden.View
                 if (instance == null)
                 {
                     instance = new FuncWindow3_ClipList();
+                    //바인딩 문제로 창 위치 임시방편 처리
+                    FuncWindow3_ClipList.getInstance.setPos();
                 }
                 return instance;
             }
         }
 
+        public void setPos()
+        {
+            System.Drawing.Point p = Macro.getMousePosAndColor();
+            this.Top = p.Y;
+            this.Left = p.X;
+        }
         /*
         public override void CloseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -63,12 +71,6 @@ namespace Biden.View
         }*/
 
 
-        public void SetListView()
-        {
-            this.DataContext = _viewModel;
-            _viewModel.StrObjectAndSync();
-            //_viewModel.StrObjectAndSync = ModelFunc3.getInstance.StrList;
-        }
 
     }
 }

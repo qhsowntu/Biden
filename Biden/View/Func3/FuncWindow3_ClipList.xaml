@@ -9,7 +9,7 @@
         xmlns:ViewModel="clr-namespace:Biden.ViewModel"
         mc:Ignorable="d"
         Title="FuncWindow3" Width="235" Height="370" ResizeMode="NoResize" Background="Transparent"
-                   WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True" Topmost="True">
+                   WindowStyle="None"  AllowsTransparency="True" Topmost="True">
     <Window.DataContext>
         <ViewModel:ViewModelFunc3/>
     </Window.DataContext>

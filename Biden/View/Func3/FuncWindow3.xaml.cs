@@ -69,6 +69,5 @@ namespace Biden.View
             _viewModel.StrObjectAndSync();
             //_viewModel.StrObjectAndSync = ModelFunc3.getInstance.StrList;
         }
-
     }
 }

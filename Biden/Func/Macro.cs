@@ -1,4 +1,5 @@
 ﻿using Biden.Model;
+using Biden.View;
 using Biden.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Biden.Func
 {
@@ -43,7 +45,7 @@ namespace Biden.Func
         private CorrectString correctString;
         private FindAndAlert findAndAlert;
         private MultiClipboard multiClipboard;
-
+        private PasteAlert pasteAlert;
 
         //public static Bitmap screenPixel = new Bitmap(500, 200, PixelFormat.Format32bppArgb);
         public static Bitmap screenPixel = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -59,6 +61,7 @@ namespace Biden.Func
             correctString = new CorrectString();
             findAndAlert = new FindAndAlert();
             multiClipboard = new MultiClipboard();
+            pasteAlert = new PasteAlert();
         }
 
         public static Macro getInstance
@@ -256,6 +259,8 @@ namespace Biden.Func
             //VK_RMENU        = 0XA5,
             //VK_PLAY         = 0XFA,
             //VK_ZOOM         = 0XFB
+
+            WM_PASTE = 0x302
         } //keycodes
 
         //There are detailed explanations for these functions on MSDNAA and implementations.
@@ -651,7 +656,7 @@ namespace Biden.Func
             {
                 //form.textBox17.Text = tempKey.ToString().ToUpper();
                 if (tempKey.ToString().ToUpper() == "C") { flag1 = true; }
-                if (tempKey.ToString().ToUpper() == "V") { flag2 = true; GetItemList(); }
+                if (tempKey.ToString().ToUpper() == "V") { flag2 = true; setClipBoardText("@"); GetItemList();  }
                 if (tempKey.ToString().ToUpper() == "D3") { flag3 = true; }
                 if (tempKey.ToString().ToUpper() == "D4") { flag4 = true; }
                 if (tempKey.ToString().ToUpper() == "D5") { flag5 = true; }
@@ -752,12 +757,13 @@ namespace Biden.Func
         }
 
 
-        public static void getMousePosAndColor()
+        public static Point getMousePosAndColor()
         {
             Point p = GetCursorPosition();
             //form.textBox8.Text = p.X+"";
             //form.textBox9.Text = p.Y+"";
             GetColorAt(p.X, p.Y);
+            return p;
 
         }
         public static Point GetCursorPosition()
@@ -972,11 +978,13 @@ namespace Biden.Func
             {
                 if (ModelFunc3.getInstance.IsChecked03 == true)
                 {
+                    //MessageBox.Show("1", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
                     text = MultiClipboard.GetItem();
                 }
                 if (text != "")
                 {
                     setClipBoardText(text);
+                    //MessageBox.Show("2", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
                 }
             }
             catch (Exception e)
@@ -985,8 +993,25 @@ namespace Biden.Func
             }
             finally
             {
+                //MessageBox.Show("3", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
+                DispatcherService.Invoke((System.Action)(() =>
+                {
+                    // your logic
+                    //ViewModelFunc3.optionObjectCollection.Add(new ViewModelFunc3.MacroInfo2() { No = "a", Str = "bbb"});
+                    FuncWindow3.getInstance.SetListView();
+                }));
+                Thread.Sleep(1000);
             }
+
         }
+
+
+
+
+
+
+
+
 
     }
 }

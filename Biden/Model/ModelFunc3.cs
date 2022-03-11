@@ -11,10 +11,13 @@ namespace Biden.Model
     {
         private List<Func3RuleClass> ruleList;
         private List<string> strList;
+        private List<string> strListForView;
 
         private static ModelFunc3 instance = null;
         private bool _isChecked03 = false;
-
+        private bool isCheckedDupOpt = true;
+        private int leftPoint;
+        private int topPoint;
 
         private string _theSelectedItem;
         private List<string> _source;
@@ -25,6 +28,7 @@ namespace Biden.Model
         {
             RuleList = new List<Func3RuleClass>();
             strList = new List<string>();
+            StrListForView = new List<string>();
             Source = new List<string> {
                 "[FIFO] Using The Clipboard as a Queue",
                 "[LIFO] Using The Clipboard as a Stack",
@@ -51,5 +55,9 @@ namespace Biden.Model
         public string TheSelectedItem { get => _theSelectedItem; set => _theSelectedItem = value; }
         public List<string> Source { get => _source; set => _source = value; }
         public string SelectedString { get => selectedString; set => selectedString = value; }
+        public bool IsCheckedDupOpt { get => isCheckedDupOpt; set => isCheckedDupOpt = value; }
+        public List<string> StrListForView { get => strListForView; set => strListForView = value; }
+        public int LeftPoint { get => leftPoint; set => leftPoint = value; }
+        public int TopPoint { get => topPoint; set => topPoint = value; }
     }
 }

@@ -3,6 +3,7 @@ using Biden.View;
 using Biden.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace Biden.Func
 
         }
 
+
+        //클립보드 ListView의 Item을 추가 
         public void SetItem(string str)
         {
             if (str == "")
@@ -29,7 +32,10 @@ namespace Biden.Func
 
             List<string> list = ModelFunc3.getInstance.StrList;
 
-            if (list.Contains(str) != true)
+            if (ModelFunc3.getInstance.IsCheckedDupOpt == true && list.Contains(str) == true)
+            {
+            }
+            else
             {
                 list.Add(str);
             }
@@ -41,11 +47,10 @@ namespace Biden.Func
                 FuncWindow3.getInstance.SetListView();
             }));
 
-
-
             //MessageBox.Show("getsetItem", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
         }
 
+        //클립보드 ListView의 Item을 추출
         public static string GetItem()
         {
             string res = "";
@@ -56,8 +61,8 @@ namespace Biden.Func
             }
             else if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(1)) //스택
             {
-                res = ModelFunc3.getInstance.StrList.ElementAt(ModelFunc3.getInstance.StrList.Count);
-                ModelFunc3.getInstance.StrList.RemoveAt(ModelFunc3.getInstance.StrList.Count);
+                res = ModelFunc3.getInstance.StrList.ElementAt(ModelFunc3.getInstance.StrList.Count - 1);
+                ModelFunc3.getInstance.StrList.RemoveAt(ModelFunc3.getInstance.StrList.Count - 1);
             }
             else if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))  //선택창
             {
@@ -65,18 +70,16 @@ namespace Biden.Func
                 {
                     tempWindow = FuncWindow3_ClipList.getInstance;
                 }
-                tempWindow.ShowDialog();
+                //바인딩 문제로 창 위치 임시방편 처리
+                FuncWindow3_ClipList.getInstance.setPos();
+                //tempWindow.ShowDialog();
                 res = ModelFunc3.getInstance.SelectedString;
+                //MessageBox.Show("2", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
                 return res;
                 //MessageBox.Show("선택창");
             }
 
-            DispatcherService.Invoke((System.Action)(() =>
-            {
-                // your logic
-                //ViewModelFunc3.optionObjectCollection.Add(new ViewModelFunc3.MacroInfo2() { No = "a", Str = "bbb"});
-                FuncWindow3.getInstance.SetListView();
-            }));
+            
             //ModelFunc3.;
 
             return res;

@@ -130,7 +130,7 @@
                     <Separator/>
                 </MenuItem>
             </Menu>
-            <CheckBox  Content="No duplicates" Canvas.Left="293" Canvas.Top="415" Height="16" Width="103" IsChecked="{Binding isCheckedOpt03}" CommandParameter="{Binding isCheckedOpt03}"/>
+            <CheckBox  Content="No duplicates" Canvas.Left="293" Canvas.Top="415" Height="16" Width="103" IsChecked="{Binding IsCheckedOpt03}" CommandParameter="{Binding IsCheckedOpt03}"/>
             <ComboBox Canvas.Left="18" Canvas.Top="411" Width="267"
                       SelectedValue="{Binding Path=SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source}">
             </ComboBox>

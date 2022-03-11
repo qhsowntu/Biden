@@ -30,7 +30,9 @@ namespace Biden.ViewModel
         public Command CmdOnOffBtn { get; set; }
         public Command TestBtn01 { get; set; }
 
-
+        private int topPoint;
+        private int leftPoint;
+        private bool isCheckedOpt03;
         private bool spinner;
         private int count;
         private Thread myThread;
@@ -39,9 +41,8 @@ namespace Biden.ViewModel
         protected static List<Func3RuleClass> ruleList;
         protected static Func3RuleClass rule;
         protected static int ruleCounter;
-        public static ObservableCollection<MacroInfo2> optionObjectCollection;
+        public static ObservableCollection<MacroInfo3> optionObjectCollection;
         protected static int editedIndex;
-        public ModelFunc3 func3Class;
         private static Macro macro;
 
         public ViewModelFunc3()
@@ -69,9 +70,9 @@ namespace Biden.ViewModel
                 ruleList = ModelFunc3.getInstance.RuleList;
                 rule = new Func3RuleClass();
                 ruleCounter = 1;
-                optionObjectCollection = new ObservableCollection<MacroInfo2>();
+                optionObjectCollection = new ObservableCollection<MacroInfo3>();
                 macro = Macro.getInstance;
-                func3Class = ModelFunc3.getInstance;
+                ModelFunc3.getInstance.TheSelectedItem = ModelFunc3.getInstance.Source.ElementAt(2);
                 AddSampleRules();
                 //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
             }
@@ -79,13 +80,11 @@ namespace Biden.ViewModel
 
         private void AddSampleRules()
         {
-            //nameStr = "SampleRules1";
-            //fromStr = "1";
-            //toStr = "2";
-            //prefixStr = "Pre";
-            //postfixStr = "Post";
-            
-            removeStr();
+            ModelFunc3.getInstance.StrList.Add("전임1");
+            ModelFunc3.getInstance.StrList.Add("선임1");
+            ModelFunc3.getInstance.StrList.Add("책임1");
+            ModelFunc3.getInstance.StrList.Add("수석1");
+            StrObjectAndSync();
         }
 
         private void Execute_FuncBtn01(object obj)
@@ -163,16 +162,25 @@ namespace Biden.ViewModel
             }
         }
 
+
+
         public void StrObjectAndSync()
         {
 
-            ObservableCollection<MacroInfo2> tempCollection = new ObservableCollection<MacroInfo2>();
+            ObservableCollection<MacroInfo3> tempCollection = new ObservableCollection<MacroInfo3>();
             for (int i = 0; i < ModelFunc3.getInstance.StrList.Count; i++)
             {
-                MacroInfo2 tempInfo = new MacroInfo2();
+                MacroInfo3 tempInfo = new MacroInfo3();
                 {
                     tempInfo.No = "" + (i + 1);
                     tempInfo.Str = "" + ModelFunc3.getInstance.StrList[i];
+                    //View에 보여지는 문장 수정. 너무 길면 짤리도록.
+                    if (tempInfo.Str.Length > 22)
+                    {
+                        tempInfo.Str = (tempInfo.Str).Substring(0, 21) + "...";
+                    }
+                    tempInfo.Str = (tempInfo.Str).Replace("\n", "").Replace("\n", "").Replace("\r", "").Replace("\a", "");
+
                 }
                 tempCollection.Add(tempInfo);
             }
@@ -180,7 +188,8 @@ namespace Biden.ViewModel
         }
 
 
-        public ObservableCollection<MacroInfo2> OptionObjectCollection
+
+        public ObservableCollection<MacroInfo3> OptionObjectCollection
         {
             get { return optionObjectCollection; }
             set
@@ -191,7 +200,7 @@ namespace Biden.ViewModel
                 OnPropertyChanged("OptionObjectCollection");
             }
         }
-        public ObservableCollection<MacroInfo2> SelectedOptionObject
+        public ObservableCollection<MacroInfo3> SelectedOptionObject
         {
             get { return optionObjectCollection; }
             set
@@ -243,6 +252,21 @@ namespace Biden.ViewModel
             }
 
         }
+
+        public bool IsCheckedOpt03
+        {
+            get
+            {
+                return ModelFunc3.getInstance.IsCheckedDupOpt;
+            }
+            set
+            {
+                ModelFunc3.getInstance.IsCheckedDupOpt = value;
+                OnPropertyChanged("IsCheckedOpt03");
+            }
+        }
+
+
         public bool CmdFuncSpin01
         {
             get
@@ -280,8 +304,9 @@ namespace Biden.ViewModel
             set
             {
                 ModelFunc3.getInstance.SelectedString = value;
-                WindowPos.SendWpfWindowBack(FuncWindow3_ClipList.getInstance);
-                WindowPos.SendWpfWindowBack(FuncWindow3.getInstance);
+                //WindowPos.SendWpfWindowBack(FuncWindow3_ClipList.getInstance);
+                //WindowPos.SendWpfWindowBack(FuncWindow3.getInstance);
+                FuncWindow3_ClipList.getInstance.Hide();
                 OnPropertyChanged("SelectedString");
             }
         }
@@ -303,15 +328,7 @@ namespace Biden.ViewModel
             get { return ModelFunc3.getInstance.Source; }
         }
 
-        public class MacroInfo
-        {
-            public string No { get; set; }
-            public string Name { get; set; }
-            public override string ToString() => Name;
-            //public string Edit;
-            //public string Delete;
-        }
-        public class MacroInfo2
+        public class MacroInfo3
         {
             public string No { get; set; }
             public string Str { get; set; }

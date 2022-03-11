@@ -94,6 +94,10 @@
     <Compile Include="Func\MultiClipboard.cs" />
     <Compile Include="Func\ObservableClass\ObservableQueue.cs" />
     <Compile Include="Func\ObservableClass\ObservableStack.cs" />
+    <Compile Include="Func\PasteMonitor\PasteAlert.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Func\PasteMonitor\TextCompositionManager.cs" />
     <Compile Include="Func\SpellCheck\SpellCheck.cs" />
     <Compile Include="Func\WindowPos.cs" />
     <Compile Include="Model\Func3RuleClass.cs" />
