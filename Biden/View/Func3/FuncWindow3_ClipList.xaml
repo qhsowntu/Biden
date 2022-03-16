@@ -94,7 +94,7 @@
                         <GridViewColumn Width="194" Header="Contents" DisplayMemberBinding="{Binding Obj}">
                             <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Border Width="30" Height="30" Background="Yellow"  >
+                                <Border Width="50" Height="30" Background="Yellow"  >
                                     <Image Width="10" Height="10" Stretch="Fill"
                                         Source="{Binding Path=DataContext.Obj, RelativeSource={RelativeSource AncestorType=ListView}}"
                                         HorizontalAlignment="Center" Margin="0,0,0,0" />
