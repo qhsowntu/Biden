@@ -24,13 +24,11 @@ namespace Biden.Func
         //클립보드 ListView의 Item을 추가 
         public void SetItem(string str)
         {
-            if (str == "")
+            if (str == "" || str == null)
             {
                 return;
             }
-
-
-            List<string> list = ModelFunc3.getInstance.StrList;
+            List<object> list = ModelFunc3.getInstance.ObjList;
 
             if (ModelFunc3.getInstance.IsCheckedDupOpt == true && list.Contains(str) == true)
             {
@@ -39,30 +37,48 @@ namespace Biden.Func
             {
                 list.Add(str);
             }
-            ModelFunc3.getInstance.StrList = list;
+            ModelFunc3.getInstance.ObjList = list;
             DispatcherService.Invoke((System.Action)(() =>
             {
-                // your logic
-                //ViewModelFunc3.optionObjectCollection.Add(new ViewModelFunc3.MacroInfo2() { No = "a", Str = "bbb"});
                 FuncWindow3.getInstance.SetListView();
             }));
+        }
+        public void SetItem(System.Drawing.Image image)
+        {
+            if (image == null)
+            {
+                return;
+            }
+            List<object> list = ModelFunc3.getInstance.ObjList;
 
-            //MessageBox.Show("getsetItem", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
+            if (ModelFunc3.getInstance.IsCheckedDupOpt == true && list.Contains(image) == true)
+            {
+            }
+            else
+            {
+                list.Add(image);
+            }
+            ModelFunc3.getInstance.ObjList = list;
+            DispatcherService.Invoke((System.Action)(() =>
+            {
+                FuncWindow3.getInstance.SetListView();
+            }));
         }
 
+
         //클립보드 ListView의 Item을 추출
-        public static string GetItem()
+        public static object GetItem()
         {
-            string res = "";
+            object res = "";
             if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(0)) //큐
             {
-                res = ModelFunc3.getInstance.StrList.ElementAt(0);
-                ModelFunc3.getInstance.StrList.RemoveAt(0);
+                res = ModelFunc3.getInstance.ObjList.ElementAt(0);
+                ModelFunc3.getInstance.ObjList.RemoveAt(0);
             }
             else if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(1)) //스택
             {
-                res = ModelFunc3.getInstance.StrList.ElementAt(ModelFunc3.getInstance.StrList.Count - 1);
-                ModelFunc3.getInstance.StrList.RemoveAt(ModelFunc3.getInstance.StrList.Count - 1);
+                res = ModelFunc3.getInstance.ObjList.ElementAt(ModelFunc3.getInstance.ObjList.Count - 1);
+                ModelFunc3.getInstance.ObjList.RemoveAt(ModelFunc3.getInstance.ObjList.Count - 1);
             }
             else if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))  //선택창
             {
@@ -88,9 +104,9 @@ namespace Biden.Func
 
             return res;
         }
-        public string GetMapItem()
+        public object GetMapItem()
         {
-            string res = "";
+            object res = "";
             if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))  //선택창
             {
                 if (tempWindow == null)
@@ -107,7 +123,7 @@ namespace Biden.Func
                     FuncWindow3_ClipList.getInstance.setPos();
                     tempWindow.ShowDialog();
                 }));
-                res = ModelFunc3.getInstance.StrList[Int32.Parse(ModelFunc3.getInstance.SelectedStringIndex)];
+                res = ModelFunc3.getInstance.ObjList[Int32.Parse(ModelFunc3.getInstance.SelectedStringIndex)];
                 //MessageBox.Show("2", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
                 return res;
             }

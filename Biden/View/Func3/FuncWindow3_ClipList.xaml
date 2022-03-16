@@ -84,10 +84,45 @@
             <!-- SelectedItem="{Binding SelectedFileObject}"-->
             <ListView Name ="ListView" ItemsSource="{Binding OptionObjectCollection2}"  SelectedItem="{Binding SelectedString}" SelectedIndex="{Binding SelectedStringIndex}" IsSynchronizedWithCurrentItem="True" FontSize="10"
                      Height="298" Canvas.Left="18" Canvas.Top="30" Width="200" Background="#FFF4F8FF" BorderBrush="#FFF4F8FF" BorderThickness="0">
-                <ListView.View>
+                <ListViewItem>
                     <GridView>
-                        <GridViewColumn Width="0" Header="No" DisplayMemberBinding="{Binding No}"/>
-                        <GridViewColumn Width="194" Header="Contents" DisplayMemberBinding="{Binding Str}"  CellTemplate="{StaticResource NameColumnTemplate}"/>
+                        <GridViewColumn Width="0" Header="No" DisplayMemberBinding="{Binding No}">
+                        </GridViewColumn>
+                        <!--< <GridViewColumn Width="194" Header="Contents" DisplayMemberBinding="{Binding Obj}"  CellTemplate="{StaticResource NameColumnTemplate}">
+                        </GridViewColumn> -->
+
+                        <GridViewColumn Width="194" Header="Contents" DisplayMemberBinding="{Binding Obj}">
+                            <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Width="30" Height="30" Background="Yellow"  >
+                                    <Image Width="10" Height="10" Stretch="Fill"
+                                        Source="{Binding Path=DataContext.Obj, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                        HorizontalAlignment="Center" Margin="0,0,0,0" />
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+
+
+
+
+
+
+
+                        <!--<
+                        <GridViewColumn >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Grid.Column="1" Margin="0,0,0,0" Width="19"
+                                                Source="{Binding Obj}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        -->
+                        
                         <!--<GridViewColumn Width="80" Header="Edit / Delete" CellTemplate="{StaticResource AddDelItemTemplate}"/> -->
 
                         <GridViewColumn Header="Del" Width="0">
@@ -104,7 +139,7 @@
                         </GridViewColumn>
 
                     </GridView>
-                </ListView.View>
+                </ListViewItem>
             </ListView>
 
         </Canvas>

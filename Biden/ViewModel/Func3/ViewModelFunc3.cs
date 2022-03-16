@@ -81,10 +81,10 @@ namespace Biden.ViewModel
 
         private void AddSampleRules()
         {
-            ModelFunc3.getInstance.StrList.Add("전임1");
-            ModelFunc3.getInstance.StrList.Add("선임1");
-            ModelFunc3.getInstance.StrList.Add("책임1");
-            ModelFunc3.getInstance.StrList.Add("수석1");
+            ModelFunc3.getInstance.ObjList.Add("전임1");
+            ModelFunc3.getInstance.ObjList.Add("선임1");
+            ModelFunc3.getInstance.ObjList.Add("책임1");
+            ModelFunc3.getInstance.ObjList.Add("수석1");
             StrObjectAndSync();
         }
 
@@ -110,11 +110,11 @@ namespace Biden.ViewModel
         private void Execute_CmdDeleteBtn01(object obj)
         {
             //
-            for (int i = 0; i < ModelFunc3.getInstance.StrList.Count; i++)
+            for (int i = 0; i < ModelFunc3.getInstance.ObjList.Count; i++)
             {
-                if (ModelFunc3.getInstance.StrList[i] == obj + "")
+                if (ModelFunc3.getInstance.ObjList[i] == obj + "")
                 {
-                    ModelFunc3.getInstance.StrList.RemoveAt(i);
+                    ModelFunc3.getInstance.ObjList.RemoveAt(i);
                 }
             }
             StrObjectAndSync();
@@ -169,18 +169,25 @@ namespace Biden.ViewModel
         {
 
             ObservableCollection<MacroInfo3> tempCollection = new ObservableCollection<MacroInfo3>();
-            for (int i = 0; i < ModelFunc3.getInstance.StrList.Count; i++)
+            for (int i = 0; i < ModelFunc3.getInstance.ObjList.Count; i++)
             {
                 MacroInfo3 tempInfo = new MacroInfo3();
                 {
                     tempInfo.No = "" + (i + 1);
-                    tempInfo.Str = "" + ModelFunc3.getInstance.StrList[i];
+                    tempInfo.Obj = "" + ModelFunc3.getInstance.ObjList[i];
                     //View에 보여지는 문장 수정. 너무 길면 짤리도록.
-                    if (tempInfo.Str.Length > 22)
+
+                    if (ModelFunc3.getInstance.ObjList[i].GetType() == typeof(System.Drawing.Bitmap))
                     {
-                        tempInfo.Str = (tempInfo.Str).Substring(0, 21) + "...";
+
+                    } else if (ModelFunc3.getInstance.ObjList[i].GetType() == typeof(System.String) )
+                    {
+                        if (((string)tempInfo.Obj).Length > 22)
+                        {
+                            tempInfo.Obj = ((string)tempInfo.Obj).Substring(0, 21) + "...";
+                        }
+                        tempInfo.Obj = ((string)tempInfo.Obj).Replace("\n", "").Replace("\n", "").Replace("\r", "").Replace("\a", "");
                     }
-                    tempInfo.Str = (tempInfo.Str).Replace("\n", "").Replace("\n", "").Replace("\r", "").Replace("\a", "");
 
                 }
                 tempCollection.Add(tempInfo);
@@ -360,8 +367,7 @@ namespace Biden.ViewModel
         public class MacroInfo3
         {
             public string No { get; set; }
-            public string Str { get; set; }
-            public override string ToString() => Str;
+            public object Obj { get; set; }
             //public string Edit;
             //public string Delete;
         }

@@ -739,14 +739,11 @@ namespace Biden.Func
                 {
                     try
                     {
-                        //idat = Clipboard.GetDataObject();
-                        if (Clipboard.ContainsText(TextDataFormat.Text))
+                        IDataObject idat = Clipboard.GetDataObject();
+                        //MessageBox.Show(idat.GetFormats(). + "");
+                        if (Clipboard.ContainsText()) //Clipboard.ContainsText(TextDataFormat.Text)
                         {
-                            res = Clipboard.GetText(TextDataFormat.Text);
-                        }
-                        else
-                        {
-                            res = "";
+                            res = Clipboard.GetText();
                         }
                     }
 
@@ -762,7 +759,75 @@ namespace Biden.Func
             return res;
         }
 
-        public static void setClipBoardText(String str)
+        public System.Drawing.Image getClipBoardImage()
+        {
+
+            System.Drawing.Image res = null;
+            //IDataObject idat = null;
+            Exception threadEx = null;
+            Thread staThread = new Thread(
+                delegate ()
+                {
+                    try
+                    {
+                        IDataObject idat = Clipboard.GetDataObject();
+                        //MessageBox.Show(idat.GetFormats(). + "");
+                        if (Clipboard.ContainsImage())
+                        {
+                            res = Clipboard.GetImage();
+                        }
+                    }
+
+                    catch (Exception ex)
+                    {
+                        threadEx = ex;
+                    }
+                });
+            staThread.IsBackground = true;
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            staThread.Join();
+            return res;
+        }
+
+        public String getClipBoardDataType()
+        {
+
+            String res = "";
+            //IDataObject idat = null;
+            Exception threadEx = null;
+            Thread staThread = new Thread(
+                delegate ()
+                {
+                    try
+                    {
+                        if (Clipboard.ContainsText()) //Clipboard.ContainsText(TextDataFormat.Text)
+                        {
+                            res = "Text";
+                        }
+                        else if (Clipboard.ContainsImage() == true)
+                        {
+                            res = "Image";
+                        }
+                        else
+                        {
+                            res = "None";
+                        }
+                    }
+
+                    catch (Exception ex)
+                    {
+                        threadEx = ex;
+                    }
+                });
+            staThread.IsBackground = true;
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            staThread.Join();
+            return res;
+        }
+
+        public static void setClipBoardText(object obj)
         {
             Exception threadEx = null;
             Thread staThread = new Thread(
@@ -770,12 +835,12 @@ namespace Biden.Func
                 {
                     try
                     {
-                        if (str == "") {
+                        if ((string)obj == "") {
                             Clipboard.Clear();
                         }
                         else 
                         {
-                            Clipboard.SetText(str + "");
+                            Clipboard.SetText(obj + "");
                         }
                     }
                     catch (Exception ex)
@@ -943,45 +1008,73 @@ namespace Biden.Func
 
             if (key1 == "" && key2 == "" && (Control.ModifierKeys + "").Contains("None"))
             {
+                
                 if (flag1 && (modeOn1 == true || modeOn2 == true || modeOn3 == true || modeOn4 == true) && isRunning == false)
                 {
-                    isRunning = true;
-                    removeBlankFlag = false; // 차트 형식 내 변환 확인. flag가 false상태로 유지 될 경우 빈칸을 "_"으로 변환함.
-                    string clipboardText = "";
-                    clipboardText = "" + getClipBoardText();
-                    String modifiedText = "";
-                    try
+                    if (getClipBoardDataType() == "Text")
                     {
-                        if (ModelFunc1.getInstance.IsChecked01 == true)
+                        try
                         {
-                            modifiedText = correctString.getModifiedText(clipboardText);
-                            clipboardText = correctString.getModifiedText(clipboardText);
+                            isRunning = true;
+                            removeBlankFlag = false; // 차트 형식 내 변환 확인. flag가 false상태로 유지 될 경우 빈칸을 "_"으로 변환함.
+                            string clipboardText = "";
+                            clipboardText = "" + getClipBoardText();
+                            String modifiedText = "";
+
+                            if (ModelFunc1.getInstance.IsChecked01 == true)
+                            {
+                                modifiedText = correctString.getModifiedText(clipboardText);
+                                clipboardText = correctString.getModifiedText(clipboardText);
+                            }
+                            if (ModelFunc2.getInstance.IsChecked02 == true)
+                            {
+                                findAndAlert.FindStringAndAlert(clipboardText);
+                            }
+                            if (ModelFunc3.getInstance.IsChecked03 == true)
+                            {
+                                multiClipboard.SetItem(clipboardText);
+                            }
+                            string ss = "";
+                            if (clipboardText != "")
+                            {
+                                setClipBoardText(modifiedText);
+                            }
                         }
-                        if (ModelFunc2.getInstance.IsChecked02 == true)
+                        catch (Exception e)
                         {
-                            findAndAlert.FindStringAndAlert(clipboardText);
+                            //MessageBox.Show(e+"");
                         }
-                        if (ModelFunc3.getInstance.IsChecked03 == true)
+                        finally
                         {
-                            multiClipboard.SetItem(clipboardText);
+                            //form.textBox1.Text = clipboardText;
+                            //form.textBox2.Text = modifiedText;
+                            //SendKeys.SendWait(form.textBox1.Text);
+                            isRunning = false;
+                            flag1 = false;
                         }
-                        string ss = "";
-                        if (clipboardText != "")
-                        {
-                            setClipBoardText(modifiedText);
-                        }
-                    }
-                    catch (Exception e)
+                    }else if(getClipBoardDataType() == "Image")
                     {
-                        //MessageBox.Show(e+"");
-                    }
-                    finally
-                    {
-                        //form.textBox1.Text = clipboardText;
-                        //form.textBox2.Text = modifiedText;
-                        //SendKeys.SendWait(form.textBox1.Text);
-                        isRunning = false;
-                        flag1 = false;
+                        try
+                        {
+                            isRunning = true;
+                            removeBlankFlag = false; // 차트 형식 내 변환 확인. flag가 false상태로 유지 될 경우 빈칸을 "_"으로 변환함.
+                            System.Drawing.Image clipboardImage = null;
+                            clipboardImage = getClipBoardImage();
+
+                            if (ModelFunc3.getInstance.IsChecked03 == true)
+                            {
+                                multiClipboard.SetItem(clipboardImage);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            //MessageBox.Show(e+"");
+                        }
+                        finally
+                        {
+                            isRunning = false;
+                            flag1 = false;
+                        }
                     }
                 }
                 else if (flag2 && modeOn3 == true && isRunning == false && ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))
@@ -992,10 +1085,10 @@ namespace Biden.Func
                         
                         if (ModelFunc3.getInstance.IsChecked03 == true)
                         {
-                            string text = multiClipboard.GetMapItem();  /////////////////// 창이 안뜸
-                            if (text != "")
+                            object obj = multiClipboard.GetMapItem();  /////////////////// 창이 안뜸
+                            if (obj != "")
                             {
-                                setClipBoardText(text);
+                                setClipBoardText(obj);
                             }
                             if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))
                             {
@@ -1047,13 +1140,13 @@ namespace Biden.Func
         {
             if (ModelFunc3.getInstance.IsChecked03 == true && ModelFunc3.getInstance.TheSelectedItem != ModelFunc3.getInstance.Source.ElementAt(2) && doublePasteFlag == true)
             {
-                String text = "";
+                object obj = "";
                 try
                 {
-                    text = MultiClipboard.GetItem();
-                    if (text != "")
+                    obj = MultiClipboard.GetItem();
+                    if (obj != null)
                     {
-                        setClipBoardText(text);
+                        setClipBoardText(obj);
                     }
                 }
                 catch (Exception e)

@@ -10,7 +10,7 @@ namespace Biden.Model
     class ModelFunc3
     {
         private List<Func3RuleClass> ruleList;
-        private List<string> strList;
+        private List<object> objList;
         private List<string> strListForView;
 
         private static ModelFunc3 instance = null;
@@ -28,7 +28,7 @@ namespace Biden.Model
         private ModelFunc3()
         {
             RuleList = new List<Func3RuleClass>();
-            strList = new List<string>();
+            ObjList = new List<object>();
             StrListForView = new List<string>();
             Source = new List<string> {
                 "[FIFO] Using The Clipboard as a Queue",
@@ -52,7 +52,6 @@ namespace Biden.Model
 
         internal List<Func3RuleClass> RuleList { get => ruleList; set => ruleList = value; }
         public bool IsChecked03 { get => _isChecked03; set => _isChecked03 = value; }
-        public List<string> StrList { get => strList; set => strList = value; }
         public string TheSelectedItem { get => _theSelectedItem; set => _theSelectedItem = value; }
         public List<string> Source { get => _source; set => _source = value; }
         public string SelectedString { get => selectedString; set => selectedString = value; }
@@ -61,5 +60,6 @@ namespace Biden.Model
         public int LeftPoint { get => leftPoint; set => leftPoint = value; }
         public int TopPoint { get => topPoint; set => topPoint = value; }
         public string SelectedStringIndex { get => selectedStringIndex; set => selectedStringIndex = value; }
+        public List<object> ObjList { get => objList; set => objList = value; }
     }
 }
