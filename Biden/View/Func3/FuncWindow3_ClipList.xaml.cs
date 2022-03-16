@@ -45,31 +45,23 @@ namespace Biden.View
             }
         }
 
+        //창 외부 클릭 시, 창 숨김
+        protected override void OnDeactivated(EventArgs e)
+        {
+            base.OnDeactivated(e);
+            base.Hide();
+        }
         public void setPos()
         {
             System.Drawing.Point p = Macro.getMousePosAndColor();
             this.Top = p.Y;
             this.Left = p.X;
         }
-        /*
-        public override void CloseButton_Click(object sender, RoutedEventArgs e)
+        public void SetListView()
         {
-            //MessageBox.Show(this+"@");
-            //Macro.getInstance.PasteModeOn = false;
-            //Macro.destroy();
-            string windowName = this + "";
-            if (windowName.Contains("MainWindow"))
-            {
-                deleteAllWindow();
-                //this.Close();
-                return;
-            }
-            else
-            {
-                this.Hide();
-            }
-        }*/
-
+            this.DataContext = _viewModel;
+            _viewModel.StrObjectAndSync();
+        }
 
 
     }

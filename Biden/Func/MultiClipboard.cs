@@ -68,11 +68,15 @@ namespace Biden.Func
             {
                 if (tempWindow == null)
                 {
-                    tempWindow = FuncWindow3_ClipList.getInstance;
+                    DispatcherService.Invoke((System.Action)(() =>
+                    {
+                        tempWindow = FuncWindow3_ClipList.getInstance;
+                    }));
                 }
                 //바인딩 문제로 창 위치 임시방편 처리
+                FuncWindow3.getInstance.SetListView();
                 FuncWindow3_ClipList.getInstance.setPos();
-                //tempWindow.ShowDialog();
+                tempWindow.ShowDialog();
                 res = ModelFunc3.getInstance.SelectedString;
                 //MessageBox.Show("2", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
                 return res;
@@ -81,6 +85,32 @@ namespace Biden.Func
 
             
             //ModelFunc3.;
+
+            return res;
+        }
+        public string GetMapItem()
+        {
+            string res = "";
+            if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))  //선택창
+            {
+                if (tempWindow == null)
+                {
+                    DispatcherService.Invoke((System.Action)(() =>
+                    {
+                        tempWindow = FuncWindow3_ClipList.getInstance;
+                    }));
+                }
+                //바인딩 문제로 창 위치 임시방편 처리
+                DispatcherService.Invoke((System.Action)(() =>
+                {
+                    FuncWindow3_ClipList.getInstance.SetListView();
+                    FuncWindow3_ClipList.getInstance.setPos();
+                    tempWindow.ShowDialog();
+                }));
+                res = ModelFunc3.getInstance.StrList[Int32.Parse(ModelFunc3.getInstance.SelectedStringIndex)];
+                //MessageBox.Show("2", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
+                return res;
+            }
 
             return res;
         }

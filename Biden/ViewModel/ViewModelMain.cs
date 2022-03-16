@@ -109,7 +109,6 @@ namespace Biden.ViewModel
         {
             //do Something
             if (obj + "" == "True")
-
             {
                 if (Macro.getInstance.IsInit == false)
                 {
@@ -118,12 +117,12 @@ namespace Biden.ViewModel
                     macro.start();
                 }
                 IsChecked01 = true;
-                Macro.getInstance.ModeOn = true;
+                Macro.getInstance.ModeOn1 = true;
             }
             else
             {
                 IsChecked01 = false;
-                Macro.getInstance.ModeOn = false;
+                Macro.getInstance.ModeOn1 = false;
             }
             FuncWindow1.getInstance.SetCheckBox01();
         }
@@ -139,12 +138,12 @@ namespace Biden.ViewModel
                     macro.start();
                 }
                 IsChecked02 = true;
-                Macro.getInstance.ModeOn = true;
+                Macro.getInstance.ModeOn2 = true;
             }
             else
             {
                 IsChecked02 = false;
-                Macro.getInstance.ModeOn = false;
+                Macro.getInstance.ModeOn2 = false;
             }
             FuncWindow2.getInstance.SetCheckBox02();
         }
@@ -153,19 +152,21 @@ namespace Biden.ViewModel
             //do Something
             if (obj + "" == "True")
             {
+                Macro.setClipBoardText("");
                 if (Macro.getInstance.IsInit == false)
                 {
                     Macro.getInstance.IsInit = true;
                     Macro.create();
                     macro.start();
                 }
+                Macro.doublePasteFlag = false;
                 IsChecked03 = true;
-                Macro.getInstance.ModeOn = true;
+                Macro.getInstance.ModeOn3 = true;
             }
             else
             {
                 IsChecked03 = false;
-                Macro.getInstance.ModeOn = false;
+                Macro.getInstance.ModeOn3 = false;
             }
             //FuncWindow3.getInstance.SetCheckBox03();
         }

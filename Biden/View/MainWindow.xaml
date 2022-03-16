@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:Biden.View"
         xmlns:ViewModel="clr-namespace:Biden.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="280" Width="300" ResizeMode="NoResize" Background="Transparent"
-                   WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+        Title="MainWindow" Height="282" Width="302" ResizeMode="NoResize" Background="Transparent"
+                   WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True" >
     <Window.DataContext>
         <ViewModel:ViewModelMain/>
     </Window.DataContext>
-    <Border Width="{Binding ActualWidth,RelativeSource={RelativeSource FindAncestor, AncestorType=Border}}" Height="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor,AncestorType=Border}}">
+    <Border BorderThickness="1" BorderBrush="#FFD6DFE8" Width="{Binding ActualWidth,RelativeSource={RelativeSource FindAncestor, AncestorType=Border}}" Height="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor,AncestorType=Border}}">
         <Border.OpacityMask>
             <VisualBrush>
                 <VisualBrush.Visual>
@@ -23,7 +23,7 @@
                 </VisualBrush.Visual>
             </VisualBrush>
         </Border.OpacityMask>
-        <Canvas x:Name="mainCanvas" Width="300" Height="280" VerticalAlignment="Bottom" Background="#FFE6EFF8" >
+        <Canvas x:Name="mainCanvas" Width="300" Height="280" VerticalAlignment="Bottom" Background="#FFE6EFF8">
             <Button Visibility="Hidden" Content="{Binding Text01}" HorizontalAlignment="Left" x:Name="Btn01" Background ="{Binding ColorBtn01}"  VerticalAlignment="Top" Command="{Binding CmdBtn01}" Height="20" Width="40" BorderBrush="White" Canvas.Left="15" Canvas.Top="112"/>
             <TextBox Visibility="Hidden" HorizontalAlignment="Left" Height="20" Margin="15,62,0,0" Text="{Binding Num, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
             <TextBox Visibility="Hidden" HorizontalAlignment="Left" Height="20" Margin="15,87,0,0" Text="{Binding Num2, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="40"/>
@@ -34,7 +34,7 @@
                 BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Top"  Canvas.Right ="19" Canvas.Top ="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FF4A4A4A"/>
                 <Button x:Name="minButton" Content="―" Width="14" Height="14" Click="MinButton_Click"  FontWeight="Bold" FontFamily="Corbel"
                 BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Top"  Canvas.Right ="33" Canvas.Top ="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FF4A4A4A"/>
-                <Label Content="Copy And Paste Tool " Height="32" Canvas.Left="14" Canvas.Top="5" Width="177" FontWeight="Bold" FontSize="16" Foreground="#FF313131" />
+                <Label Content="Proto Biden" Height="32" Canvas.Left="14" Canvas.Top="5" Width="177" FontWeight="Bold" FontSize="16" Foreground="#FF313131" />
             </Canvas>
             <Button Content="Correct" HorizontalAlignment="Left" x:Name="FuncBtn01" VerticalAlignment="Top" Command="{Binding CmdFuncBtn01}" 
                     Height="40" Width="170" BorderBrush="Transparent" Canvas.Left="18" Canvas.Top="77" BorderThickness="0" SnapsToDevicePixels="True" 

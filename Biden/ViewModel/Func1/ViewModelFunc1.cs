@@ -183,13 +183,13 @@ namespace Biden.ViewModel
                     Macro.create();
                     macro.start();
                 }
-                Macro.getInstance.ModeOn = true;
+                Macro.getInstance.ModeOn1 = true;
                 IsChecked01 = true;
             }
             else
             {
                 IsChecked01 = false;
-                Macro.getInstance.ModeOn = false;
+                Macro.getInstance.ModeOn1 = false;
             }
             MainWindow.getInstance.SetSyncCheckBox();
             DoSpin();

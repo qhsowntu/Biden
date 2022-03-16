@@ -23,6 +23,7 @@ namespace Biden.Model
         private List<string> _source;
 
         private string selectedString;
+        private string selectedStringIndex;
 
         private ModelFunc3()
         {
@@ -59,5 +60,6 @@ namespace Biden.Model
         public List<string> StrListForView { get => strListForView; set => strListForView = value; }
         public int LeftPoint { get => leftPoint; set => leftPoint = value; }
         public int TopPoint { get => topPoint; set => topPoint = value; }
+        public string SelectedStringIndex { get => selectedStringIndex; set => selectedStringIndex = value; }
     }
 }

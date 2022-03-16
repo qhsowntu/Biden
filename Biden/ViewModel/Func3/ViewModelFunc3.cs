@@ -42,6 +42,7 @@ namespace Biden.ViewModel
         protected static Func3RuleClass rule;
         protected static int ruleCounter;
         public static ObservableCollection<MacroInfo3> optionObjectCollection;
+        private static ObservableCollection<MacroInfo3> optionObjectCollection2;
         protected static int editedIndex;
         private static Macro macro;
 
@@ -136,13 +137,13 @@ namespace Biden.ViewModel
                     Macro.create();
                     macro.start();
                 }
-                Macro.getInstance.ModeOn = true;
+                Macro.getInstance.ModeOn3 = true;
                 IsChecked03 = true;
             }
             else
             {
                 IsChecked03 = false;
-                Macro.getInstance.ModeOn = false;
+                Macro.getInstance.ModeOn3 = false;
             }
             MainWindow.getInstance.SetSyncCheckBox();
             DoSpin();
@@ -185,6 +186,7 @@ namespace Biden.ViewModel
                 tempCollection.Add(tempInfo);
             }
             OptionObjectCollection = tempCollection;
+            OptionObjectCollection2 = tempCollection;
         }
 
 
@@ -210,7 +212,16 @@ namespace Biden.ViewModel
                 OnPropertyChanged("SelectedOptionObject");
             }
         }
-
+        public ObservableCollection<MacroInfo3> OptionObjectCollection2
+        {
+            get { return optionObjectCollection2; }
+            set
+            {
+                if (value != optionObjectCollection2)
+                    optionObjectCollection2 = value;
+                OnPropertyChanged("OptionObjectCollection2");
+            }
+        }
 
         private void Execute_TestBtn01(object obj)
         {
@@ -311,6 +322,23 @@ namespace Biden.ViewModel
             }
         }
 
+        public string SelectedStringIndex
+        {
+            get
+            {
+                return ModelFunc3.getInstance.SelectedStringIndex;
+            }
+            set
+            {
+                ModelFunc3.getInstance.SelectedStringIndex = value;
+                //WindowPos.SendWpfWindowBack(FuncWindow3_ClipList.getInstance);
+                //WindowPos.SendWpfWindowBack(FuncWindow3.getInstance);
+                FuncWindow3_ClipList.getInstance.Hide();
+                OnPropertyChanged("SelectedStringIndex");
+            }
+        }
+
+
         public string SelectedItem
         {
             get
@@ -327,6 +355,7 @@ namespace Biden.ViewModel
         {
             get { return ModelFunc3.getInstance.Source; }
         }
+
 
         public class MacroInfo3
         {

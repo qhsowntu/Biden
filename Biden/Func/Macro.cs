@@ -31,7 +31,10 @@ namespace Biden.Func
         private static bool isRunning = false;
         private bool isInit = false;
 
-        private bool modeOn = false;
+        private bool modeOn1 = false;
+        private bool modeOn2 = false;
+        private bool modeOn3 = false;
+        private bool modeOn4 = false;
 
         public bool removeBlankFlag = false;
 
@@ -46,6 +49,8 @@ namespace Biden.Func
         private FindAndAlert findAndAlert;
         private MultiClipboard multiClipboard;
         private PasteAlert pasteAlert;
+
+        public static string tempStr = "";
 
         //public static Bitmap screenPixel = new Bitmap(500, 200, PixelFormat.Format32bppArgb);
         public static Bitmap screenPixel = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -77,7 +82,10 @@ namespace Biden.Func
         }
 
         public bool IsInit { get => isInit; set => isInit = value; }
-        public bool ModeOn { get => modeOn; set => modeOn = value; }
+        public bool ModeOn1 { get => modeOn1; set => modeOn1 = value; }
+        public bool ModeOn2 { get => modeOn2; set => modeOn2 = value; }
+        public bool ModeOn3 { get => modeOn3; set => modeOn3 = value; }
+        public bool ModeOn4 { get => modeOn4; set => modeOn4 = value; }
 
         private static class API
         {
@@ -142,6 +150,13 @@ namespace Biden.Func
             //[DllImport("user32.dll")]
             //public static extern bool GetCursorPos2(ref Point lpPoint);
 
+            [DllImport("user32.dll")]
+            public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+            [DllImport("user32.dll")]
+            public static extern bool SetForegroundWindow(IntPtr hWnd);
+            [DllImport("user32.dll")]
+            public static extern IntPtr GetForegroundWindow();
 
         }
 
@@ -315,7 +330,7 @@ namespace Biden.Func
                 iwParam == 0x104)) //0x100 = WM_KEYDOWN, 0x104 = WM_SYSKEYDOWN
                 kh(wParam, lParam);
             return API.CallNextHookEx(hhk, nCode, wParam, lParam);
-        }
+            }
 
         private static void KeyReaderr(IntPtr wParam, IntPtr lParam)
         {
@@ -647,6 +662,19 @@ namespace Biden.Func
         {
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
         private static void send(Keys tempKey)//Keys tempKey, IntPtr wParam, IntPtr lParam
         {
             //MessageBox.Show(Control.ModifierKeys + "");
@@ -654,9 +682,15 @@ namespace Biden.Func
 
             if ((Control.ModifierKeys + "").Contains("Control"))
             {
+                //Paste Select Option이 활성화 된 경우, 클립보드를 공백으로 만듦.
                 //form.textBox17.Text = tempKey.ToString().ToUpper();
                 if (tempKey.ToString().ToUpper() == "C") { flag1 = true; }
-                if (tempKey.ToString().ToUpper() == "V") { flag2 = true; setClipBoardText("@"); GetItemList();  }
+                if (tempKey.ToString().ToUpper() == "V") { flag2 = true; GetItemList();
+                    if (ModelFunc3.getInstance.IsChecked03 == true && ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2) && isRunning == false)
+                    {
+                        setClipBoardText("");
+                    }
+                }
                 if (tempKey.ToString().ToUpper() == "D3") { flag3 = true; }
                 if (tempKey.ToString().ToUpper() == "D4") { flag4 = true; }
                 if (tempKey.ToString().ToUpper() == "D5") { flag5 = true; }
@@ -666,6 +700,31 @@ namespace Biden.Func
             key1 = "";
             key2 = "";
 
+        }
+
+        
+
+        private static void getWindow()
+        {
+            IntPtr zero = IntPtr.Zero;
+            IntPtr curWindow = API.GetForegroundWindow();
+
+
+            /*
+            for (int i = 0; (i < 60) && (zero == IntPtr.Zero); i++)
+            {
+                Thread.Sleep(500);
+                zero = API.FindWindow(null, "YourWindowName");
+            }
+            */
+
+
+            if (curWindow != null)
+            {
+                API.SetForegroundWindow(curWindow);
+                SendKeys.SendWait("{A 10}");
+                //SendKeys.Flush();
+            }
         }
 
 
@@ -711,7 +770,13 @@ namespace Biden.Func
                 {
                     try
                     {
-                        Clipboard.SetText(str + "");
+                        if (str == "") {
+                            Clipboard.Clear();
+                        }
+                        else 
+                        {
+                            Clipboard.SetText(str + "");
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -802,10 +867,9 @@ namespace Biden.Func
                 bool moreToDo = true;
                 while (moreToDo)
                 {
-
                     sendKeyInput(tokenSource2);
                     //getMousePosAndColor();
-                    Task.Delay(5);
+                    Task.Delay(1);
                     
                     if (ct.IsCancellationRequested)
                     {
@@ -879,7 +943,7 @@ namespace Biden.Func
 
             if (key1 == "" && key2 == "" && (Control.ModifierKeys + "").Contains("None"))
             {
-                if (flag1 && modeOn == true && isRunning == false)
+                if (flag1 && (modeOn1 == true || modeOn2 == true || modeOn3 == true || modeOn4 == true) && isRunning == false)
                 {
                     isRunning = true;
                     removeBlankFlag = false; // 차트 형식 내 변환 확인. flag가 false상태로 유지 될 경우 빈칸을 "_"으로 변환함.
@@ -920,22 +984,24 @@ namespace Biden.Func
                         flag1 = false;
                     }
                 }
-                else if (flag3 && modeOn == true && isRunning == false)
+                else if (flag2 && modeOn3 == true && isRunning == false && ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))
                 {
                     isRunning = true;
-                    string clipboardText = "";
-                    clipboardText = "" + getClipBoardText();
-                    String modifiedText = "";
                     try
                     {
+                        
                         if (ModelFunc3.getInstance.IsChecked03 == true)
                         {
-                            clipboardText = MultiClipboard.GetItem();
-                        }
-                        string ss = "";
-                        if (clipboardText != "")
-                        {
-                            setClipBoardText(modifiedText);
+                            string text = multiClipboard.GetMapItem();  /////////////////// 창이 안뜸
+                            if (text != "")
+                            {
+                                setClipBoardText(text);
+                            }
+                            if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))
+                            {
+                                tempStr = getClipBoardText();
+                                PasteSelectedString();
+                            }
                         }
                     }
                     catch (Exception e)
@@ -953,11 +1019,6 @@ namespace Biden.Func
                 }
                 else if (flag3)
                 {
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        Thread.Sleep(8);
-                        SendKeys.SendWait(list[i]);
-                    }
                     flag3 = false;
                 }
                 else if (flag4)
@@ -966,50 +1027,68 @@ namespace Biden.Func
                 }
                 else if (flag5)
                 {
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        Thread.Sleep(8);
+                        SendKeys.SendWait(list[i]);
+                    }
                     flag5 = false;
                 }
+
+                flag1 = false;
+                flag2 = false;
+                flag3 = false;
+                flag4 = false;
+                flag5 = false;
             }
         }
 
         private static void GetItemList()
         {
-            String text = "";
-            try
+            if (ModelFunc3.getInstance.IsChecked03 == true && ModelFunc3.getInstance.TheSelectedItem != ModelFunc3.getInstance.Source.ElementAt(2) && doublePasteFlag == true)
             {
-                if (ModelFunc3.getInstance.IsChecked03 == true)
+                String text = "";
+                try
                 {
-                    //MessageBox.Show("1", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
                     text = MultiClipboard.GetItem();
+                    if (text != "")
+                    {
+                        setClipBoardText(text);
+                    }
                 }
-                if (text != "")
+                catch (Exception e)
                 {
-                    setClipBoardText(text);
-                    //MessageBox.Show("2", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
+                    //MessageBox.Show(e+"");
                 }
-            }
-            catch (Exception e)
-            {
-                //MessageBox.Show(e+"");
-            }
-            finally
-            {
-                //MessageBox.Show("3", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
-                DispatcherService.Invoke((System.Action)(() =>
+                finally
                 {
-                    // your logic
-                    //ViewModelFunc3.optionObjectCollection.Add(new ViewModelFunc3.MacroInfo2() { No = "a", Str = "bbb"});
+                    DispatcherService.Invoke((System.Action)(() =>
+                    {
                     FuncWindow3.getInstance.SetListView();
-                }));
-                Thread.Sleep(1000);
+                    }));
+                    Thread.Sleep(1);
+                }
             }
-
+            if(doublePasteFlag == false)
+            {
+                doublePasteFlag = true;
+            }
         }
 
-
-
-
-
-
+        public static bool doublePasteFlag = true;
+        private static void PasteSelectedString()
+        {
+            doublePasteFlag = false;
+            //SendKeys.Send("^{v}");
+            //SendKeys.Send("{a}");
+            //SendKeys.SendWait("{CTRL}");
+            //SendKeys.SendWait("^");
+            string gg = tempStr;
+            string gg2 = tempStr;
+            //SendKeys.SendWait("^a");
+            //SendKeys.SendWait(tempStr);
+            SendKeys.SendWait("^v");
+        }
 
 
 
