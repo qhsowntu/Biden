@@ -92,6 +92,7 @@ namespace Biden.Func
                 //바인딩 문제로 창 위치 임시방편 처리
                 FuncWindow3.getInstance.SetListView();
                 FuncWindow3_ClipList.getInstance.setPos();
+                //tempWindow.Activate();
                 tempWindow.ShowDialog();
                 res = ModelFunc3.getInstance.SelectedString;
                 //MessageBox.Show("2", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);

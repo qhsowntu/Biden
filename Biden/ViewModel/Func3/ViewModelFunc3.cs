@@ -42,7 +42,7 @@ namespace Biden.ViewModel
         protected static Func3RuleClass rule;
         protected static int ruleCounter;
         public static ObservableCollection<MacroInfo3> optionObjectCollection;
-        private static ObservableCollection<MacroInfo3> optionObjectCollection2;
+        public static ObservableCollection<MacroInfo3> optionObjectCollection2;
         protected static int editedIndex;
         private static Macro macro;
 

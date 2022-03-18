@@ -11,13 +11,13 @@
     <Window.DataContext>
         <ViewModel:ViewModelMain/>
     </Window.DataContext>
-    <Border BorderThickness="1" BorderBrush="#FFD6DFE8" Width="{Binding ActualWidth,RelativeSource={RelativeSource FindAncestor, AncestorType=Border}}" Height="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor,AncestorType=Border}}">
+    <Border BorderThickness="1" BorderBrush="#FFD6DFE8" CornerRadius="10" Width="{Binding ActualWidth,RelativeSource={RelativeSource FindAncestor, AncestorType=Border}}" Height="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor,AncestorType=Border}}">
         <Border.OpacityMask>
             <VisualBrush>
                 <VisualBrush.Visual>
                     <Border Background="Red"
                             SnapsToDevicePixels="True"
-                            CornerRadius="10"
+                            CornerRadius="10" 
                             Width="{Binding ActualWidth,RelativeSource={RelativeSource FindAncestor, AncestorType=Border}}"
                             Height="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor,AncestorType=Border}}"/>
                 </VisualBrush.Visual>

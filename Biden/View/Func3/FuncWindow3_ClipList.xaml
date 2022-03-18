@@ -75,6 +75,7 @@
             </VisualBrush>
         </Border.OpacityMask>
         <Canvas x:Name="mainCanvas" MouseLeftButtonDown="OnMouseLeftDown" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight}" Background="#FFE6EFF8">
+            <Label Content="Multi Clipboard" Height="32" Canvas.Left="14" Canvas.Top="3" Width="150" FontWeight="Bold" FontSize="12"/>
             <Button x:Name="closeButton" Content="X" Width="14" Height="14" Click="CloseButton_Click"  FontWeight="Bold" FontFamily="Corbel"
                 BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Top"  Canvas.Right ="5" Canvas.Top ="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FF4A4A4A" />
             <Button x:Name="maxButton" Content="ㅁ" Width="14" Height="14" Click="MaxButton_Click"  FontWeight="Bold" FontFamily="Corbel"
@@ -82,15 +83,27 @@
             <Button x:Name="minButton" Content="―" Width="14" Height="14" Click="MinButton_Click"  FontWeight="Bold" FontFamily="Corbel"
                 BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Top"  Canvas.Right ="33" Canvas.Top ="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FF4A4A4A"/>
             <!-- SelectedItem="{Binding SelectedFileObject}"-->
-            <ListView Name ="ListView" ItemsSource="{Binding OptionObjectCollection2}"  SelectedItem="{Binding SelectedString}" SelectedIndex="{Binding SelectedStringIndex}" IsSynchronizedWithCurrentItem="True" FontSize="10"
+            <ListView Name ="ListView" ItemsSource="{Binding OptionObjectCollection2}" SelectedItem="{Binding SelectedString}" SelectedIndex="{Binding SelectedStringIndex}" IsSynchronizedWithCurrentItem="True" FontSize="10"
                      Height="298" Canvas.Left="18" Canvas.Top="30" Width="200" Background="#FFF4F8FF" BorderBrush="#FFF4F8FF" BorderThickness="0">
-                <ListViewItem>
+                <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="0" Header="No" DisplayMemberBinding="{Binding No}">
-                        </GridViewColumn>
-                        <!--< <GridViewColumn Width="194" Header="Contents" DisplayMemberBinding="{Binding Obj}"  CellTemplate="{StaticResource NameColumnTemplate}">
-                        </GridViewColumn> -->
+                        <GridViewColumn Width="0" Header="No" DisplayMemberBinding="{Binding No}"/>
+                        <GridViewColumn Width="194" Header="Contents" DisplayMemberBinding="{Binding Obj}"  CellTemplate="{StaticResource NameColumnTemplate}"/>
+                        <!--<GridViewColumn Width="80" Header="Edit / Delete" CellTemplate="{StaticResource AddDelItemTemplate}"/> -->
 
+                        <GridViewColumn Header="Del" Width="0">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="-" Grid.Column="1" Margin="11,0,0,0" Width="19"
+                                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                      AncestorType={x:Type ItemsControl}},
+                                                                      Path=DataContext.CmdDeleteBtn}" CommandParameter="{Binding Obj}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!--
                         <GridViewColumn Width="194" Header="Contents" DisplayMemberBinding="{Binding Obj}">
                             <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -101,11 +114,7 @@
                                     </Border>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-
-
-
+                        </GridViewColumn>-->
 
 
 
@@ -125,21 +134,8 @@
                         
                         <!--<GridViewColumn Width="80" Header="Edit / Delete" CellTemplate="{StaticResource AddDelItemTemplate}"/> -->
 
-                        <GridViewColumn Header="Del" Width="0">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Content="-" Grid.Column="1" Margin="11,0,0,0" Width="19"
-                                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                                      AncestorType={x:Type ItemsControl}},
-                                                                      Path=DataContext.CmdDeleteBtn}" CommandParameter="{Binding Str}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
                     </GridView>
-                </ListViewItem>
+                </ListView.View>
             </ListView>
 
         </Canvas>

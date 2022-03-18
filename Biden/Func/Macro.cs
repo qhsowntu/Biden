@@ -1006,7 +1006,7 @@ namespace Biden.Func
 
             //form.textBox6.Text = (Int32.Parse(form.textBox6.Text) + 1) + "";
 
-            if (key1 == "" && key2 == "" && (Control.ModifierKeys + "").Contains("None"))
+            if ( (key1 == "" && key2 == "") && ((Control.ModifierKeys + "").Contains("None")))
             {
                 
                 if (flag1 && (modeOn1 == true || modeOn2 == true || modeOn3 == true || modeOn4 == true) && isRunning == false)

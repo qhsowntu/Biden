@@ -63,9 +63,6 @@
     </Window.Resources>
 
 
-
-
-
     <Border Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualWidth}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight}">
         <Border.OpacityMask>
             <VisualBrush>
@@ -92,7 +89,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="30" Header="No" DisplayMemberBinding="{Binding No}"/>
-                        <GridViewColumn Width="290" Header="Contents" DisplayMemberBinding="{Binding Str}"  CellTemplate="{StaticResource NameColumnTemplate}"/>
+                        <GridViewColumn Width="290" Header="Contents" DisplayMemberBinding="{Binding Obj}"  CellTemplate="{StaticResource NameColumnTemplate}"/>
                         <!--<GridViewColumn Width="80" Header="Edit / Delete" CellTemplate="{StaticResource AddDelItemTemplate}"/> -->
 
                         <GridViewColumn Header="Del" Width="52">
@@ -102,7 +99,7 @@
                                         <Button Content="-" Grid.Column="1" Margin="11,0,0,0" Width="19"
                                                 Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                                       AncestorType={x:Type ItemsControl}},
-                                                                      Path=DataContext.CmdDeleteBtn}" CommandParameter="{Binding Str}"/>
+                                                                      Path=DataContext.CmdDeleteBtn}" CommandParameter="{Binding Obj}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

@@ -50,7 +50,15 @@ namespace Biden.View
         {
             base.OnDeactivated(e);
             base.Hide();
+            //base.Activate();
         }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+        }
+
+
         public void setPos()
         {
             System.Drawing.Point p = Macro.getMousePosAndColor();
@@ -62,7 +70,6 @@ namespace Biden.View
             this.DataContext = _viewModel;
             _viewModel.StrObjectAndSync();
         }
-
 
     }
 }
