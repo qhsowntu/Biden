@@ -177,9 +177,10 @@ namespace Biden.ViewModel
                     tempInfo.Obj = "" + ModelFunc3.getInstance.ObjList[i];
                     //View에 보여지는 문장 수정. 너무 길면 짤리도록.
 
-                    if (ModelFunc3.getInstance.ObjList[i].GetType() == typeof(System.Drawing.Bitmap))
+                    //System.Windows.Forms.MessageBox.Show(ModelFunc3.getInstance.ObjList[i].GetType()+"");
+                    if (ModelFunc3.getInstance.ObjList[i].GetType() == typeof(System.Drawing.Image))
                     {
-
+                        //System.Windows.Forms.MessageBox.Show("image");
                     } else if (ModelFunc3.getInstance.ObjList[i].GetType() == typeof(System.String) )
                     {
                         if (((string)tempInfo.Obj).Length > 22)

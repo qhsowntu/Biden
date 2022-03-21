@@ -51,11 +51,15 @@ namespace Biden.View
             base.OnDeactivated(e);
             base.Hide();
             //base.Activate();
-        }
+        }//
 
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
+            base.WindowState = WindowState.Normal;
+            base.Activate();
+            base.Topmost = true;
+            base.Focus();
         }
 
 

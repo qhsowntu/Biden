@@ -159,7 +159,7 @@ namespace Biden.ViewModel
                     Macro.create();
                     macro.start();
                 }
-                Macro.doublePasteFlag = false;
+                Macro.doublePasteFlag = true;
                 IsChecked03 = true;
                 Macro.getInstance.ModeOn3 = true;
             }

@@ -3,9 +3,11 @@ using Biden.View;
 using Biden.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices; //required for dll import
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -18,6 +20,8 @@ using System.Windows.Input;
 
 namespace Biden.Func
 {
+
+    [DefaultEvent("ClipboardChanged")]
     class Macro
     {
 
@@ -37,6 +41,7 @@ namespace Biden.Func
         private bool modeOn4 = false;
 
         public bool removeBlankFlag = false;
+        public static bool doublePasteFlag = true;
 
         private static string key1 = "";
         private static string key2 = "";
@@ -50,7 +55,10 @@ namespace Biden.Func
         private MultiClipboard multiClipboard;
         private PasteAlert pasteAlert;
 
-        public static string tempStr = "";
+        public static object pasteSelectedObject = "";
+
+        public Image ggg = null;
+
 
         //public static Bitmap screenPixel = new Bitmap(500, 200, PixelFormat.Format32bppArgb);
         public static Bitmap screenPixel = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -697,6 +705,19 @@ namespace Biden.Func
                 if (tempKey.ToString().ToUpper() == "D6") { flag6 = true; }
             }
 
+            if ((tempKey.ToString().ToUpper() + "").Contains("LWIN"))
+            {
+                if ((tempKey.ToString().ToUpper() + "").Contains("LSHIFTKEY"))
+                {
+                    //MessageBox.Show("SS");
+                    if (tempKey.ToString().ToUpper() == "S") 
+                    { 
+                        flag1 = true; 
+                        //MessageBox.Show("SSS"); 
+                    }
+                }
+            }
+
             key1 = "";
             key2 = "";
 
@@ -759,10 +780,10 @@ namespace Biden.Func
             return res;
         }
 
-        public System.Drawing.Image getClipBoardImage()
+        public Bitmap getClipBoardImage()
         {
 
-            System.Drawing.Image res = null;
+            Bitmap res = null;
             //IDataObject idat = null;
             Exception threadEx = null;
             Thread staThread = new Thread(
@@ -771,10 +792,11 @@ namespace Biden.Func
                     try
                     {
                         IDataObject idat = Clipboard.GetDataObject();
-                        //MessageBox.Show(idat.GetFormats(). + "");
+                        string tempStr = idat.GetFormats() + "";
+                        //MessageBox.Show(tempStr, "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
                         if (Clipboard.ContainsImage())
                         {
-                            res = Clipboard.GetImage();
+                            res = (Bitmap)Clipboard.GetImage();
                         }
                     }
 
@@ -789,6 +811,72 @@ namespace Biden.Func
             staThread.Join();
             return res;
         }
+
+        public Bitmap getClipBoardObject()
+        {
+
+            Bitmap res = null;
+            //IDataObject idat = null;
+            Exception threadEx = null;
+            Thread staThread = new Thread(
+                delegate ()
+                {
+                    try
+                    {
+                        IDataObject idat = Clipboard.GetDataObject();
+                        string tempStr = idat.GetFormats() + "";
+                        string tempStr2 = idat.GetFormats().GetType() + "";
+                        if (idat.GetDataPresent(DataFormats.Bitmap))
+                        {
+
+                        }
+                        //MessageBox.Show(tempStr1, "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
+                        //MessageBox.Show(tempStr2, "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
+                        if (Clipboard.ContainsImage())
+                        {
+                            Bitmap x;
+                            x = (Bitmap)idat.GetData(DataFormats.Bitmap, true);
+                            x.SetResolution(x.HorizontalResolution, x.VerticalResolution);
+                            x = cropAtRect(x, new Rectangle(0, 0, x.Width, x.Height));
+                            //img.MakeTransparent();
+                            //img = GetResizeImage(img, 1000, 1000);
+                            res = x.Clone(new Rectangle(0, 0, x.Width, x.Height), x.PixelFormat);
+                            //res = img;
+                            string path = System.IO.Path.GetFullPath(@"clipimage\ccc.png");
+                            x.Save(path,System.Drawing.Imaging.ImageFormat.Png);
+                            setClipBoardImage(res);
+                        }
+                    }
+
+                    catch (Exception ex)
+                    {
+                        threadEx = ex;
+                    }
+                });
+            staThread.IsBackground = true;
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            staThread.Join();
+            return res;
+        }
+
+
+        public Bitmap cropAtRect(Bitmap b, Rectangle r)
+        {
+            Bitmap nb = new Bitmap(r.Width, r.Height);
+            using (Graphics g = Graphics.FromImage(nb))
+            {
+                g.DrawImage(b, -r.X, -r.Y);
+                return nb;
+            }
+        }
+
+
+        public void saveFile(Image img)
+        {
+            //string path = 
+        }
+
 
         public String getClipBoardDataType()
         {
@@ -854,9 +942,35 @@ namespace Biden.Func
             staThread.Join();
         }
 
-
-
-
+        public static void setClipBoardImage(Bitmap obj)
+        {
+            Exception threadEx = null;
+            //MessageBox.Show(obj.GetFormats()+"@");
+            Thread staThread = new Thread(
+                delegate ()
+                {
+                    try
+                    {
+                        Clipboard.Clear();
+                        if (obj == null)
+                        {
+                        }
+                        else
+                        {
+                            //Clipboard.SetImage((Bitmap)obj.GetData(DataFormats., true));
+                            Clipboard.SetImage((Bitmap)obj);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        threadEx = ex;
+                    }
+                });
+            staThread.IsBackground = true;
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            staThread.Join();
+        }
 
 
         public String[] SplitStrByDoubleEnter(String str)
@@ -864,7 +978,6 @@ namespace Biden.Func
             return str.Split(new string[] { "\r\n\r\n" }, StringSplitOptions.None);
         }
 
-       
         public static int NthIndexOf(string input, String charToFind, int n)
         {
             int position;
@@ -886,7 +999,6 @@ namespace Biden.Func
             return position;
         }
 
-
         public static Point getMousePosAndColor()
         {
             Point p = GetCursorPosition();
@@ -905,8 +1017,6 @@ namespace Biden.Func
 
             return lpPoint;
         }
-
-
 
         public static void create()
         {
@@ -932,6 +1042,7 @@ namespace Biden.Func
                 bool moreToDo = true;
                 while (moreToDo)
                 {
+
                     sendKeyInput(tokenSource2);
                     //getMousePosAndColor();
                     Task.Delay(1);
@@ -1058,12 +1169,15 @@ namespace Biden.Func
                         {
                             isRunning = true;
                             removeBlankFlag = false; // 차트 형식 내 변환 확인. flag가 false상태로 유지 될 경우 빈칸을 "_"으로 변환함.
-                            System.Drawing.Image clipboardImage = null;
-                            clipboardImage = getClipBoardImage();
+                            Bitmap clipboardImage = null;
+                            //clipboardImage = getClipBoardImage();
+                            clipboardImage = getClipBoardObject(); // Bitmap, Image로 저장 시 화질 저하됨. 때문에 object로 저장.
+
+                            setClipBoardImage(clipboardImage);
 
                             if (ModelFunc3.getInstance.IsChecked03 == true)
                             {
-                                multiClipboard.SetItem(clipboardImage);
+                                multiClipboard.SetItem(clipboardImage);/////////
                             }
                         }
                         catch (Exception e)
@@ -1088,12 +1202,28 @@ namespace Biden.Func
                             object obj = multiClipboard.GetMapItem();  /////////////////// 창이 안뜸
                             if (obj != "")
                             {
-                                setClipBoardText(obj);
+                                if (obj.GetType() == typeof(System.String))
+                                {
+                                    setClipBoardText(obj);
+                                }
+                                else if (obj.GetType() == typeof(System.Drawing.Bitmap))
+                                {
+                                    setClipBoardImage((Bitmap)obj);
+                                }
+                                else if (obj.GetType() == typeof(System.Windows.Forms.DataObject))
+                                {
+                                    MessageBox.Show("Non Type");
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Non Type");
+                                }
                             }
                             if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))
                             {
-                                tempStr = getClipBoardText();
+                                pasteSelectedObject = getClipBoardText(); // 출력용, 의미 없음.
                                 PasteSelectedString();
+
                             }
                         }
                     }
@@ -1168,7 +1298,6 @@ namespace Biden.Func
             }
         }
 
-        public static bool doublePasteFlag = true;
         private static void PasteSelectedString()
         {
             doublePasteFlag = false;
@@ -1176,12 +1305,15 @@ namespace Biden.Func
             //SendKeys.Send("{a}");
             //SendKeys.SendWait("{CTRL}");
             //SendKeys.SendWait("^");
-            string gg = tempStr;
-            string gg2 = tempStr;
+            string gg = pasteSelectedObject +"";
+            string gg2 = pasteSelectedObject +"";
             //SendKeys.SendWait("^a");
             //SendKeys.SendWait(tempStr);
             SendKeys.SendWait("^v");
         }
+
+
+
 
 
 

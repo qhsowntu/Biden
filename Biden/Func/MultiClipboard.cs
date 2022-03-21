@@ -64,6 +64,28 @@ namespace Biden.Func
                 FuncWindow3.getInstance.SetListView();
             }));
         }
+        public void SetItem(object obj)
+        {
+            if (obj == null)
+            {
+                return;
+            }
+            List<object> list = ModelFunc3.getInstance.ObjList;
+
+            if (ModelFunc3.getInstance.IsCheckedDupOpt == true && list.Contains(obj) == true)
+            {
+            }
+            else
+            {
+                list.Add(obj);
+            }
+            ModelFunc3.getInstance.ObjList = list;
+            DispatcherService.Invoke((System.Action)(() =>
+            {
+                FuncWindow3.getInstance.SetListView();
+            }));
+        }
+
 
 
         //클립보드 ListView의 Item을 추출

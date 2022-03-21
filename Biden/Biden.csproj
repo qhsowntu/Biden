@@ -85,6 +85,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Func\ClipboardMonitor.cs" />
     <Compile Include="Func\CopyPasteMacro.cs" />
     <Compile Include="Func\CorrectString.cs" />
     <Compile Include="Func\DispatcherService.cs" />
