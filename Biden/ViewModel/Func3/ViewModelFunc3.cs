@@ -110,13 +110,14 @@ namespace Biden.ViewModel
         private void Execute_CmdDeleteBtn01(object obj)
         {
             //
-            for (int i = 0; i < ModelFunc3.getInstance.ObjList.Count; i++)
+            /*for (int i = 0; i < ModelFunc3.getInstance.ObjList.Count; i++)
             {
                 if (ModelFunc3.getInstance.ObjList[i] == obj + "")
                 {
                     ModelFunc3.getInstance.ObjList.RemoveAt(i);
                 }
-            }
+            }*/
+            ModelFunc3.getInstance.ObjList.RemoveAt(Int32.Parse(obj+"") - 1);
             StrObjectAndSync();
         }
 

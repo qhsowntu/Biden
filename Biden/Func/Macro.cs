@@ -43,8 +43,10 @@ namespace Biden.Func
         public bool removeBlankFlag = false;
         public static bool doublePasteFlag = true;
 
+
         private static string key1 = "";
         private static string key2 = "";
+        private static string clipboardChangedResult = "";
 
 
         private static List<String> list;
@@ -54,6 +56,7 @@ namespace Biden.Func
         private FindAndAlert findAndAlert;
         private MultiClipboard multiClipboard;
         private PasteAlert pasteAlert;
+        private ClipboardMonitor clipboardMonitor;
 
         public static object pasteSelectedObject = "";
 
@@ -75,6 +78,7 @@ namespace Biden.Func
             findAndAlert = new FindAndAlert();
             multiClipboard = new MultiClipboard();
             pasteAlert = new PasteAlert();
+            clipboardMonitor = new ClipboardMonitor();
         }
 
         public static Macro getInstance
@@ -95,78 +99,6 @@ namespace Biden.Func
         public bool ModeOn3 { get => modeOn3; set => modeOn3 = value; }
         public bool ModeOn4 { get => modeOn4; set => modeOn4 = value; }
 
-        private static class API
-        {
-
-            //dll imports for hooking and unhooking and sending events trough hook hierarchy
-
-            [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-            public static extern IntPtr SetWindowsHookEx(
-                int idHook,
-                HookDel lpfn,
-                IntPtr hMod,
-                uint dwThreadId);
-
-            [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-            [return: MarshalAs(UnmanagedType.Bool)]
-            public static extern bool UnhookWindowsHookEx(
-                IntPtr hhk);
-
-            [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-            public static extern IntPtr CallNextHookEx(
-                IntPtr hhk,
-                int nCode,
-                IntPtr
-                wParam,
-                IntPtr lParam);
-
-            [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-            public static extern IntPtr GetModuleHandle(
-                string lpModuleName);
-
-            // read the Color of a Screen Pixel
-            [DllImport("user32.dll")]
-            static extern bool GetCursorPos(ref Point lpPoint);
-
-            [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
-            public static extern int BitBlt(IntPtr hDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
-
-            [DllImport("user32.dll", SetLastError = true)]
-            public static extern IntPtr GetDesktopWindow();
-            [DllImport("user32.dll", SetLastError = true)]
-            public static extern IntPtr GetWindowDC(IntPtr window);
-            [DllImport("gdi32.dll", SetLastError = true)]
-            public static extern uint GetPixel(IntPtr dc, int x, int y);
-            [DllImport("user32.dll", SetLastError = true)]
-            public static extern int ReleaseDC(IntPtr window, IntPtr dc);
-
-            // get the mouse position
-            [StructLayout(LayoutKind.Sequential)]
-            public struct POINT
-            {
-                public int X;
-                public int Y;
-
-                public static implicit operator Point(POINT point)
-                {
-                    return new Point(point.X, point.Y);
-                }
-            }
-
-            [DllImport("user32.dll")]
-            public static extern bool GetCursorPos(out POINT lpPoint);
-            //[DllImport("user32.dll")]
-            //public static extern bool GetCursorPos2(ref Point lpPoint);
-
-            [DllImport("user32.dll")]
-            public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-            [DllImport("user32.dll")]
-            public static extern bool SetForegroundWindow(IntPtr hWnd);
-            [DllImport("user32.dll")]
-            public static extern IntPtr GetForegroundWindow();
-
-        }
 
         public enum VK
         {
@@ -311,7 +243,7 @@ namespace Biden.Func
             kh = _kh;
 
             //13 is the parameter specifying that we're gonna do a low-level keyboard hook
-            hhk = API.SetWindowsHookEx(13, hd, API.GetModuleHandle(mod.ModuleName), 0);
+            hhk = User32.API.SetWindowsHookEx(13, hd, User32.API.GetModuleHandle(mod.ModuleName), 0);
 
             //MessageBox.Show(Marshal.GetLastWin32Error().ToString()); //for debugging
             //Note that this could be a Console.WriteLine(), as well. I just happened
@@ -322,7 +254,7 @@ namespace Biden.Func
         {
             //to be called when we're done with the hook
 
-            return API.UnhookWindowsHookEx(hhk);
+            return User32.API.UnhookWindowsHookEx(hhk);
         }
 
         //called when key is active
@@ -337,7 +269,7 @@ namespace Biden.Func
                 (iwParam == 0x100 ||
                 iwParam == 0x104)) //0x100 = WM_KEYDOWN, 0x104 = WM_SYSKEYDOWN
                 kh(wParam, lParam);
-            return API.CallNextHookEx(hhk, nCode, wParam, lParam);
+            return User32.API.CallNextHookEx(hhk, nCode, wParam, lParam);
             }
 
         private static void KeyReaderr(IntPtr wParam, IntPtr lParam)
@@ -709,11 +641,9 @@ namespace Biden.Func
             {
                 if ((tempKey.ToString().ToUpper() + "").Contains("LSHIFTKEY"))
                 {
-                    //MessageBox.Show("SS");
                     if (tempKey.ToString().ToUpper() == "S") 
                     { 
                         flag1 = true; 
-                        //MessageBox.Show("SSS"); 
                     }
                 }
             }
@@ -728,7 +658,7 @@ namespace Biden.Func
         private static void getWindow()
         {
             IntPtr zero = IntPtr.Zero;
-            IntPtr curWindow = API.GetForegroundWindow();
+            IntPtr curWindow = User32.API.GetForegroundWindow();
 
 
             /*
@@ -742,7 +672,7 @@ namespace Biden.Func
 
             if (curWindow != null)
             {
-                API.SetForegroundWindow(curWindow);
+                User32.API.SetForegroundWindow(curWindow);
                 SendKeys.SendWait("{A 10}");
                 //SendKeys.Flush();
             }
@@ -1010,8 +940,8 @@ namespace Biden.Func
         }
         public static Point GetCursorPosition()
         {
-            API.POINT lpPoint;
-            API.GetCursorPos(out lpPoint);
+            User32.API.POINT lpPoint;
+            User32.API.GetCursorPos(out lpPoint);
             //bool success = User32.GetCursorPos(out lpPoint);
             // if (!success)
 
@@ -1028,6 +958,7 @@ namespace Biden.Func
             Macro.DestroyHook();
         }
 
+        //sss
         public async void start()
         {
             //await System.Threading.Tasks.Task.Run(() => run());
@@ -1042,7 +973,7 @@ namespace Biden.Func
                 bool moreToDo = true;
                 while (moreToDo)
                 {
-
+                    ClipboardDetect();
                     sendKeyInput(tokenSource2);
                     //getMousePosAndColor();
                     Task.Delay(1);
@@ -1060,6 +991,22 @@ namespace Biden.Func
             tokenSource2.Dispose();
         }
 
+        private void ClipboardDetect()
+        {
+            clipboardChangedResult = clipboardMonitor.detectChange();
+            if (clipboardChangedResult == "Text")
+            {
+                //MessageBox.Show("1");
+            }
+            if (clipboardChangedResult == "Image")
+            {
+                //MessageBox.Show("2");
+            }
+            else
+            {
+            }
+        }
+
 
         public void reset()
         {
@@ -1069,10 +1016,10 @@ namespace Biden.Func
 
         public static Color GetColorAt(int x, int y)
         {
-            IntPtr desk = API.GetDesktopWindow();
-            IntPtr dc = API.GetWindowDC(desk);
-            int a = (int)API.GetPixel(dc, x, y);
-            API.ReleaseDC(desk, dc);
+            IntPtr desk = User32.API.GetDesktopWindow();
+            IntPtr dc = User32.API.GetWindowDC(desk);
+            int a = (int)User32.API.GetPixel(dc, x, y);
+            User32.API.ReleaseDC(desk, dc);
 
             String r = ((a >> 0) & 0xff) + "";
             String g = ((a >> 8) & 0xff) + "";
@@ -1089,7 +1036,7 @@ namespace Biden.Func
                 {
                     IntPtr hSrcDC = gsrc.GetHdc();
                     IntPtr hDC = gdest.GetHdc();
-                    int retval = API.BitBlt(hDC, 0, 0, 1, 1, hSrcDC, location.X, location.Y, (int)CopyPixelOperation.SourceCopy);
+                    int retval = User32.API.BitBlt(hDC, 0, 0, 1, 1, hSrcDC, location.X, location.Y, (int)CopyPixelOperation.SourceCopy);
                     gdest.ReleaseHdc();
                     gsrc.ReleaseHdc();
                 }
@@ -1101,8 +1048,8 @@ namespace Biden.Func
             //Point cursor = new Point();
             //API.GetCursorPos(ref cursor);
 
-            API.POINT cursor;
-            API.GetCursorPos(out cursor);
+            User32.API.POINT cursor;
+            User32.API.GetCursorPos(out cursor);
 
             var c = GetColorAt2(cursor);
             //form.BackColor = c;

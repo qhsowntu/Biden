@@ -99,7 +99,7 @@
                                         <Button Content="-" Grid.Column="1" Margin="11,0,0,0" Width="19"
                                                 Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                                       AncestorType={x:Type ItemsControl}},
-                                                                      Path=DataContext.CmdDeleteBtn}" CommandParameter="{Binding Obj}"/>
+                                                                      Path=DataContext.CmdDeleteBtn}" CommandParameter="{Binding No}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

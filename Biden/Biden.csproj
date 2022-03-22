@@ -100,6 +100,8 @@
     </Compile>
     <Compile Include="Func\PasteMonitor\TextCompositionManager.cs" />
     <Compile Include="Func\SpellCheck\SpellCheck.cs" />
+    <Compile Include="Func\WindowAPI\Shell32.cs" />
+    <Compile Include="Func\WindowAPI\User32.cs" />
     <Compile Include="Func\WindowPos.cs" />
     <Compile Include="Model\Func3RuleClass.cs" />
     <Compile Include="Model\Func2RuleClass.cs" />
