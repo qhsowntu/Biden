@@ -30,7 +30,6 @@ namespace Biden.Func
         private static bool flag3 = false;
         private static bool flag4 = false;
         private static bool flag5 = false;
-        private static bool flag6 = false;
 
         private static bool isRunning = false;
         private bool isInit = false;
@@ -639,7 +638,6 @@ namespace Biden.Func
                 if (tempKey.ToString().ToUpper() == "D3") { Flag3 = true; }
                 if (tempKey.ToString().ToUpper() == "D4") { Flag4 = true; }
                 if (tempKey.ToString().ToUpper() == "D5") { Flag5 = true; }
-                if (tempKey.ToString().ToUpper() == "D6") { flag6 = true; }
             }
 
             if ((tempKey.ToString().ToUpper() + "").Contains("LWIN"))

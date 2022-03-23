@@ -66,8 +66,8 @@ namespace Biden.View
         public void setPos()
         {
             System.Drawing.Point p = Macro.getMousePosAndColor();
-            this.Top = p.Y;
-            this.Left = p.X;
+            this.Top = p.Y - 100;
+            this.Left = p.X - 100;
         }
         public void SetListView()
         {
