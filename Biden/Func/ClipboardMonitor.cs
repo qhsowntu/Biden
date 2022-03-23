@@ -12,17 +12,19 @@ namespace Biden.Func
     class ClipboardMonitor
     {
 
-        private ClipboardFormat lastFormat;
+        private string lastFormat;
         private object lastData;
+
+        NotificationForm notiClip;
 
         public ClipboardMonitor()
         {
-
+            notiClip = new NotificationForm();
         }
 
         public string detectChange()
         {
-            
+            return "";
             string res = "";
             //IDataObject idat = null;
             Exception threadEx = null;
@@ -35,20 +37,21 @@ namespace Biden.Func
 
                         IDataObject iData = Clipboard.GetDataObject();
 
+
                         if (iData == null)
                         {
                             return;
                         }
 
-                        ClipboardFormat? format = null;
+                        string format = null;
 
                         if (Clipboard.ContainsText())
                         {
-                            format = ClipboardFormat.Text;
+                            format = DataFormats.Text;
                         }
                         else if (Clipboard.ContainsImage())
                         {
-                            format = ClipboardFormat.Bitmap;
+                            format = DataFormats.Bitmap;
                         }
 
                         object data = iData.GetData(format.ToString());
@@ -57,15 +60,17 @@ namespace Biden.Func
                             return;
 
 
-                        if (format+"" != (ClipboardFormat)lastFormat+"" || data+"" != lastData+"")
+                        if (format + "" != lastFormat + "" || data != lastData)
                         {
-                            //MessageBox.Show("Changed!\n\n" + format + " : " + lastFormat + "\n\n" + data + " : " + lastData);
-                            lastFormat = (ClipboardFormat)format;
+                            string tempStr = "Changed!\n\n1." + format + "\n2." + lastFormat + "\n\n3." + data + "\n4." + lastData;
+                            MessageBox.Show(tempStr, "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
+                            lastFormat = format;
                             lastData = data;
                             if ((format + "").Contains("Text") == true)
                             {
                                 res = "Text";
-                            }else if ((format + "").Contains("Image") == true)
+                            }
+                            else if ((format + "").Contains("Image") == true)
                             {
                                 res = "Image";
                             }
@@ -79,6 +84,7 @@ namespace Biden.Func
                     catch (Exception ex)
                     {
                         threadEx = ex;
+                        MessageBox.Show(ex + "");
                     }
                 });
             staThread.IsBackground = true;
@@ -89,101 +95,75 @@ namespace Biden.Func
         }
 
 
-
-        const int WM_DRAWCLIPBOARD = 0x308;
-        const int WM_CHANGECBCHAIN = 0x030D;
-
-        public ClipboardFormat LastFormat { get => lastFormat; set => lastFormat = value; }
+        public string LastFormat { get => lastFormat; set => lastFormat = value; }
         public object LastData { get => lastData; set => lastData = value; }
-    }
 
-    public enum ClipboardFormat : byte
+
+
+        /// <summary>
+        /// Occurs when the contents of the clipboard is updated.
+        /// </summary>
+        public static event EventHandler ClipboardUpdate;
+
+        private static NotificationForm _form = new NotificationForm();
+
+        /// <summary>
+        /// Raises the <see cref="ClipboardUpdate"/> event.
+        /// </summary>
+        /// <param name="e">Event arguments for the event.</param>
+        private static void OnClipboardUpdate(EventArgs e)
+        {
+            var handler = ClipboardUpdate;
+            if (handler != null)
+            {
+                handler(null, e);
+            }
+        }
+        private class NotificationForm : Form
+        {
+            public NotificationForm()
+            {
+                NativeMethods.SetParent(Handle, NativeMethods.HWND_MESSAGE);
+                NativeMethods.AddClipboardFormatListener(Handle);
+            }
+
+            protected override void WndProc(ref Message m)
+            {
+                if (m.Msg == NativeMethods.WM_CLIPBOARDUPDATE && Macro.IsRunning == false && Macro.Flag1 == false)
+                {
+                    if (Clipboard.ContainsText())
+                    {
+                        //MessageBox.Show("1", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
+                        Macro.Flag1 = true;
+                    }
+                    else if (Clipboard.ContainsImage())
+                    {
+                        //MessageBox.Show("2", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
+                        Macro.Flag1 = true;
+                    }
+                    OnClipboardUpdate(null);
+                    //string tempStr = "Updated!";
+                    //MessageBox.Show(tempStr, "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
+                }
+                base.WndProc(ref m);
+            }
+        }
+
+    }
+    internal static class NativeMethods
     {
-        /// <summary>Specifies the standard ANSI text format. This static field is read-only.
-        /// </summary>
-        /// <filterpriority>1</filterpriority>
-        Text,
-        /// <summary>Specifies the standard Windows Unicode text format. This static field
-        /// is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        UnicodeText,
-        /// <summary>Specifies the Windows device-independent bitmap (DIB) format. This static
-        /// field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        Dib,
-        /// <summary>Specifies a Windows bitmap format. This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        Bitmap,
-        /// <summary>Specifies the Windows enhanced metafile format. This static field is
-        /// read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        EnhancedMetafile,
-        /// <summary>Specifies the Windows metafile format, which Windows Forms does not
-        /// directly use. This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        MetafilePict,
-        /// <summary>Specifies the Windows symbolic link format, which Windows Forms does
-        /// not directly use. This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        SymbolicLink,
-        /// <summary>Specifies the Windows Data Interchange Format (DIF), which Windows Forms
-        /// does not directly use. This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        Dif,
-        /// <summary>Specifies the Tagged Image File Format (TIFF), which Windows Forms does
-        /// not directly use. This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        Tiff,
-        /// <summary>Specifies the standard Windows original equipment manufacturer (OEM)
-        /// text format. This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        OemText,
-        /// <summary>Specifies the Windows palette format. This static field is read-only.
-        /// </summary>
-        /// <filterpriority>1</filterpriority>
-        Palette,
-        /// <summary>Specifies the Windows pen data format, which consists of pen strokes
-        /// for handwriting software, Windows Forms does not use this format. This static
-        /// field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        PenData,
-        /// <summary>Specifies the Resource Interchange File Format (RIFF) audio format,
-        /// which Windows Forms does not directly use. This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        Riff,
-        /// <summary>Specifies the wave audio format, which Windows Forms does not directly
-        /// use. This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        WaveAudio,
-        /// <summary>Specifies the Windows file drop format, which Windows Forms does not
-        /// directly use. This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        FileDrop,
-        /// <summary>Specifies the Windows culture format, which Windows Forms does not directly
-        /// use. This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        Locale,
-        /// <summary>Specifies text consisting of HTML data. This static field is read-only.
-        /// </summary>
-        /// <filterpriority>1</filterpriority>
-        Html,
-        /// <summary>Specifies text consisting of Rich Text Format (RTF) data. This static
-        /// field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        Rtf,
-        /// <summary>Specifies a comma-separated value (CSV) format, which is a common interchange
-        /// format used by spreadsheets. This format is not used directly by Windows Forms.
-        /// This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        CommaSeparatedValue,
-        /// <summary>Specifies the Windows Forms string class format, which Windows Forms
-        /// uses to store string objects. This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        StringFormat,
-        /// <summary>Specifies a format that encapsulates any type of Windows Forms object.
-        /// This static field is read-only.</summary>
-        /// <filterpriority>1</filterpriority>
-        Serializable,
-    }
+        // See http://msdn.microsoft.com/en-us/library/ms649021%28v=vs.85%29.aspx
+        public const int WM_CLIPBOARDUPDATE = 0x031D;
+        public static IntPtr HWND_MESSAGE = new IntPtr(-3);
 
+        // See http://msdn.microsoft.com/en-us/library/ms632599%28VS.85%29.aspx#message_only
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AddClipboardFormatListener(IntPtr hwnd);
+
+        // See http://msdn.microsoft.com/en-us/library/ms633541%28v=vs.85%29.aspx
+        // See http://msdn.microsoft.com/en-us/library/ms649033%28VS.85%29.aspx
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+    }
 }

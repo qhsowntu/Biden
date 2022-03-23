@@ -98,7 +98,12 @@ namespace Biden.Func
         public bool ModeOn2 { get => modeOn2; set => modeOn2 = value; }
         public bool ModeOn3 { get => modeOn3; set => modeOn3 = value; }
         public bool ModeOn4 { get => modeOn4; set => modeOn4 = value; }
-
+        public static bool Flag1 { get => flag1; set => flag1 = value; }
+        public static bool Flag2 { get => flag2; set => flag2 = value; }
+        public static bool Flag3 { get => flag3; set => flag3 = value; }
+        public static bool Flag4 { get => flag4; set => flag4 = value; }
+        public static bool Flag5 { get => flag5; set => flag5 = value; }
+        public static bool IsRunning { get => isRunning; set => isRunning = value; }
 
         public enum VK
         {
@@ -624,16 +629,16 @@ namespace Biden.Func
             {
                 //Paste Select Option이 활성화 된 경우, 클립보드를 공백으로 만듦.
                 //form.textBox17.Text = tempKey.ToString().ToUpper();
-                if (tempKey.ToString().ToUpper() == "C") { flag1 = true; }
-                if (tempKey.ToString().ToUpper() == "V") { flag2 = true; GetItemList();
-                    if (ModelFunc3.getInstance.IsChecked03 == true && ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2) && isRunning == false)
+                if (tempKey.ToString().ToUpper() == "C") { Flag1 = true; }
+                if (tempKey.ToString().ToUpper() == "V") { Flag2 = true; GetItemList();
+                    if (ModelFunc3.getInstance.IsChecked03 == true && ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2) && IsRunning == false)
                     {
                         setClipBoardText("");
                     }
                 }
-                if (tempKey.ToString().ToUpper() == "D3") { flag3 = true; }
-                if (tempKey.ToString().ToUpper() == "D4") { flag4 = true; }
-                if (tempKey.ToString().ToUpper() == "D5") { flag5 = true; }
+                if (tempKey.ToString().ToUpper() == "D3") { Flag3 = true; }
+                if (tempKey.ToString().ToUpper() == "D4") { Flag4 = true; }
+                if (tempKey.ToString().ToUpper() == "D5") { Flag5 = true; }
                 if (tempKey.ToString().ToUpper() == "D6") { flag6 = true; }
             }
 
@@ -643,7 +648,7 @@ namespace Biden.Func
                 {
                     if (tempKey.ToString().ToUpper() == "S") 
                     { 
-                        flag1 = true; 
+                        Flag1 = true; 
                     }
                 }
             }
@@ -973,7 +978,7 @@ namespace Biden.Func
                 bool moreToDo = true;
                 while (moreToDo)
                 {
-                    ClipboardDetect();
+                    //ClipboardDetect();
                     sendKeyInput(tokenSource2);
                     //getMousePosAndColor();
                     Task.Delay(1);
@@ -997,13 +1002,16 @@ namespace Biden.Func
             if (clipboardChangedResult == "Text")
             {
                 //MessageBox.Show("1");
+                Flag1 = true;
             }
-            if (clipboardChangedResult == "Image")
+            else if (clipboardChangedResult == "Image")
             {
                 //MessageBox.Show("2");
+                Flag2 = true;
             }
             else
             {
+
             }
         }
 
@@ -1064,25 +1072,29 @@ namespace Biden.Func
 
             //form.textBox6.Text = (Int32.Parse(form.textBox6.Text) + 1) + "";
 
-            if ( (key1 == "" && key2 == "") && ((Control.ModifierKeys + "").Contains("None")))
+            if ( (key1 == "" && key2 == "") && ((Control.ModifierKeys + "").Contains("None") || (Control.ModifierKeys + "").Contains("Control")))
             {
                 
-                if (flag1 && (modeOn1 == true || modeOn2 == true || modeOn3 == true || modeOn4 == true) && isRunning == false)
+                if (Flag1 && (modeOn1 == true || modeOn2 == true || modeOn3 == true || modeOn4 == true) && IsRunning == false)
                 {
                     if (getClipBoardDataType() == "Text")
                     {
                         try
                         {
-                            isRunning = true;
+                            IsRunning = true;
                             removeBlankFlag = false; // 차트 형식 내 변환 확인. flag가 false상태로 유지 될 경우 빈칸을 "_"으로 변환함.
+                            string modifiedText = "";
                             string clipboardText = "";
                             clipboardText = "" + getClipBoardText();
-                            String modifiedText = "";
 
                             if (ModelFunc1.getInstance.IsChecked01 == true)
                             {
                                 modifiedText = correctString.getModifiedText(clipboardText);
                                 clipboardText = correctString.getModifiedText(clipboardText);
+                                if (clipboardText != "")
+                                {
+                                    setClipBoardText(modifiedText);
+                                }
                             }
                             if (ModelFunc2.getInstance.IsChecked02 == true)
                             {
@@ -1091,11 +1103,6 @@ namespace Biden.Func
                             if (ModelFunc3.getInstance.IsChecked03 == true)
                             {
                                 multiClipboard.SetItem(clipboardText);
-                            }
-                            string ss = "";
-                            if (clipboardText != "")
-                            {
-                                setClipBoardText(modifiedText);
                             }
                         }
                         catch (Exception e)
@@ -1107,20 +1114,20 @@ namespace Biden.Func
                             //form.textBox1.Text = clipboardText;
                             //form.textBox2.Text = modifiedText;
                             //SendKeys.SendWait(form.textBox1.Text);
-                            isRunning = false;
-                            flag1 = false;
+                            IsRunning = false;
+                            Flag1 = false;
                         }
                     }else if(getClipBoardDataType() == "Image")
                     {
                         try
                         {
-                            isRunning = true;
+                            IsRunning = true;
                             removeBlankFlag = false; // 차트 형식 내 변환 확인. flag가 false상태로 유지 될 경우 빈칸을 "_"으로 변환함.
                             Bitmap clipboardImage = null;
                             //clipboardImage = getClipBoardImage();
                             clipboardImage = getClipBoardObject(); // Bitmap, Image로 저장 시 화질 저하됨. 때문에 object로 저장.
 
-                            setClipBoardImage(clipboardImage);
+                            //setClipBoardImage(clipboardImage);
 
                             if (ModelFunc3.getInstance.IsChecked03 == true)
                             {
@@ -1133,14 +1140,14 @@ namespace Biden.Func
                         }
                         finally
                         {
-                            isRunning = false;
-                            flag1 = false;
+                            IsRunning = false;
+                            Flag1 = false;
                         }
                     }
                 }
-                else if (flag2 && modeOn3 == true && isRunning == false && ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))
+                else if (Flag2 && modeOn3 == true && IsRunning == false && ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2))
                 {
-                    isRunning = true;
+                    IsRunning = true;
                     try
                     {
                         
@@ -1166,7 +1173,7 @@ namespace Biden.Func
                                     MessageBox.Show("Non Type");
                                 }
                             }
-                            if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))
+                            if (ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2))
                             {
                                 pasteSelectedObject = getClipBoardText(); // 출력용, 의미 없음.
                                 PasteSelectedString();
@@ -1183,39 +1190,39 @@ namespace Biden.Func
                         //form.textBox1.Text = clipboardText;
                         //form.textBox2.Text = modifiedText;
                         //SendKeys.SendWait(form.textBox1.Text);
-                        isRunning = false;
-                        flag2 = false;
+                        IsRunning = false;
+                        Flag2 = false;
                     }
                 }
-                else if (flag3)
+                else if (Flag3)
                 {
-                    flag3 = false;
+                    Flag3 = false;
                 }
-                else if (flag4)
+                else if (Flag4)
                 {
-                    flag4 = false;
+                    Flag4 = false;
                 }
-                else if (flag5)
+                else if (Flag5)
                 {
                     for (int i = 0; i < list.Count; i++)
                     {
                         Thread.Sleep(8);
                         SendKeys.SendWait(list[i]);
                     }
-                    flag5 = false;
+                    Flag5 = false;
                 }
 
-                flag1 = false;
-                flag2 = false;
-                flag3 = false;
-                flag4 = false;
-                flag5 = false;
+                Flag1 = false;
+                Flag2 = false;
+                Flag3 = false;
+                Flag4 = false;
+                Flag5 = false;
             }
         }
 
         private static void GetItemList()
         {
-            if (ModelFunc3.getInstance.IsChecked03 == true && ModelFunc3.getInstance.TheSelectedItem != ModelFunc3.getInstance.Source.ElementAt(2) && doublePasteFlag == true)
+            if (ModelFunc3.getInstance.IsChecked03 == true && ModelFunc3.getInstance.TheSelectedRule != ModelFunc3.getInstance.Source.ElementAt(2) && doublePasteFlag == true)
             {
                 object obj = "";
                 try

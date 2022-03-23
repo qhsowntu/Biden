@@ -41,8 +41,8 @@ namespace Biden.ViewModel
         protected static List<Func3RuleClass> ruleList;
         protected static Func3RuleClass rule;
         protected static int ruleCounter;
-        public static ObservableCollection<MacroInfo3> optionObjectCollection;
-        public static ObservableCollection<MacroInfo3> optionObjectCollection2;
+        public static ObservableCollection<ModelFunc3.MacroInfo3> optionObjectCollection;
+        public static ObservableCollection<ModelFunc3.MacroInfo3> optionObjectCollection2;
         protected static int editedIndex;
         private static Macro macro;
 
@@ -71,9 +71,8 @@ namespace Biden.ViewModel
                 ruleList = ModelFunc3.getInstance.RuleList;
                 rule = new Func3RuleClass();
                 ruleCounter = 1;
-                optionObjectCollection = new ObservableCollection<MacroInfo3>();
+                optionObjectCollection = new ObservableCollection<ModelFunc3.MacroInfo3>();
                 macro = Macro.getInstance;
-                ModelFunc3.getInstance.TheSelectedItem = ModelFunc3.getInstance.Source.ElementAt(2);
                 AddSampleRules();
                 //ButtonCommand = new RelayCommand(new Action<object>(ChangeBgColor));
             }
@@ -81,6 +80,7 @@ namespace Biden.ViewModel
 
         private void AddSampleRules()
         {
+            ModelFunc3.getInstance.TheSelectedRule = ModelFunc3.getInstance.Source.ElementAt(2);
             ModelFunc3.getInstance.ObjList.Add("전임1");
             ModelFunc3.getInstance.ObjList.Add("선임1");
             ModelFunc3.getInstance.ObjList.Add("책임1");
@@ -169,10 +169,10 @@ namespace Biden.ViewModel
         public void StrObjectAndSync()
         {
 
-            ObservableCollection<MacroInfo3> tempCollection = new ObservableCollection<MacroInfo3>();
+            ObservableCollection<ModelFunc3.MacroInfo3> tempCollection = new ObservableCollection<ModelFunc3.MacroInfo3>();
             for (int i = 0; i < ModelFunc3.getInstance.ObjList.Count; i++)
             {
-                MacroInfo3 tempInfo = new MacroInfo3();
+                ModelFunc3.MacroInfo3 tempInfo = new ModelFunc3.MacroInfo3();
                 {
                     tempInfo.No = "" + (i + 1);
                     tempInfo.Obj = "" + ModelFunc3.getInstance.ObjList[i];
@@ -196,11 +196,12 @@ namespace Biden.ViewModel
             }
             OptionObjectCollection = tempCollection;
             OptionObjectCollection2 = tempCollection;
+            SelectedItem = tempCollection[tempCollection.Count - 1];
         }
 
 
 
-        public ObservableCollection<MacroInfo3> OptionObjectCollection
+        public ObservableCollection<ModelFunc3.MacroInfo3> OptionObjectCollection
         {
             get { return optionObjectCollection; }
             set
@@ -211,7 +212,7 @@ namespace Biden.ViewModel
                 OnPropertyChanged("OptionObjectCollection");
             }
         }
-        public ObservableCollection<MacroInfo3> SelectedOptionObject
+        public ObservableCollection<ModelFunc3.MacroInfo3> SelectedOptionObject
         {
             get { return optionObjectCollection; }
             set
@@ -221,7 +222,7 @@ namespace Biden.ViewModel
                 OnPropertyChanged("SelectedOptionObject");
             }
         }
-        public ObservableCollection<MacroInfo3> OptionObjectCollection2
+        public ObservableCollection<ModelFunc3.MacroInfo3> OptionObjectCollection2
         {
             get { return optionObjectCollection2; }
             set
@@ -231,6 +232,35 @@ namespace Biden.ViewModel
                 OnPropertyChanged("OptionObjectCollection2");
             }
         }
+
+        public ModelFunc3.MacroInfo3 SelectedItem
+        {
+            get
+            {
+                return ModelFunc3.getInstance.SelectedItem;
+            }
+            set
+            {
+                ModelFunc3.getInstance.SelectedItem = value;
+                OnPropertyChanged("SelectedItem");
+            }
+        }
+
+        public string SelectedRule
+        {
+            get
+            {
+                return ModelFunc3.getInstance.TheSelectedRule;
+            }
+            set
+            {
+                ModelFunc3.getInstance.TheSelectedRule = value;
+                OnPropertyChanged("SelectedRule");
+            }
+        }
+
+
+
 
         private void Execute_TestBtn01(object obj)
         {
@@ -348,32 +378,12 @@ namespace Biden.ViewModel
         }
 
 
-        public string SelectedItem
-        {
-            get
-            {
-                return ModelFunc3.getInstance.TheSelectedItem;
-            }
-            set
-            {
-                ModelFunc3.getInstance.TheSelectedItem = value;
-                OnPropertyChanged("SelectedItem");
-            }
-        }
         public List<string> Source
         {
             get { return ModelFunc3.getInstance.Source; }
         }
 
 
-        public class MacroInfo3
-        {
-            public string No { get; set; }
-            public object Obj { get; set; }
-            //public string Edit;
-            //public string Delete;
-        }
-        
 
         public void removeStr()
         {

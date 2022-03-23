@@ -92,17 +92,17 @@ namespace Biden.Func
         public static object GetItem()
         {
             object res = "";
-            if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(0)) //큐
+            if (ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(0)) //큐
             {
                 res = ModelFunc3.getInstance.ObjList.ElementAt(0);
                 ModelFunc3.getInstance.ObjList.RemoveAt(0);
             }
-            else if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(1)) //스택
+            else if (ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(1)) //스택
             {
                 res = ModelFunc3.getInstance.ObjList.ElementAt(ModelFunc3.getInstance.ObjList.Count - 1);
                 ModelFunc3.getInstance.ObjList.RemoveAt(ModelFunc3.getInstance.ObjList.Count - 1);
             }
-            else if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))  //선택창
+            else if (ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2))  //선택창
             {
                 if (tempWindow == null)
                 {
@@ -130,7 +130,7 @@ namespace Biden.Func
         public object GetMapItem()
         {
             object res = "";
-            if (ModelFunc3.getInstance.TheSelectedItem == ModelFunc3.getInstance.Source.ElementAt(2))  //선택창
+            if (ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2))  //선택창
             {
                 if (tempWindow == null)
                 {

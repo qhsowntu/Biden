@@ -1,6 +1,7 @@
 ﻿using Biden.Func;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,9 @@ namespace Biden.Model
         private int leftPoint;
         private int topPoint;
 
-        private string _theSelectedItem;
+        private string _theSelectedRule;
         private List<string> _source;
+        private MacroInfo3 selectedItem;
 
         private string selectedString;
         private string selectedStringIndex;
@@ -34,7 +36,7 @@ namespace Biden.Model
                 "[FIFO] Using The Clipboard as a Queue",
                 "[LIFO] Using The Clipboard as a Stack",
                 "[Select] Using The Clipboard as a Dictionary"};
-            _theSelectedItem = _source.ElementAt(0);
+            _theSelectedRule = _source.ElementAt(0);
         }
 
         public static ModelFunc3 getInstance
@@ -52,7 +54,7 @@ namespace Biden.Model
 
         internal List<Func3RuleClass> RuleList { get => ruleList; set => ruleList = value; }
         public bool IsChecked03 { get => _isChecked03; set => _isChecked03 = value; }
-        public string TheSelectedItem { get => _theSelectedItem; set => _theSelectedItem = value; }
+        public string TheSelectedRule { get => _theSelectedRule; set => _theSelectedRule = value; }
         public List<string> Source { get => _source; set => _source = value; }
         public string SelectedString { get => selectedString; set => selectedString = value; }
         public bool IsCheckedDupOpt { get => isCheckedDupOpt; set => isCheckedDupOpt = value; }
@@ -61,5 +63,12 @@ namespace Biden.Model
         public int TopPoint { get => topPoint; set => topPoint = value; }
         public string SelectedStringIndex { get => selectedStringIndex; set => selectedStringIndex = value; }
         public List<object> ObjList { get => objList; set => objList = value; }
+        internal MacroInfo3 SelectedItem { get => selectedItem; set => selectedItem = value; }
+
+        public class MacroInfo3
+        {
+            public string No { get; set; }
+            public object Obj { get; set; }
+        }
     }
 }

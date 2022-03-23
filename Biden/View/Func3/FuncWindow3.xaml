@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviors="using:QuestionsManager.Behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Biden.View"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
@@ -13,7 +14,7 @@
     <Window.DataContext>
         <ViewModel:ViewModelFunc3/>
     </Window.DataContext>
-
+    
     <Window.Resources>
         <local:BaseWindow x:Key="vm"/>
         <DataTemplate x:Key="FirstRowTemplate1">
@@ -84,12 +85,12 @@
             <Button x:Name="minButton" Content="―" Width="14" Height="14" Click="MinButton_Click"  FontWeight="Bold" FontFamily="Corbel"
                 BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Right" VerticalAlignment="Top"  Canvas.Right ="33" Canvas.Top ="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FF4A4A4A"/>
             <!-- SelectedItem="{Binding SelectedFileObject}"-->
-            <ListView ItemsSource="{Binding OptionObjectCollection}"  IsSynchronizedWithCurrentItem="True"
+            <ListView ItemsSource="{Binding OptionObjectCollection}"  IsSynchronizedWithCurrentItem="True"  SelectedItem="{Binding SelectedItem}" ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalContentAlignment="Bottom"
                      Height="320" Canvas.Left="18" Canvas.Top="78" Width="378" Background="#FFF4F8FF" BorderBrush="#FFF4F8FF" BorderThickness="0">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="30" Header="No" DisplayMemberBinding="{Binding No}"/>
-                        <GridViewColumn Width="290" Header="Contents" DisplayMemberBinding="{Binding Obj}"  CellTemplate="{StaticResource NameColumnTemplate}"/>
+                        <GridViewColumn Width="273" Header="Contents" DisplayMemberBinding="{Binding Obj}"  CellTemplate="{StaticResource NameColumnTemplate}"/>
                         <!--<GridViewColumn Width="80" Header="Edit / Delete" CellTemplate="{StaticResource AddDelItemTemplate}"/> -->
 
                         <GridViewColumn Header="Del" Width="52">
@@ -104,7 +105,6 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -129,7 +129,7 @@
             </Menu>
             <CheckBox  Content="No duplicates" Canvas.Left="293" Canvas.Top="415" Height="16" Width="103" IsChecked="{Binding IsCheckedOpt03}" CommandParameter="{Binding IsCheckedOpt03}"/>
             <ComboBox Canvas.Left="18" Canvas.Top="411" Width="267"
-                      SelectedValue="{Binding Path=SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source}">
+                      SelectedValue="{Binding Path=SelectedRule, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source}">
             </ComboBox>
 
         </Canvas>
