@@ -86,6 +86,32 @@ namespace Biden.Func
             }));
         }
 
+        public void SetItemIData(IDataObject idat)
+        {
+
+            MessageBox.Show(idat.GetData(DataFormats.Text) + "@@");
+            if (idat == null)
+            {
+                return;
+            }
+            List<IDataObject> iDataList = ModelFunc3.getInstance.IDataObjList;
+            List<object> objList = ModelFunc3.getInstance.ObjList;
+            if ((ModelFunc3.getInstance.IsCheckedDupOpt == true && objList.Contains(idat.GetData(DataFormats.Text)+"") == true) || idat.GetData(DataFormats.Text) + "" == "")
+            {
+            }
+            else
+            {
+                iDataList.Add(idat);
+                objList.Add(idat.GetData(DataFormats.Text) + "");
+            }
+            ModelFunc3.getInstance.IDataObjList = iDataList;
+            ModelFunc3.getInstance.ObjList = objList;
+            DispatcherService.Invoke((System.Action)(() =>
+            {
+                FuncWindow3.getInstance.SetListView();
+            }));
+        }
+        
 
 
         //클립보드 ListView의 Item을 추출

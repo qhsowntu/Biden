@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Biden.Model
 {
@@ -12,6 +13,7 @@ namespace Biden.Model
     {
         private List<Func3RuleClass> ruleList;
         private List<object> objList;
+        private List<IDataObject> iDataObjList;
         private List<string> strListForView;
 
         private static ModelFunc3 instance = null;
@@ -37,6 +39,7 @@ namespace Biden.Model
                 "[LIFO] Using The Clipboard as a Stack",
                 "[Select] Using The Clipboard as a Dictionary"};
             _theSelectedRule = _source.ElementAt(0);
+            iDataObjList = new List<IDataObject>();
         }
 
         public static ModelFunc3 getInstance
@@ -64,6 +67,7 @@ namespace Biden.Model
         public string SelectedStringIndex { get => selectedStringIndex; set => selectedStringIndex = value; }
         public List<object> ObjList { get => objList; set => objList = value; }
         internal MacroInfo3 SelectedItem { get => selectedItem; set => selectedItem = value; }
+        public List<IDataObject> IDataObjList { get => iDataObjList; set => iDataObjList = value; }
 
         public class MacroInfo3
         {

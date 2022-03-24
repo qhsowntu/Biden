@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -80,12 +79,21 @@ namespace Biden.ViewModel
 
         private void AddSampleRules()
         {
-            ModelFunc3.getInstance.TheSelectedRule = ModelFunc3.getInstance.Source.ElementAt(2);
-            ModelFunc3.getInstance.ObjList.Add("전임1");
-            ModelFunc3.getInstance.ObjList.Add("선임1");
-            ModelFunc3.getInstance.ObjList.Add("책임1");
-            ModelFunc3.getInstance.ObjList.Add("수석1");
+            /*IDataObject obj;
+            Clipboard.SetDataObject("전임1");
+            obj = Clipboard.GetDataObject();
+            ModelFunc3.getInstance.IDataObjList.Add(obj);
+            Clipboard.SetDataObject("선임1");
+            obj = Clipboard.GetDataObject();
+            ModelFunc3.getInstance.IDataObjList.Add(obj);
+            Clipboard.SetDataObject("책임1");
+            obj = Clipboard.GetDataObject();
+            ModelFunc3.getInstance.IDataObjList.Add(obj);
+            Clipboard.SetDataObject("수석1");
+            obj = Clipboard.GetDataObject();
+            ModelFunc3.getInstance.IDataObjList.Add(obj);*/
             StrObjectAndSync();
+            ModelFunc3.getInstance.TheSelectedRule = ModelFunc3.getInstance.Source.ElementAt(2);
         }
 
         private void Execute_FuncBtn01(object obj)
@@ -117,7 +125,10 @@ namespace Biden.ViewModel
                     ModelFunc3.getInstance.ObjList.RemoveAt(i);
                 }
             }*/
-            ModelFunc3.getInstance.ObjList.RemoveAt(Int32.Parse(obj+"") - 1);
+            if (Int32.Parse(obj + "") > 1)
+            {
+                ModelFunc3.getInstance.IDataObjList.RemoveAt(Int32.Parse(obj + "") - 1);
+            }
             StrObjectAndSync();
         }
 
@@ -165,24 +176,24 @@ namespace Biden.ViewModel
         }
 
 
-
         public void StrObjectAndSync()
         {
 
             ObservableCollection<ModelFunc3.MacroInfo3> tempCollection = new ObservableCollection<ModelFunc3.MacroInfo3>();
-            for (int i = 0; i < ModelFunc3.getInstance.ObjList.Count; i++)
+            for (int i = 0; i < ModelFunc3.getInstance.IDataObjList.Count; i++)
             {
                 ModelFunc3.MacroInfo3 tempInfo = new ModelFunc3.MacroInfo3();
                 {
                     tempInfo.No = "" + (i + 1);
-                    tempInfo.Obj = "" + ModelFunc3.getInstance.ObjList[i];
+                    tempInfo.Obj = "" + ModelFunc3.getInstance.IDataObjList[i].GetData(System.Windows.Forms.DataFormats.Text);
                     //View에 보여지는 문장 수정. 너무 길면 짤리도록.
 
                     //System.Windows.Forms.MessageBox.Show(ModelFunc3.getInstance.ObjList[i].GetType()+"");
-                    if (ModelFunc3.getInstance.ObjList[i].GetType() == typeof(System.Drawing.Image))
+                    if (ModelFunc3.getInstance.IDataObjList[i].GetType() == typeof(System.Drawing.Image))
                     {
                         //System.Windows.Forms.MessageBox.Show("image");
-                    } else if (ModelFunc3.getInstance.ObjList[i].GetType() == typeof(System.String) )
+                    }
+                    else if (ModelFunc3.getInstance.IDataObjList[i].GetType() == typeof(System.String))
                     {
                         if (((string)tempInfo.Obj).Length > 22)
                         {
@@ -196,9 +207,11 @@ namespace Biden.ViewModel
             }
             OptionObjectCollection = tempCollection;
             OptionObjectCollection2 = tempCollection;
-            SelectedItem = tempCollection[tempCollection.Count - 1];
+            if (tempCollection.Count > 1)
+            {
+                SelectedItem = tempCollection[tempCollection.Count - 1];
+            }
         }
-
 
 
         public ObservableCollection<ModelFunc3.MacroInfo3> OptionObjectCollection

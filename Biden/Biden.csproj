@@ -91,6 +91,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Func\ClipboardMonitor.cs" />
+    <Compile Include="Func\Clone\ObjectCopier.cs" />
     <Compile Include="Func\CopyPasteMacro.cs" />
     <Compile Include="Func\CorrectString.cs" />
     <Compile Include="Func\DispatcherService.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Biden.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -15,9 +16,13 @@ namespace Biden.Func
         private string lastFormat;
         private object lastData;
 
-        NotificationForm notiClip;
+        private NotificationForm notiClip;
 
         public ClipboardMonitor()
+        {
+            notiClip = new NotificationForm();
+        }
+        public ClipboardMonitor(Macro macro)
         {
             notiClip = new NotificationForm();
         }
@@ -129,17 +134,18 @@ namespace Biden.Func
 
             protected override void WndProc(ref Message m)
             {
-                if (m.Msg == NativeMethods.WM_CLIPBOARDUPDATE && Macro.IsRunning == false && Macro.Flag1 == false)
+                if (m.Msg == NativeMethods.WM_CLIPBOARDUPDATE && Macro.IsRunning == false && Macro.getInstance.Flag1 == false 
+                    && Macro.getInstance.ModeOn3 == true && ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2))
                 {
                     if (Clipboard.ContainsText())
                     {
                         //MessageBox.Show("1", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
-                        Macro.Flag1 = true;
+                        Macro.getInstance.Flag1 = true;
                     }
                     else if (Clipboard.ContainsImage())
                     {
                         //MessageBox.Show("2", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
-                        Macro.Flag1 = true;
+                        Macro.getInstance.Flag1 = true;
                     }
                     OnClipboardUpdate(null);
                     //string tempStr = "Updated!";

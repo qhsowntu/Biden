@@ -1,4 +1,5 @@
-﻿using Biden.Model;
+﻿using Biden.Func.Clone;
+using Biden.Model;
 using Biden.View;
 using Biden.ViewModel;
 using System;
@@ -25,11 +26,11 @@ namespace Biden.Func
     class Macro
     {
 
-        private static bool flag1 = false;
-        private static bool flag2 = false;
-        private static bool flag3 = false;
-        private static bool flag4 = false;
-        private static bool flag5 = false;
+        private bool flag1 = false;
+        private bool flag2 = false;
+        private bool flag3 = false;
+        private bool flag4 = false;
+        private bool flag5 = false;
 
         private static bool isRunning = false;
         private bool isInit = false;
@@ -77,7 +78,7 @@ namespace Biden.Func
             findAndAlert = new FindAndAlert();
             multiClipboard = new MultiClipboard();
             pasteAlert = new PasteAlert();
-            clipboardMonitor = new ClipboardMonitor();
+            clipboardMonitor = new ClipboardMonitor(this);
         }
 
         public static Macro getInstance
@@ -97,12 +98,12 @@ namespace Biden.Func
         public bool ModeOn2 { get => modeOn2; set => modeOn2 = value; }
         public bool ModeOn3 { get => modeOn3; set => modeOn3 = value; }
         public bool ModeOn4 { get => modeOn4; set => modeOn4 = value; }
-        public static bool Flag1 { get => flag1; set => flag1 = value; }
-        public static bool Flag2 { get => flag2; set => flag2 = value; }
-        public static bool Flag3 { get => flag3; set => flag3 = value; }
-        public static bool Flag4 { get => flag4; set => flag4 = value; }
-        public static bool Flag5 { get => flag5; set => flag5 = value; }
         public static bool IsRunning { get => isRunning; set => isRunning = value; }
+        public bool Flag1 { get => flag1; set => flag1 = value; }
+        public bool Flag2 { get => flag2; set => flag2 = value; }
+        public bool Flag3 { get => flag3; set => flag3 = value; }
+        public bool Flag4 { get => flag4; set => flag4 = value; }
+        public bool Flag5 { get => flag5; set => flag5 = value; }
 
         public enum VK
         {
@@ -628,16 +629,21 @@ namespace Biden.Func
             {
                 //Paste Select Option이 활성화 된 경우, 클립보드를 공백으로 만듦.
                 //form.textBox17.Text = tempKey.ToString().ToUpper();
-                if (tempKey.ToString().ToUpper() == "C") { Flag1 = true; }
-                if (tempKey.ToString().ToUpper() == "V") { Flag2 = true; GetItemList();
+                if (tempKey.ToString().ToUpper() == "C" || tempKey.ToString().ToUpper() == "X") { Macro.getInstance.Flag1 = true; }
+                else if (tempKey.ToString().ToUpper() == "V") {
+                    Macro.getInstance.Flag2 = true; GetItemList();
                     if (ModelFunc3.getInstance.IsChecked03 == true && ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2) && IsRunning == false)
                     {
                         setClipBoardText("");
                     }
                 }
-                if (tempKey.ToString().ToUpper() == "D3") { Flag3 = true; }
-                if (tempKey.ToString().ToUpper() == "D4") { Flag4 = true; }
-                if (tempKey.ToString().ToUpper() == "D5") { Flag5 = true; }
+                else if (tempKey.ToString().ToUpper() == "D3") { Macro.getInstance.Flag3 = true; }
+                else if (tempKey.ToString().ToUpper() == "D4") { Macro.getInstance.Flag4 = true; }
+                else if (tempKey.ToString().ToUpper() == "D5") { Macro.getInstance.Flag5 = true; }
+                else
+                {
+
+                }
             }
 
             if ((tempKey.ToString().ToUpper() + "").Contains("LWIN"))
@@ -645,8 +651,8 @@ namespace Biden.Func
                 if ((tempKey.ToString().ToUpper() + "").Contains("LSHIFTKEY"))
                 {
                     if (tempKey.ToString().ToUpper() == "S") 
-                    { 
-                        Flag1 = true; 
+                    {
+                        Macro.getInstance.Flag1 = true; 
                     }
                 }
             }
@@ -712,6 +718,53 @@ namespace Biden.Func
             staThread.Join();
             return res;
         }
+
+        //fff
+        public IDataObject getClipBoardIData()
+        {
+
+            object res1 = null;
+            string res2 = null;
+            //IDataObject idat = null;
+            Exception threadEx = null;
+            Thread staThread = new Thread(
+                delegate ()
+                {
+                    try
+                    {
+                        IDataObject idat = Clipboard.GetDataObject();
+                        //MessageBox.Show(idat.GetFormats(). + "");
+                        if (Clipboard.ContainsText()) //Clipboard.ContainsText(TextDataFormat.Text)
+                        {
+                            //res = ObjectCopier.DeepClone(idat);
+                            //res = idat.Clone3<IDataObject>();
+                            res1 = (object)idat;
+                            res2 = idat + "hi";
+                            MessageBox.Show(((IDataObject)res1).GetData(DataFormats.Text) + "!\n"+ res1);
+                        }
+                    }
+
+                    catch (Exception ex)
+                    {
+                        threadEx = ex;
+                    }
+                });
+            staThread.IsBackground = true;
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            staThread.Join();
+            try
+            {
+                MessageBox.Show(((IDataObject)res1).GetData(DataFormats.Text) + "!!\n" + res2);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Error \n\n\n" + e);
+            }
+            return ((IDataObject)res1);
+        }
+
+
 
         public Bitmap getClipBoardImage()
         {
@@ -1000,12 +1053,12 @@ namespace Biden.Func
             if (clipboardChangedResult == "Text")
             {
                 //MessageBox.Show("1");
-                Flag1 = true;
+                Macro.getInstance.Flag1 = true;
             }
             else if (clipboardChangedResult == "Image")
             {
                 //MessageBox.Show("2");
-                Flag2 = true;
+                Macro.getInstance.Flag2 = true;
             }
             else
             {
@@ -1062,7 +1115,7 @@ namespace Biden.Func
         }
 
 
-
+        //ddd
         public void sendKeyInput(CancellationTokenSource ct)
         {
             //form.textBox1.Text = key1;
@@ -1073,7 +1126,7 @@ namespace Biden.Func
             if ( (key1 == "" && key2 == "") && ((Control.ModifierKeys + "").Contains("None") || (Control.ModifierKeys + "").Contains("Control")))
             {
                 
-                if (Flag1 && (modeOn1 == true || modeOn2 == true || modeOn3 == true || modeOn4 == true) && IsRunning == false)
+                if (Macro.getInstance.Flag1 && (modeOn1 == true || modeOn2 == true || modeOn3 == true || modeOn4 == true) && IsRunning == false)
                 {
                     if (getClipBoardDataType() == "Text")
                     {
@@ -1084,7 +1137,9 @@ namespace Biden.Func
                             string modifiedText = "";
                             string clipboardText = "";
                             clipboardText = "" + getClipBoardText();
-
+                            IDataObject tempIData = getClipBoardIData();
+                            string str = tempIData.GetData(DataFormats.Text)+"";
+                            //Correct
                             if (ModelFunc1.getInstance.IsChecked01 == true)
                             {
                                 modifiedText = correctString.getModifiedText(clipboardText);
@@ -1094,13 +1149,16 @@ namespace Biden.Func
                                     setClipBoardText(modifiedText);
                                 }
                             }
+                            //Find and Alert
                             if (ModelFunc2.getInstance.IsChecked02 == true)
                             {
                                 findAndAlert.FindStringAndAlert(clipboardText);
                             }
+                            //Multi Clipboard
                             if (ModelFunc3.getInstance.IsChecked03 == true)
                             {
-                                multiClipboard.SetItem(clipboardText);
+                                //multiClipboard.SetItem(clipboardText);
+                                //multiClipboard.SetItemIData(clipboardObj);
                             }
                         }
                         catch (Exception e)
@@ -1113,7 +1171,7 @@ namespace Biden.Func
                             //form.textBox2.Text = modifiedText;
                             //SendKeys.SendWait(form.textBox1.Text);
                             IsRunning = false;
-                            Flag1 = false;
+                            Macro.getInstance.Flag1 = false;
                         }
                     }else if(getClipBoardDataType() == "Image")
                     {
@@ -1139,11 +1197,11 @@ namespace Biden.Func
                         finally
                         {
                             IsRunning = false;
-                            Flag1 = false;
+                            Macro.getInstance.Flag1 = false;
                         }
                     }
                 }
-                else if (Flag2 && modeOn3 == true && IsRunning == false && ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2))
+                else if (Macro.getInstance.Flag2 && modeOn3 == true && IsRunning == false && ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2))
                 {
                     IsRunning = true;
                     try
@@ -1189,32 +1247,32 @@ namespace Biden.Func
                         //form.textBox2.Text = modifiedText;
                         //SendKeys.SendWait(form.textBox1.Text);
                         IsRunning = false;
-                        Flag2 = false;
+                        Macro.getInstance.Flag2 = false;
                     }
                 }
-                else if (Flag3)
+                else if (Macro.getInstance.Flag3)
                 {
-                    Flag3 = false;
+                    Macro.getInstance.Flag3 = false;
                 }
-                else if (Flag4)
+                else if (Macro.getInstance.Flag4)
                 {
-                    Flag4 = false;
+                    Macro.getInstance.Flag4 = false;
                 }
-                else if (Flag5)
+                else if (Macro.getInstance.Flag5)
                 {
                     for (int i = 0; i < list.Count; i++)
                     {
                         Thread.Sleep(8);
                         SendKeys.SendWait(list[i]);
                     }
-                    Flag5 = false;
+                    Macro.getInstance.Flag5 = false;
                 }
 
-                Flag1 = false;
-                Flag2 = false;
-                Flag3 = false;
-                Flag4 = false;
-                Flag5 = false;
+                Macro.getInstance.Flag1 = false;
+                Macro.getInstance.Flag2 = false;
+                Macro.getInstance.Flag3 = false;
+                Macro.getInstance.Flag4 = false;
+                Macro.getInstance.Flag5 = false;
             }
         }
 
