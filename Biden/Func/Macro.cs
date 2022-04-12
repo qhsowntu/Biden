@@ -731,31 +731,23 @@ namespace Biden.Func
         public DataObjectClass getClipBoardIData()
         {
 
-            DataObject res1 = null;
-            string res2 = null;
-            //IDataObject idat = null;
             Exception threadEx = null;
-            //DataFormats.Format serializedObject;
             DataObject dataObject = null;
             IDataObject idataObject;
             string curFormat = "";
-            BinaryFormatter bf = new BinaryFormatter();
             Thread staThread = new Thread(
                 delegate ()
                 {
                     try
                     {
-                        dataObject = new DataObject();
-                        idataObject = Clipboard.GetDataObject();
-                        //idat = Clipboard.GetDataObject();
-                        //MessageBox.Show(idataObject.GetFormats() + "@");
                         if (getClipBoardDataType() == "Text") { curFormat = DataFormats.Text; }
                         else if (getClipBoardDataType() == "Image") { curFormat = DataFormats.Bitmap; }
-                        else {  }
+                        else { }
+
+                        dataObject = new DataObject();
+                        idataObject = Clipboard.GetDataObject();
                         object data = idataObject.GetData(curFormat);
                         if (data != null) { dataObject.SetData(curFormat, data); }
-
-                        //MessageBox.Show(((IDataObject)dataObject).GetData(DataFormats.Text) + "!\n"+ dataObject);
 
                     }
 
@@ -1138,7 +1130,7 @@ namespace Biden.Func
                             string clipboardText = "";
                             clipboardText = "" + getClipBoardText();
                             DataObjectClass tempIData = getClipBoardIData();
-                            setClipBoardImage((Bitmap)(tempIData.dataObject).GetData(DataFormats.Bitmap));
+                            //setClipBoardImage((Bitmap)(tempIData.dataObject).GetData(DataFormats.Bitmap));
                             //string str = tempIData.GetData(DataFormats.Text)+"";
                             //Correct
                             if (ModelFunc1.getInstance.IsChecked01 == true)
