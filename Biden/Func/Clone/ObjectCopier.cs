@@ -10,6 +10,7 @@ using System.Reflection;
 
 namespace Biden.Func.Clone
 {
+    [Serializable]
     public static class ObjectCopier
     {
         /// <summary>
@@ -62,15 +63,21 @@ namespace Biden.Func.Clone
             stream.Position = 0;
             return (T)formatter.Deserialize(stream);
         }
-        public static T SerializableDeepClone<T>(T obj)
+        public static T SerializableDeepClone<T>(this T obj)
         {
-            using (var ms = new MemoryStream())
+            /*using (var ms = new MemoryStream())
             {
                 var bformatter = new BinaryFormatter();
                 bformatter.Serialize(ms, obj);
                 ms.Position = 0;
                 return (T)bformatter.Deserialize(ms);
             }
+            */
+            var ms = new MemoryStream();
+            var bformatter = new BinaryFormatter();
+            bformatter.Serialize(ms, obj);
+            ms.Position = 0;
+            return (T)bformatter.Deserialize(ms);
         }
         public static T Clone<T>(this T obj)
         {

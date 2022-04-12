@@ -90,6 +90,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Func\AcquisitionParameters.cs" />
     <Compile Include="Func\ClipboardMonitor.cs" />
     <Compile Include="Func\Clone\ObjectCopier.cs" />
     <Compile Include="Func\CopyPasteMacro.cs" />

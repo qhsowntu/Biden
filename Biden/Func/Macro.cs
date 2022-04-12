@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices; //required for dll import
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -42,7 +43,7 @@ namespace Biden.Func
 
         public bool removeBlankFlag = false;
         public static bool doublePasteFlag = true;
-
+        public static bool clipBoardMonitorFlag = false; // Ctrl+V 중 클립보드모니터 중지
 
         private static string key1 = "";
         private static string key2 = "";
@@ -66,7 +67,7 @@ namespace Biden.Func
         //public static Bitmap screenPixel = new Bitmap(500, 200, PixelFormat.Format32bppArgb);
         public static Bitmap screenPixel = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-        public static Color color;
+        public static Color color; 
 
         private static Macro instance = null;
 
@@ -629,9 +630,13 @@ namespace Biden.Func
             {
                 //Paste Select Option이 활성화 된 경우, 클립보드를 공백으로 만듦.
                 //form.textBox17.Text = tempKey.ToString().ToUpper();
-                if (tempKey.ToString().ToUpper() == "C" || tempKey.ToString().ToUpper() == "X") { Macro.getInstance.Flag1 = true; }
+                if (tempKey.ToString().ToUpper() == "C" || tempKey.ToString().ToUpper() == "X") 
+                { 
+                    Macro.getInstance.Flag1 = true; 
+                }
                 else if (tempKey.ToString().ToUpper() == "V") {
                     Macro.getInstance.Flag2 = true; GetItemList();
+                    clipBoardMonitorFlag = false;
                     if (ModelFunc3.getInstance.IsChecked03 == true && ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2) && IsRunning == false)
                     {
                         setClipBoardText("");
@@ -652,7 +657,7 @@ namespace Biden.Func
                 {
                     if (tempKey.ToString().ToUpper() == "S") 
                     {
-                        Macro.getInstance.Flag1 = true; 
+                        //Macro.getInstance.Flag1 = true; 
                     }
                 }
             }
@@ -719,29 +724,39 @@ namespace Biden.Func
             return res;
         }
 
+
+
+
         //fff
-        public IDataObject getClipBoardIData()
+        public DataObjectClass getClipBoardIData()
         {
 
-            object res1 = null;
+            DataObject res1 = null;
             string res2 = null;
             //IDataObject idat = null;
             Exception threadEx = null;
+            //DataFormats.Format serializedObject;
+            DataObject dataObject = null;
+            IDataObject idataObject;
+            string curFormat = "";
+            BinaryFormatter bf = new BinaryFormatter();
             Thread staThread = new Thread(
                 delegate ()
                 {
                     try
                     {
-                        IDataObject idat = Clipboard.GetDataObject();
-                        //MessageBox.Show(idat.GetFormats(). + "");
-                        if (Clipboard.ContainsText()) //Clipboard.ContainsText(TextDataFormat.Text)
-                        {
-                            //res = ObjectCopier.DeepClone(idat);
-                            //res = idat.Clone3<IDataObject>();
-                            res1 = (object)idat;
-                            res2 = idat + "hi";
-                            MessageBox.Show(((IDataObject)res1).GetData(DataFormats.Text) + "!\n"+ res1);
-                        }
+                        dataObject = new DataObject();
+                        idataObject = Clipboard.GetDataObject();
+                        //idat = Clipboard.GetDataObject();
+                        //MessageBox.Show(idataObject.GetFormats() + "@");
+                        if (getClipBoardDataType() == "Text") { curFormat = DataFormats.Text; }
+                        else if (getClipBoardDataType() == "Image") { curFormat = DataFormats.Bitmap; }
+                        else {  }
+                        object data = idataObject.GetData(curFormat);
+                        if (data != null) { dataObject.SetData(curFormat, data); }
+
+                        //MessageBox.Show(((IDataObject)dataObject).GetData(DataFormats.Text) + "!\n"+ dataObject);
+
                     }
 
                     catch (Exception ex)
@@ -755,13 +770,16 @@ namespace Biden.Func
             staThread.Join();
             try
             {
-                MessageBox.Show(((IDataObject)res1).GetData(DataFormats.Text) + "!!\n" + res2);
+                //MessageBox.Show(((IDataObject)dataObject).GetData(DataFormats.Text) + "!!\n" + dataObject);
             }
             catch(Exception e)
             {
                 MessageBox.Show("Error \n\n\n" + e);
             }
-            return ((IDataObject)res1);
+            DataObjectClass tempDataObjectClass = new DataObjectClass();
+            tempDataObjectClass.dataObject = dataObject;
+            tempDataObjectClass.type = curFormat;
+            return tempDataObjectClass;
         }
 
 
@@ -1047,24 +1065,6 @@ namespace Biden.Func
             tokenSource2.Dispose();
         }
 
-        private void ClipboardDetect()
-        {
-            clipboardChangedResult = clipboardMonitor.detectChange();
-            if (clipboardChangedResult == "Text")
-            {
-                //MessageBox.Show("1");
-                Macro.getInstance.Flag1 = true;
-            }
-            else if (clipboardChangedResult == "Image")
-            {
-                //MessageBox.Show("2");
-                Macro.getInstance.Flag2 = true;
-            }
-            else
-            {
-
-            }
-        }
 
 
         public void reset()
@@ -1126,9 +1126,9 @@ namespace Biden.Func
             if ( (key1 == "" && key2 == "") && ((Control.ModifierKeys + "").Contains("None") || (Control.ModifierKeys + "").Contains("Control")))
             {
                 
-                if (Macro.getInstance.Flag1 && (modeOn1 == true || modeOn2 == true || modeOn3 == true || modeOn4 == true) && IsRunning == false)
+                if (Macro.getInstance.Flag1 && (modeOn1 == true || modeOn2 == true || modeOn3 == true || modeOn4 == true) && IsRunning == false && doublePasteFlag)
                 {
-                    if (getClipBoardDataType() == "Text")
+                    if (getClipBoardDataType() == "Text" || getClipBoardDataType() == "Image")
                     {
                         try
                         {
@@ -1137,8 +1137,9 @@ namespace Biden.Func
                             string modifiedText = "";
                             string clipboardText = "";
                             clipboardText = "" + getClipBoardText();
-                            IDataObject tempIData = getClipBoardIData();
-                            string str = tempIData.GetData(DataFormats.Text)+"";
+                            DataObjectClass tempIData = getClipBoardIData();
+                            setClipBoardImage((Bitmap)(tempIData.dataObject).GetData(DataFormats.Bitmap));
+                            //string str = tempIData.GetData(DataFormats.Text)+"";
                             //Correct
                             if (ModelFunc1.getInstance.IsChecked01 == true)
                             {
@@ -1157,8 +1158,7 @@ namespace Biden.Func
                             //Multi Clipboard
                             if (ModelFunc3.getInstance.IsChecked03 == true)
                             {
-                                //multiClipboard.SetItem(clipboardText);
-                                //multiClipboard.SetItemIData(clipboardObj);
+                                multiClipboard.SetItem(tempIData);/////////
                             }
                         }
                         catch (Exception e)
@@ -1167,8 +1167,6 @@ namespace Biden.Func
                         }
                         finally
                         {
-                            //form.textBox1.Text = clipboardText;
-                            //form.textBox2.Text = modifiedText;
                             //SendKeys.SendWait(form.textBox1.Text);
                             IsRunning = false;
                             Macro.getInstance.Flag1 = false;
@@ -1209,24 +1207,27 @@ namespace Biden.Func
                         
                         if (ModelFunc3.getInstance.IsChecked03 == true)
                         {
-                            object obj = multiClipboard.GetMapItem();  /////////////////// 창이 안뜸
-                            if (obj != "")
+                            DataObjectClass obj = multiClipboard.GetMapItem();  /////////////////// 창이 안뜸
+                            if (obj != null)
                             {
-                                if (obj.GetType() == typeof(System.String))
+                                
+                                //MessageBox.Show(obj.type+"+++");
+                                if (obj.type == "Text")
                                 {
-                                    setClipBoardText(obj);
+                                    setClipBoardText(obj.dataObject.GetData(DataFormats.Text));
                                 }
-                                else if (obj.GetType() == typeof(System.Drawing.Bitmap))
+                                else if (obj.type == "Bitmap")
                                 {
-                                    setClipBoardImage((Bitmap)obj);
+                                    setClipBoardImage((Bitmap)(obj.dataObject).GetData(DataFormats.Bitmap));
+                                    //setClipBoardImage((Bitmap)obj);
                                 }
-                                else if (obj.GetType() == typeof(System.Windows.Forms.DataObject))
+                                else if (obj.type == "Something")
                                 {
-                                    MessageBox.Show("Non Type");
+                                    MessageBox.Show("Non Type1");
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Non Type");
+                                    MessageBox.Show("Non Type2");
                                 }
                             }
                             if (ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2))
@@ -1239,7 +1240,7 @@ namespace Biden.Func
                     }
                     catch (Exception e)
                     {
-                        //MessageBox.Show(e+"");
+                        MessageBox.Show(e+"");
                     }
                     finally
                     {
@@ -1327,5 +1328,11 @@ namespace Biden.Func
 
 
 
+    }
+
+    public class DataObjectClass
+    {
+        public DataObject dataObject;
+        public string type;
     }
 }

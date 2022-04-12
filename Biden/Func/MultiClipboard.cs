@@ -64,53 +64,33 @@ namespace Biden.Func
                 FuncWindow3.getInstance.SetListView();
             }));
         }
-        public void SetItem(object obj)
+        public void SetItem(DataObjectClass obj)
         {
             if (obj == null)
             {
                 return;
             }
-            List<object> list = ModelFunc3.getInstance.ObjList;
+            List<DataObject> list = ModelFunc3.getInstance.DataObjList;
+            List<string> list2 = ModelFunc3.getInstance.DataObjTypeList;
 
-            if (ModelFunc3.getInstance.IsCheckedDupOpt == true && list.Contains(obj) == true)
+            //중복 확인
+            if (ModelFunc3.getInstance.IsCheckedDupOpt == true && list.Contains(obj.dataObject) == true)
             {
             }
+            //중복이 아닌 경우 삽입
             else
             {
-                list.Add(obj);
+                list.Add(obj.dataObject);
+                list2.Add(obj.type);
             }
-            ModelFunc3.getInstance.ObjList = list;
+            ModelFunc3.getInstance.DataObjList = list;
             DispatcherService.Invoke((System.Action)(() =>
             {
                 FuncWindow3.getInstance.SetListView();
             }));
         }
 
-        public void SetItemIData(IDataObject idat)
-        {
-
-            MessageBox.Show(idat.GetData(DataFormats.Text) + "@@");
-            if (idat == null)
-            {
-                return;
-            }
-            List<IDataObject> iDataList = ModelFunc3.getInstance.IDataObjList;
-            List<object> objList = ModelFunc3.getInstance.ObjList;
-            if ((ModelFunc3.getInstance.IsCheckedDupOpt == true && objList.Contains(idat.GetData(DataFormats.Text)+"") == true) || idat.GetData(DataFormats.Text) + "" == "")
-            {
-            }
-            else
-            {
-                iDataList.Add(idat);
-                objList.Add(idat.GetData(DataFormats.Text) + "");
-            }
-            ModelFunc3.getInstance.IDataObjList = iDataList;
-            ModelFunc3.getInstance.ObjList = objList;
-            DispatcherService.Invoke((System.Action)(() =>
-            {
-                FuncWindow3.getInstance.SetListView();
-            }));
-        }
+   
         
 
 
@@ -153,9 +133,9 @@ namespace Biden.Func
 
             return res;
         }
-        public object GetMapItem()
+        public DataObjectClass GetMapItem()
         {
-            object res = "";
+            DataObjectClass res = new DataObjectClass();
             if (ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2))  //선택창
             {
                 if (tempWindow == null)
@@ -172,7 +152,8 @@ namespace Biden.Func
                     FuncWindow3_ClipList.getInstance.setPos();
                     tempWindow.ShowDialog();
                 }));
-                res = ModelFunc3.getInstance.ObjList[Int32.Parse(ModelFunc3.getInstance.SelectedStringIndex)];
+                res.dataObject = ModelFunc3.getInstance.DataObjList[Int32.Parse(ModelFunc3.getInstance.SelectedStringIndex)];
+                res.type = ModelFunc3.getInstance.DataObjTypeList[Int32.Parse(ModelFunc3.getInstance.SelectedStringIndex)];
                 //MessageBox.Show("2", "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
                 return res;
             }

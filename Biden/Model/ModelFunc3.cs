@@ -13,7 +13,8 @@ namespace Biden.Model
     {
         private List<Func3RuleClass> ruleList;
         private List<object> objList;
-        private List<IDataObject> iDataObjList;
+        private List<DataObject> dataObjList; 
+        private List<string> dataObjTypeList; //
         private List<string> strListForView;
 
         private static ModelFunc3 instance = null;
@@ -39,7 +40,8 @@ namespace Biden.Model
                 "[LIFO] Using The Clipboard as a Stack",
                 "[Select] Using The Clipboard as a Dictionary"};
             _theSelectedRule = _source.ElementAt(0);
-            iDataObjList = new List<IDataObject>();
+            DataObjList = new List<DataObject>();
+            DataObjTypeList = new List<string>();
         }
 
         public static ModelFunc3 getInstance
@@ -67,7 +69,8 @@ namespace Biden.Model
         public string SelectedStringIndex { get => selectedStringIndex; set => selectedStringIndex = value; }
         public List<object> ObjList { get => objList; set => objList = value; }
         internal MacroInfo3 SelectedItem { get => selectedItem; set => selectedItem = value; }
-        public List<IDataObject> IDataObjList { get => iDataObjList; set => iDataObjList = value; }
+        public List<DataObject> DataObjList { get => dataObjList; set => dataObjList = value; }
+        public List<string> DataObjTypeList { get => dataObjTypeList; set => dataObjTypeList = value; }
 
         public class MacroInfo3
         {

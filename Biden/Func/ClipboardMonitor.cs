@@ -134,8 +134,8 @@ namespace Biden.Func
 
             protected override void WndProc(ref Message m)
             {
-                if (m.Msg == NativeMethods.WM_CLIPBOARDUPDATE && Macro.IsRunning == false && Macro.getInstance.Flag1 == false 
-                    && Macro.getInstance.ModeOn3 == true && ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2))
+                if (m.Msg == NativeMethods.WM_CLIPBOARDUPDATE && Macro.IsRunning == false && Macro.getInstance.Flag1 == false
+                    && Macro.getInstance.ModeOn3 == true && ModelFunc3.getInstance.TheSelectedRule == ModelFunc3.getInstance.Source.ElementAt(2) && Macro.clipBoardMonitorFlag)
                 {
                     if (Clipboard.ContainsText())
                     {
@@ -150,6 +150,10 @@ namespace Biden.Func
                     OnClipboardUpdate(null);
                     //string tempStr = "Updated!";
                     //MessageBox.Show(tempStr, "Inform", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
+                }
+                if (Macro.clipBoardMonitorFlag == false)
+                {
+                    Macro.clipBoardMonitorFlag = true;
                 }
                 base.WndProc(ref m);
             }

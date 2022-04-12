@@ -127,7 +127,7 @@ namespace Biden.ViewModel
             }*/
             if (Int32.Parse(obj + "") > 1)
             {
-                ModelFunc3.getInstance.IDataObjList.RemoveAt(Int32.Parse(obj + "") - 1);
+                ModelFunc3.getInstance.DataObjList.RemoveAt(Int32.Parse(obj + "") - 1);
             }
             StrObjectAndSync();
         }
@@ -180,26 +180,34 @@ namespace Biden.ViewModel
         {
 
             ObservableCollection<ModelFunc3.MacroInfo3> tempCollection = new ObservableCollection<ModelFunc3.MacroInfo3>();
-            for (int i = 0; i < ModelFunc3.getInstance.IDataObjList.Count; i++)
+            for (int i = 0; i < ModelFunc3.getInstance.DataObjList.Count; i++)
             {
                 ModelFunc3.MacroInfo3 tempInfo = new ModelFunc3.MacroInfo3();
                 {
+                    
                     tempInfo.No = "" + (i + 1);
-                    tempInfo.Obj = "" + ModelFunc3.getInstance.IDataObjList[i].GetData(System.Windows.Forms.DataFormats.Text);
-                    //View에 보여지는 문장 수정. 너무 길면 짤리도록.
-
-                    //System.Windows.Forms.MessageBox.Show(ModelFunc3.getInstance.ObjList[i].GetType()+"");
-                    if (ModelFunc3.getInstance.IDataObjList[i].GetType() == typeof(System.Drawing.Image))
+                    if (ModelFunc3.getInstance.DataObjTypeList[i].Contains("Text")) 
                     {
-                        //System.Windows.Forms.MessageBox.Show("image");
-                    }
-                    else if (ModelFunc3.getInstance.IDataObjList[i].GetType() == typeof(System.String))
-                    {
+                        tempInfo.Obj = "" + ModelFunc3.getInstance.DataObjList[i].GetData(System.Windows.Forms.DataFormats.Text);
+                        //View에 보여지는 문장 수정. 너무 길면 짤리도록.
                         if (((string)tempInfo.Obj).Length > 22)
                         {
                             tempInfo.Obj = ((string)tempInfo.Obj).Substring(0, 21) + "...";
                         }
                         tempInfo.Obj = ((string)tempInfo.Obj).Replace("\n", "").Replace("\n", "").Replace("\r", "").Replace("\a", "");
+                    }
+                    else if (ModelFunc3.getInstance.DataObjTypeList[i].Contains("Bitmap"))
+                    {
+                        tempInfo.Obj = "" + ModelFunc3.getInstance.DataObjList[i].GetData(System.Windows.Forms.DataFormats.Bitmap);
+                    }
+
+                    //System.Windows.Forms.MessageBox.Show(ModelFunc3.getInstance.ObjList[i].GetType()+"");
+                    if (ModelFunc3.getInstance.DataObjList[i].GetType() == typeof(System.Drawing.Image))
+                    {
+                        //System.Windows.Forms.MessageBox.Show("image");
+                    }
+                    else if (ModelFunc3.getInstance.DataObjList[i].GetType() == typeof(System.String))
+                    {
                     }
 
                 }
