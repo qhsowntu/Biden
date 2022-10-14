@@ -308,6 +308,8 @@ namespace Biden.ViewModel
         public void ChangeBgColor(object obj)
         {
             /*HERE I WANT TO CHANGE GRID COLOR*/
+            string tempStr = "";
+
         }
 
 

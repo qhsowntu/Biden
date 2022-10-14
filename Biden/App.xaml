@@ -40,8 +40,10 @@
             </Grid>
         </DataTemplate>
 
-        
-        
+
+
+
+
 
         <LinearGradientBrush x:Key="CheckedBlue" StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#FF285AB3" Offset="0" />
